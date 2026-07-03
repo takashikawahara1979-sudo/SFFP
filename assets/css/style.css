@@ -236,6 +236,7 @@ nav a:hover::after, nav a[aria-current="page"]::after { width: 100%; }
 .story h3 { font-family: var(--font-pen); font-weight: 600; font-size: clamp(1.4rem, 3vw, 2rem); color: var(--ink); letter-spacing: .06em; margin-bottom: 14px; }
 .story p { color: var(--ink-soft); line-height: 2; max-width: 640px; margin: 0 auto; letter-spacing: .03em; }
 .steps { margin-top: 46px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.steps.steps-single { grid-template-columns: minmax(0, 440px); justify-content: center; }
 .step { background: #fff; border-radius: 20px; padding: 26px 20px; box-shadow: 0 12px 30px -18px rgba(60,80,60,.4); }
 .step .em { font-size: 2.2rem; display: block; margin-bottom: 12px; }
 .step h4 { font-family: var(--font-pen); font-weight: 600; font-size: 1.1rem; margin-bottom: 8px; }
@@ -277,6 +278,9 @@ nav a:hover::after, nav a[aria-current="page"]::after { width: 100%; }
 .item h4 { font-family: var(--font-pen); font-weight: 600; font-size: 1.1rem; margin-bottom: 6px; }
 .item .meta { font-family: var(--font-latin); font-size: .78rem; letter-spacing: .08em; color: var(--ink-soft); margin-bottom: 8px; }
 .item p { color: var(--ink-soft); line-height: 1.8; font-size: .92rem; }
+.case-list { margin: 12px 0 0; padding-left: 1.2em; color: var(--ink-soft); line-height: 1.95; font-size: .92rem; }
+.case-list li { margin-bottom: 8px; }
+.case-list li::marker { color: var(--case); }
 
 /* 動画グリッド */
 .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 22px; }

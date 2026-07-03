@@ -33,7 +33,9 @@
     box-shadow: 0 12px 30px -20px rgba(60,80,60,.5);
     cursor: pointer; transition: transform .25s, box-shadow .25s;
   }
-  .ccard:hover, .ccard:focus-visible { transform: translateY(-4px); box-shadow: 0 20px 40px -18px rgba(60,80,60,.55); outline: none; }
+  .ccard:hover, .ccard:focus-visible, .ccard.is-active { transform: translateY(-4px); box-shadow: 0 20px 40px -18px rgba(60,80,60,.55); outline: none; }
+  .ccard-static { cursor: default; }
+  .ccard-static:hover { transform: none; box-shadow: 0 12px 30px -20px rgba(60,80,60,.5); }
   .ccard .ci { width: 56px; height: 56px; border-radius: 50%; flex: none; display: grid; place-items: center; }
   .ccard .ct { flex: 1; }
   .ccard .ct b { font-family: var(--font-pen); font-weight: 600; font-size: 1.2rem; color: var(--ink); display: block; }
@@ -64,6 +66,8 @@
   .tcard p { color: var(--ink-soft); line-height: 1.75; font-size: .92rem; margin-bottom: 4px; }
   .tbtn { display: inline-block; margin-top: 14px; background: var(--research); color: #fff; font-family: var(--font-pen); font-weight: 600; border: none; border-radius: 999px; padding: 9px 22px; cursor: pointer; font-size: .95rem; transition: transform .2s, filter .2s; }
   .tbtn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+  .tbtn-disabled { background: #c3bca8; cursor: default; }
+  .tbtn-disabled:hover { transform: none; filter: none; }
 
   /* 詳細 */
   .dsec { background: #fff; border-radius: 16px; padding: 20px 22px; margin-bottom: 14px; box-shadow: 0 12px 30px -22px rgba(60,80,60,.5); }
@@ -112,7 +116,7 @@
   <div class="subhero-body">
     <div class="eyebrow">CLINICAL TRIALS</div>
     <h1 class="page-title">臨床試験のご案内</h1>
-    <p class="page-lede">当院でおこなっている臨床試験をご案内します。気になるがんの種類を選ぶと、該当する試験が表示されます。</p>
+    <p class="page-lede">当院でおこなっている臨床試験をご案内します。</p>
     <div class="accent-line"></div>
   </div>
 </section>
@@ -122,14 +126,14 @@
 
     <!-- 画面1：がん種の選択 -->
     <section class="fv active" id="view-select">
-      <p class="f-lead">下から、気になるがんの種類を選んでください。タップすると、該当する試験の一覧が開きます。</p>
+      <p class="f-lead">現在、募集中の試験を掲載しております。</p>
       <div class="f-ask">がんの種類は？</div>
 
       <div class="ccard c-prostate" role="button" tabindex="0" data-cancer="prostate">
         <div class="ci">
           <svg width="30" height="30" viewBox="0 0 48 48"><path d="M24 40 L24 24" stroke="#2f7d34" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M24 26 C14 26 8 20 8 12 C18 12 24 18 24 26 Z" fill="#63bd57"/><path d="M24 22 C34 22 40 16 40 8 C30 8 24 14 24 22 Z" fill="#7ccf6f"/></svg>
         </div>
-        <div class="ct"><b>前立腺がん</b><small>該当する試験を見る</small></div>
+        <div class="ct"><b>前立腺がん</b><small>新規PARP阻害剤、免疫抗体複合体、EZH阻害剤、CYP19A阻害剤など8試験</small></div>
         <div class="cr">›</div>
       </div>
 
@@ -137,28 +141,27 @@
         <div class="ci">
           <svg width="26" height="30" viewBox="0 0 32 40"><path d="M16 3 C29 20 29 30 16 37 C3 30 3 20 16 3 Z" fill="#4a90c2"/><path d="M10 27 a7 7 0 0 0 7 6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
         </div>
-        <div class="ct"><b>尿路上皮がん</b><small>膀胱がんなど。該当する試験を見る</small></div>
+        <div class="ct"><b>尿路上皮がん</b><small>新規膀胱内薬剤溶出デバイスを用いたFGFR阻害剤の1試験</small></div>
         <div class="cr">›</div>
       </div>
 
-      <div class="ccard c-kidney" role="button" tabindex="0" data-cancer="kidney">
+      <div class="ccard c-kidney ccard-static">
         <div class="ci">
           <svg width="30" height="30" viewBox="0 0 40 40"><path d="M14 6 C2 9 0 30 12 36 C24 42 38 34 36 22 C35 15 40 13 36 6 C32 0 22 3 14 6 Z" fill="#e0913a"/><path d="M13 20 C18 17 25 20 26 27" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
         </div>
-        <div class="ct"><b>腎臓がん</b><small>該当する試験を見る</small></div>
-        <div class="cr">›</div>
+        <div class="ct"><b>腎臓がん</b><small>詳細は直接ご連絡ください</small></div>
       </div>
 
-      <p class="f-note">※ 気になる方は、担当医にもお気軽にご相談ください。</p>
+      <p class="f-note">※ 気になる方はお気軽にメールでご相談ください。</p>
     </section>
 
     <!-- 画面2：試験一覧（動的） -->
     <section class="fv" id="view-list">
       <button class="f-back" data-back>‹ もどる</button>
       <h2 class="f-title" id="list-title">がんの臨床試験</h2>
-      <p class="f-sub">現在ご案内できる試験です（掲載は例です）。</p>
+      <p class="f-sub" id="list-sub">現在ご案内できる試験です。</p>
       <div id="list-body"></div>
-      <p class="f-note">※ 試験名・対象・募集状況は例です。実際の内容に置き換えてください。</p>
+      <p class="f-note" id="list-note">※ 試験名・対象・募集状況は随時状況が変化します。メールでお問い合わせいただけますと幸いです。</p>
     </section>
 
     <!-- 画面3：試験の詳細（動的） -->
@@ -181,29 +184,35 @@
 const CANCERS = {
   prostate: {
     label: '前立腺がん',
+    sub: 'かなり適格性が煩雑になりますので、現在募集中のフェーズ別にお伝えします。',
+    note: '※ 試験名・対象・募集状況は随時状況が変化します。メールでお問い合わせいただけますと幸いです。',
     trials: [
-      { id: 'p1', status: 'open',  name: '試験A（略称を記載）',
-        target: ['転移のある前立腺がんの方', 'これまで治療を受けていない方'],
-        summary: '標準治療に新しい飲み薬を追加し、効果と安全性をしらべます。',
+      { id: 'p1', status: 'open', detail: false, name: 'High Risk の m0CSPC の臨床試験',
+        target: ['High Risk の m0CSPC の患者さんのうち、BRCA変異のある方'],
+        summary: '新規PARP阻害剤＋放射線治療 と 放射線治療 を比較する試験です。',
         period: '2026年〜（募集中）', place: '当院 泌尿器科' },
-      { id: 'p2', status: 'open',  name: '試験B（略称を記載）',
-        target: ['再発・去勢抵抗性の前立腺がんの方'],
-        summary: '注射薬の効果をしらべる試験です。',
+      { id: 'p2', status: 'open', detail: false, name: 'mCSPC の臨床試験',
+        target: ['mCSPC のファーストラインの方'],
+        summary: 'ENZ＋EZH阻害剤 と ENZ を比較する試験です。',
         period: '2026年〜（募集中）', place: '当院 泌尿器科' },
-      { id: 'p3', status: 'closed', name: '試験C（略称を記載）',
-        target: ['—'], summary: '募集は終了しました。', period: '—', place: '—' }
+      { id: 'p3', status: 'open', detail: false, name: 'mCRPC のファーストライン',
+        target: ['mCRPC のファーストラインの方'],
+        summary: 'CYP19A阻害剤、EZH阻害剤、免疫抗体複合体などの試験を行っております。試験によっては遺伝子のスクリーニングがある試験もあります。いずれも対照群は現在の標準治療になります。',
+        period: '2026年〜（募集中）', place: '当院 泌尿器科' },
+      { id: 'p4', status: 'open', detail: false, name: 'mCRPC の Late Line の臨床試験',
+        target: ['各種治療後の Late Line の mCRPC 患者さん'],
+        summary: 'Phase1 および Phase3 の免疫抗体複合体を用いた臨床試験を行っております。',
+        period: '2026年〜（募集中）', place: '当院 泌尿器科' }
     ]
   },
   uro: {
     label: '尿路上皮がん',
+    sub: '現在募集中の試験です。',
+    note: '※ 適格基準の詳細や最新の募集状況は、メールでお問い合わせください。',
     trials: [
-      { id: 'u1', status: 'open', name: '試験D（略称を記載）',
-        target: ['膀胱がんで手術を受けた方'],
-        summary: '再発を減らすための追加治療をしらべます。',
-        period: '2026年〜（募集中）', place: '当院 泌尿器科' },
-      { id: 'u2', status: 'open', name: '試験E（略称を記載）',
-        target: ['進行した尿路上皮がんの方'],
-        summary: '新しい点滴薬の効果をしらべる試験です。',
+      { id: 'u1', status: 'open', detail: false, name: 'MoonRISe-3試験',
+        target: ['BCG抵抗性の High Risk NMIBC（CISは除く）の方', 'BCGに耐えられない（導入4回までで終了）方'],
+        summary: '組織でFGFRの変異があった方を対象に、膀胱内FGFR阻害剤の溶出デバイス治療と、膀胱内抗がん剤注入とを比較する試験です。',
         period: '2026年〜（募集中）', place: '当院 泌尿器科' }
     ]
   },
@@ -239,11 +248,15 @@ function esc(s){ return String(s).replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;
 function renderList(key){
   const c = CANCERS[key]; if(!c){ location.hash = ''; return; }
   document.getElementById('list-title').textContent = c.label + 'の臨床試験';
+  if(c.sub) document.getElementById('list-sub').textContent = c.sub;
+  if(c.note) document.getElementById('list-note').textContent = c.note;
   const body = document.getElementById('list-body');
   body.innerHTML = c.trials.map(t => {
     const s = STATUS[t.status];
     const btn = t.status === 'closed' ? '' :
-      `<button class="tbtn" data-detail="${key}/${t.id}">詳細を見る</button>`;
+      (t.detail === false
+        ? '<span class="tbtn tbtn-disabled">詳細をみる（準備中）</span>'
+        : `<button class="tbtn" data-detail="${key}/${t.id}">詳細を見る</button>`);
     return `<article class="tcard ${t.status==='closed'?'closed':''}">
       <span class="badge ${s.c}">${s.t}</span>
       <h4>${esc(t.name)}</h4>
