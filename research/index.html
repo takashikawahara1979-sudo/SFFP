@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>研究 | SEEDS for FUTURE Patients</title>
+<meta name="description" content="これまでの研究成果や論文・データ解析をご紹介します。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Yomogi&family=Klee+One:wght@400;600&family=Zen+Kurenaido&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+<meta name="theme-color" content="#6fa6d6" />
+<link rel="manifest" href="../manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="SEEDS" />
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png" />
+<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body class="research">
+
+<section class="subhero sky">
+  <div class="sun-glow"></div>
+  <div class="clouds" aria-hidden="true"><div class="cloud c1"></div><div class="cloud c3"></div></div>
+  <div class="plane-track" aria-hidden="true"><div class="contrail"></div>
+    <svg class="plane" viewBox="0 0 64 64" fill="#f7fbff"><path d="M2 34 L40 30 L54 12 C56 9 60 10 59 14 L50 32 L60 33 C63 33 63 37 60 38 L48 40 L40 54 C39 57 35 57 35 53 L34 40 L14 44 C11 45 9 42 11 40 Z"/></svg>
+  </div>
+  <div class="falling" id="falling" data-count="8" aria-hidden="true"></div>
+
+  <header>
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M24 44 C24 34 24 26 24 22" stroke="#3f8f42" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M24 24 C14 24 8 18 8 10 C18 10 24 16 24 24 Z" fill="#63bd57"/>
+        <path d="M24 20 C34 20 40 14 40 6 C30 6 24 12 24 20 Z" fill="#7ccf6f"/>
+      </svg>
+      <div class="brand-text"><div class="name">SEEDS for FUTURE Patients</div><div class="tag">よりよい未来への種づくり</div></div>
+    </div>
+    <nav>
+      <button class="nav-toggle" id="navToggle" aria-label="メニュー" aria-expanded="false"><span></span></button>
+      <ul id="navList">
+        <li><a href="../index.html">ホーム</a></li>
+        <li><a href="../research/" aria-current="page">研究</a></li>
+        <li><a href="../case-reports/">症例報告</a></li>
+        <li><a href="../clinical-trials/">臨床治験</a></li>
+        <li><a href="../videos/">動画</a></li>
+        <li><a href="../index.html#story">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="subhero-body">
+    <div class="eyebrow">RESEARCH</div>
+    <h1 class="page-title">研究</h1>
+    <p class="page-lede">臨床の現場で生まれた問いを、データで確かめる。これまでの研究成果や解析をご紹介します。</p>
+    <div class="accent-line"></div>
+  </div>
+</section>
+
+<main class="content">
+  <h3>研究テーマ</h3>
+  <p>泌尿器科領域を中心に、大規模データベースや多施設コホートを用いた臨床研究に取り組んでいます。下記は掲載例です。内容はご自身の実績に差し替えてください。</p>
+
+  <div class="list">
+    <article class="item reveal">
+      <div class="meta">論文 · 2024</div>
+      <h4>研究タイトルをここに入力</h4>
+      <p>研究の概要を2〜3行でまとめます。対象・方法・主な結果を簡潔に書くと読みやすくなります。</p>
+    </article>
+    <article class="item reveal">
+      <div class="meta">データ解析 · 進行中</div>
+      <h4>解析プロジェクトのタイトル</h4>
+      <p>取り組み中の解析について、目的とねらいを短く記載します。</p>
+    </article>
+    <article class="item reveal">
+      <div class="meta">共同研究</div>
+      <h4>多施設共同研究のタイトル</h4>
+      <p>連携施設や役割など、伝えたいポイントを添えます。</p>
+    </article>
+  </div>
+
+  <div class="note">この一覧はサンプルです。<code>research/index.html</code> の &lt;article class="item"&gt; を増やしたり書き換えたりして、実際の研究に更新できます。</div>
+
+  <a class="back-home" href="../index.html">← ホームに戻る</a>
+</main>
+
+<footer><span class="fmark">🌱</span>&nbsp; SEEDS for FUTURE Patients &nbsp;·&nbsp; よりよい未来への種づくり</footer>
+<script src="../assets/js/main.js"></script>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("../sw.js").catch(function () {});
+    });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>動画コンテンツ | SEEDS for FUTURE Patients</title>
+<meta name="description" content="講演やわかりやすい解説を動画でご覧いただけます。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Yomogi&family=Klee+One:wght@400;600&family=Zen+Kurenaido&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+<meta name="theme-color" content="#6fa6d6" />
+<link rel="manifest" href="../manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="SEEDS" />
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png" />
+<link rel="stylesheet" href="../assets/css/style.css" />
+<style>
+  /* YouTube 埋め込み（スマホでも 16:9 で崩れない） */
+  .video-embed { position: relative; aspect-ratio: 16 / 9; border-radius: 14px 14px 0 0; overflow: hidden; background: #000; }
+  .video-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+</style>
+</head>
+<body class="video">
+
+<section class="subhero sky">
+  <div class="sun-glow"></div>
+  <div class="clouds" aria-hidden="true"><div class="cloud c1"></div><div class="cloud c3"></div></div>
+  <div class="plane-track" aria-hidden="true"><div class="contrail"></div>
+    <svg class="plane" viewBox="0 0 64 64" fill="#f7fbff"><path d="M2 34 L40 30 L54 12 C56 9 60 10 59 14 L50 32 L60 33 C63 33 63 37 60 38 L48 40 L40 54 C39 57 35 57 35 53 L34 40 L14 44 C11 45 9 42 11 40 Z"/></svg>
+  </div>
+  <div class="falling" id="falling" data-count="8" aria-hidden="true"></div>
+
+  <header>
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M24 44 C24 34 24 26 24 22" stroke="#3f8f42" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M24 24 C14 24 8 18 8 10 C18 10 24 16 24 24 Z" fill="#63bd57"/>
+        <path d="M24 20 C34 20 40 14 40 6 C30 6 24 12 24 20 Z" fill="#7ccf6f"/>
+      </svg>
+      <div class="brand-text"><div class="name">SEEDS for FUTURE Patients</div><div class="tag">よりよい未来への種づくり</div></div>
+    </div>
+    <nav>
+      <button class="nav-toggle" id="navToggle" aria-label="メニュー" aria-expanded="false"><span></span></button>
+      <ul id="navList">
+        <li><a href="../index.html">ホーム</a></li>
+        <li><a href="../research/">研究</a></li>
+        <li><a href="../case-reports/">症例報告</a></li>
+        <li><a href="../clinical-trials/">臨床治験</a></li>
+        <li><a href="../videos/" aria-current="page">動画</a></li>
+        <li><a href="../index.html#story">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="subhero-body">
+    <div class="eyebrow">VIDEOS</div>
+    <h1 class="page-title">動画コンテンツ</h1>
+    <p class="page-lede">むずかしい医学を、やさしく届ける。講演やわかりやすい解説を動画でご覧いただけます。</p>
+    <div class="accent-line"></div>
+  </div>
+</section>
+
+<main class="content">
+  <h3>動画一覧</h3>
+  <p>講演やわかりやすい解説を動画でご覧いただけます。各動画のタイトルや説明文は自由に編集できます。</p>
+
+  <div class="video-grid">
+    <article class="video-card reveal">
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/vvXY7FlVbdo"
+          title="動画1"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+      <div class="body"><h4>動画1のタイトル</h4><small>内容を1行で説明します（自由に編集できます）。</small></div>
+    </article>
+    <article class="video-card reveal">
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/R_ucieY32GU"
+          title="動画2"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+      <div class="body"><h4>動画2のタイトル</h4><small>内容を1行で説明します（自由に編集できます）。</small></div>
+    </article>
+    <article class="video-card reveal">
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/vpoWjyANS1E"
+          title="動画3"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+      <div class="body"><h4>動画3のタイトル</h4><small>内容を1行で説明します（自由に編集できます）。</small></div>
+    </article>
+    <article class="video-card reveal">
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/Jc9G9RH-OHc"
+          title="動画4"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+      <div class="body"><h4>動画4のタイトル</h4><small>内容を1行で説明します（自由に編集できます）。</small></div>
+    </article>
+    <article class="video-card reveal">
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/JpbskfwvndA"
+          title="動画5"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+      <div class="body"><h4>動画5のタイトル</h4><small>内容を1行で説明します（自由に編集できます）。</small></div>
+    </article>
+    <article class="video-card reveal">
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/LkMzgY9j2mA"
+          title="動画6"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+      <div class="body"><h4>動画6のタイトル</h4><small>内容を1行で説明します（自由に編集できます）。</small></div>
+    </article>
+  </div>
+
+  <a class="back-home" href="../index.html">← ホームに戻る</a>
+</main>
+
+<footer><span class="fmark">🌱</span>&nbsp; SEEDS for FUTURE Patients &nbsp;·&nbsp; よりよい未来への種づくり</footer>
+<script src="../assets/js/main.js"></script>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("../sw.js").catch(function () {});
+    });
+  }
+</script>
+</body>
+</html>

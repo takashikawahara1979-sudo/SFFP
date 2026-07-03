@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>臨床治験 | SEEDS for FUTURE Patients</title>
+<meta name="description" content="当院でおこなっている臨床試験をご案内します。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Yomogi&family=Klee+One:wght@400;600&family=Zen+Kurenaido&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+<meta name="theme-color" content="#6fa6d6" />
+<link rel="manifest" href="../manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="SEEDS" />
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png" />
+<link rel="stylesheet" href="../assets/css/style.css" />
+<style>
+  /* ===== 臨床治験ファインダー（このページ専用） ===== */
+  #finder { max-width: 760px; margin: 0 auto; }
+  .fv { display: none; animation: fvIn .4s cubic-bezier(.2,.8,.3,1); }
+  .fv.active { display: block; }
+  @keyframes fvIn { from { opacity: 0; transform: translateY(14px);} to { opacity: 1; transform: none; } }
+
+  .f-lead { color: var(--ink-soft); line-height: 1.9; margin-bottom: 8px; }
+  .f-ask { font-family: var(--font-pen); font-weight: 600; font-size: 1.15rem; margin: 26px 0 16px; color: var(--ink); }
+
+  /* 癌腫カード */
+  .ccard {
+    display: flex; align-items: center; gap: 18px;
+    background: #fff; border-radius: 20px; padding: 20px 22px; margin-bottom: 16px;
+    border-left: 7px solid var(--sprout);
+    box-shadow: 0 12px 30px -20px rgba(60,80,60,.5);
+    cursor: pointer; transition: transform .25s, box-shadow .25s;
+  }
+  .ccard:hover, .ccard:focus-visible { transform: translateY(-4px); box-shadow: 0 20px 40px -18px rgba(60,80,60,.55); outline: none; }
+  .ccard .ci { width: 56px; height: 56px; border-radius: 50%; flex: none; display: grid; place-items: center; }
+  .ccard .ct { flex: 1; }
+  .ccard .ct b { font-family: var(--font-pen); font-weight: 600; font-size: 1.2rem; color: var(--ink); display: block; }
+  .ccard .ct small { color: var(--ink-soft); font-size: .85rem; }
+  .ccard .cr { font-size: 1.4rem; line-height: 1; }
+  .c-prostate { border-left-color: var(--research); } .c-prostate .ci { background: #eaf4e2; } .c-prostate .cr { color: var(--research); }
+  .c-uro      { border-left-color: var(--case); }     .c-uro .ci { background: #e6f0f7; }     .c-uro .cr { color: var(--case); }
+  .c-kidney   { border-left-color: var(--trials); }   .c-kidney .ci { background: #f8eede; }   .c-kidney .cr { color: var(--trials); }
+
+  /* もどる */
+  .f-back { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-pen); color: var(--ink-soft); background: none; border: none; cursor: pointer; font-size: 1rem; margin-bottom: 14px; padding: 6px 2px; }
+  .f-back:hover { color: var(--ink); }
+
+  .f-title { font-family: var(--font-brush); font-size: clamp(1.6rem,4vw,2.2rem); color: var(--ink); margin-bottom: 6px; }
+  .f-sub { color: var(--ink-soft); margin-bottom: 22px; }
+
+  /* 治験カード */
+  .tcard { background: #fff; border-radius: 18px; padding: 22px 24px; margin-bottom: 16px; border-left: 6px solid var(--research); box-shadow: 0 12px 30px -20px rgba(60,80,60,.5); }
+  .tcard.closed { background: #f4f0e6; border-left-color: #c3bca8; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; font-size: .78rem; font-weight: 600; padding: 4px 12px; border-radius: 999px; margin-bottom: 10px; font-family: var(--font-hand); }
+  .badge::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .badge.open { background: #e7f4e5; color: #2f7d34; }
+  .badge.prep { background: #fff2dc; color: #b5701a; }
+  .badge.closed { background: #e6e1d2; color: #8a8266; }
+  .badge.closed::before { display: none; }
+  .tcard h4 { font-family: var(--font-pen); font-weight: 600; font-size: 1.15rem; color: var(--ink); margin-bottom: 8px; }
+  .tcard.closed h4 { color: #8a8266; }
+  .tcard p { color: var(--ink-soft); line-height: 1.75; font-size: .92rem; margin-bottom: 4px; }
+  .tbtn { display: inline-block; margin-top: 14px; background: var(--research); color: #fff; font-family: var(--font-pen); font-weight: 600; border: none; border-radius: 999px; padding: 9px 22px; cursor: pointer; font-size: .95rem; transition: transform .2s, filter .2s; }
+  .tbtn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+
+  /* 詳細 */
+  .dsec { background: #fff; border-radius: 16px; padding: 20px 22px; margin-bottom: 14px; box-shadow: 0 12px 30px -22px rgba(60,80,60,.5); }
+  .dsec h5 { font-family: var(--font-pen); font-weight: 600; font-size: 1rem; color: var(--research); margin-bottom: 10px; }
+  .dsec ul { margin: 0; padding-left: 1.1em; color: #4a564d; line-height: 1.85; }
+  .dsec p { color: #4a564d; line-height: 1.85; }
+  .cta { width: 100%; margin-top: 8px; background: var(--research); color: #fff; font-family: var(--font-pen); font-weight: 600; font-size: 1.05rem; border: none; border-radius: 16px; padding: 16px; cursor: pointer; transition: transform .2s, filter .2s; }
+  .cta:hover { transform: translateY(-2px); filter: brightness(1.05); }
+  .contact { display: none; margin-top: 14px; background: #f3f8ef; border: 1px dashed var(--research); border-radius: 14px; padding: 16px 18px; color: #3a4a3f; line-height: 1.9; font-size: .92rem; }
+  .contact.show { display: block; }
+  .f-note { margin-top: 26px; color: #94a08d; font-size: .85rem; line-height: 1.8; text-align: center; }
+</style>
+</head>
+<body class="trials">
+
+<section class="subhero sky">
+  <div class="sun-glow"></div>
+  <div class="clouds" aria-hidden="true"><div class="cloud c1"></div><div class="cloud c3"></div></div>
+  <div class="plane-track" aria-hidden="true"><div class="contrail"></div>
+    <svg class="plane" viewBox="0 0 64 64" fill="#f7fbff"><path d="M2 34 L40 30 L54 12 C56 9 60 10 59 14 L50 32 L60 33 C63 33 63 37 60 38 L48 40 L40 54 C39 57 35 57 35 53 L34 40 L14 44 C11 45 9 42 11 40 Z"/></svg>
+  </div>
+  <div class="falling" id="falling" data-count="8" aria-hidden="true"></div>
+
+  <header>
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M24 44 C24 34 24 26 24 22" stroke="#3f8f42" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M24 24 C14 24 8 18 8 10 C18 10 24 16 24 24 Z" fill="#63bd57"/>
+        <path d="M24 20 C34 20 40 14 40 6 C30 6 24 12 24 20 Z" fill="#7ccf6f"/>
+      </svg>
+      <div class="brand-text"><div class="name">SEEDS for FUTURE Patients</div><div class="tag">よりよい未来への種づくり</div></div>
+    </div>
+    <nav>
+      <button class="nav-toggle" id="navToggle" aria-label="メニュー" aria-expanded="false"><span></span></button>
+      <ul id="navList">
+        <li><a href="../index.html">ホーム</a></li>
+        <li><a href="../research/">研究</a></li>
+        <li><a href="../case-reports/">症例報告</a></li>
+        <li><a href="../clinical-trials/" aria-current="page">臨床治験</a></li>
+        <li><a href="../videos/">動画</a></li>
+        <li><a href="../index.html#story">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="subhero-body">
+    <div class="eyebrow">CLINICAL TRIALS</div>
+    <h1 class="page-title">臨床試験のご案内</h1>
+    <p class="page-lede">当院でおこなっている臨床試験をご案内します。気になるがんの種類を選ぶと、該当する試験が表示されます。</p>
+    <div class="accent-line"></div>
+  </div>
+</section>
+
+<main class="content">
+  <div id="finder">
+
+    <!-- 画面1：がん種の選択 -->
+    <section class="fv active" id="view-select">
+      <p class="f-lead">下から、気になるがんの種類を選んでください。タップすると、該当する試験の一覧が開きます。</p>
+      <div class="f-ask">がんの種類は？</div>
+
+      <div class="ccard c-prostate" role="button" tabindex="0" data-cancer="prostate">
+        <div class="ci">
+          <svg width="30" height="30" viewBox="0 0 48 48"><path d="M24 40 L24 24" stroke="#2f7d34" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M24 26 C14 26 8 20 8 12 C18 12 24 18 24 26 Z" fill="#63bd57"/><path d="M24 22 C34 22 40 16 40 8 C30 8 24 14 24 22 Z" fill="#7ccf6f"/></svg>
+        </div>
+        <div class="ct"><b>前立腺がん</b><small>該当する試験を見る</small></div>
+        <div class="cr">›</div>
+      </div>
+
+      <div class="ccard c-uro" role="button" tabindex="0" data-cancer="uro">
+        <div class="ci">
+          <svg width="26" height="30" viewBox="0 0 32 40"><path d="M16 3 C29 20 29 30 16 37 C3 30 3 20 16 3 Z" fill="#4a90c2"/><path d="M10 27 a7 7 0 0 0 7 6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="ct"><b>尿路上皮がん</b><small>膀胱がんなど。該当する試験を見る</small></div>
+        <div class="cr">›</div>
+      </div>
+
+      <div class="ccard c-kidney" role="button" tabindex="0" data-cancer="kidney">
+        <div class="ci">
+          <svg width="30" height="30" viewBox="0 0 40 40"><path d="M14 6 C2 9 0 30 12 36 C24 42 38 34 36 22 C35 15 40 13 36 6 C32 0 22 3 14 6 Z" fill="#e0913a"/><path d="M13 20 C18 17 25 20 26 27" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="ct"><b>腎臓がん</b><small>該当する試験を見る</small></div>
+        <div class="cr">›</div>
+      </div>
+
+      <p class="f-note">※ 気になる方は、担当医にもお気軽にご相談ください。</p>
+    </section>
+
+    <!-- 画面2：試験一覧（動的） -->
+    <section class="fv" id="view-list">
+      <button class="f-back" data-back>‹ もどる</button>
+      <h2 class="f-title" id="list-title">がんの臨床試験</h2>
+      <p class="f-sub">現在ご案内できる試験です（掲載は例です）。</p>
+      <div id="list-body"></div>
+      <p class="f-note">※ 試験名・対象・募集状況は例です。実際の内容に置き換えてください。</p>
+    </section>
+
+    <!-- 画面3：試験の詳細（動的） -->
+    <section class="fv" id="view-detail">
+      <button class="f-back" data-back>‹ もどる</button>
+      <div id="detail-body"></div>
+      <p class="f-note">※ 参加には診察と適格性の確認が必要です。内容は主治医にご確認ください。</p>
+    </section>
+
+  </div>
+
+  <a class="back-home" href="../index.html">← ホームに戻る</a>
+</main>
+
+<footer><span class="fmark">🌱</span>&nbsp; SEEDS for FUTURE Patients &nbsp;·&nbsp; よりよい未来への種づくり</footer>
+
+<script src="../assets/js/main.js"></script>
+<script>
+/* ====== 臨床試験データ（ここを編集すれば内容を差し替えられます） ====== */
+const CANCERS = {
+  prostate: {
+    label: '前立腺がん',
+    trials: [
+      { id: 'p1', status: 'open',  name: '試験A（略称を記載）',
+        target: ['転移のある前立腺がんの方', 'これまで治療を受けていない方'],
+        summary: '標準治療に新しい飲み薬を追加し、効果と安全性をしらべます。',
+        period: '2026年〜（募集中）', place: '当院 泌尿器科' },
+      { id: 'p2', status: 'open',  name: '試験B（略称を記載）',
+        target: ['再発・去勢抵抗性の前立腺がんの方'],
+        summary: '注射薬の効果をしらべる試験です。',
+        period: '2026年〜（募集中）', place: '当院 泌尿器科' },
+      { id: 'p3', status: 'closed', name: '試験C（略称を記載）',
+        target: ['—'], summary: '募集は終了しました。', period: '—', place: '—' }
+    ]
+  },
+  uro: {
+    label: '尿路上皮がん',
+    trials: [
+      { id: 'u1', status: 'open', name: '試験D（略称を記載）',
+        target: ['膀胱がんで手術を受けた方'],
+        summary: '再発を減らすための追加治療をしらべます。',
+        period: '2026年〜（募集中）', place: '当院 泌尿器科' },
+      { id: 'u2', status: 'open', name: '試験E（略称を記載）',
+        target: ['進行した尿路上皮がんの方'],
+        summary: '新しい点滴薬の効果をしらべる試験です。',
+        period: '2026年〜（募集中）', place: '当院 泌尿器科' }
+    ]
+  },
+  kidney: {
+    label: '腎臓がん',
+    trials: [
+      { id: 'k1', status: 'open', name: '試験F（略称を記載）',
+        target: ['手術後の腎がんで、再発リスクのある方'],
+        summary: '再発予防のためのお薬をしらべる試験です。',
+        period: '2026年〜（募集中）', place: '当院 泌尿器科' },
+      { id: 'k2', status: 'prep', name: '試験G（略称を記載）',
+        target: ['進行した腎がんの方'],
+        summary: '近く開始予定の試験です。準備が整いしだいご案内します。',
+        period: '準備中', place: '当院 泌尿器科' }
+    ]
+  }
+};
+const STATUS = { open: {c:'open', t:'募集中'}, prep: {c:'prep', t:'準備中'}, closed: {c:'closed', t:'募集終了'} };
+
+/* ====== 画面切り替え（URLの # で管理 → スマホの戻るも効く） ====== */
+const views = {
+  select: document.getElementById('view-select'),
+  list:   document.getElementById('view-list'),
+  detail: document.getElementById('view-detail')
+};
+function show(name){
+  Object.values(views).forEach(v => v.classList.remove('active'));
+  views[name].classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function esc(s){ return String(s).replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+
+function renderList(key){
+  const c = CANCERS[key]; if(!c){ location.hash = ''; return; }
+  document.getElementById('list-title').textContent = c.label + 'の臨床試験';
+  const body = document.getElementById('list-body');
+  body.innerHTML = c.trials.map(t => {
+    const s = STATUS[t.status];
+    const btn = t.status === 'closed' ? '' :
+      `<button class="tbtn" data-detail="${key}/${t.id}">詳細を見る</button>`;
+    return `<article class="tcard ${t.status==='closed'?'closed':''}">
+      <span class="badge ${s.c}">${s.t}</span>
+      <h4>${esc(t.name)}</h4>
+      <p>対象：${esc(t.target.join(' / '))}</p>
+      <p>${esc(t.summary)}</p>
+      ${btn}
+    </article>`;
+  }).join('');
+}
+function renderDetail(key, id){
+  const c = CANCERS[key]; if(!c){ location.hash = ''; return; }
+  const t = c.trials.find(x => x.id === id); if(!t){ location.hash = 'list/'+key; return; }
+  const s = STATUS[t.status];
+  document.getElementById('detail-body').innerHTML = `
+    <span class="badge ${s.c}">${s.t}</span>
+    <h2 class="f-title">${esc(t.name)}</h2>
+    <p class="f-sub">${esc(c.label)}</p>
+    <div class="dsec"><h5>対象となる方</h5><ul>${t.target.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+    <div class="dsec"><h5>治療の概要</h5><p>${esc(t.summary)}</p></div>
+    <div class="dsec"><h5>実施期間・場所</h5><p>${esc(t.period)}／${esc(t.place)}</p></div>
+    <button class="cta" id="ctaBtn">この試験について問い合わせる</button>
+    <div class="contact" id="contactBox">
+      担当医・治験コーディネーターにおつなぎします。<br>
+      受付：平日 9:00〜17:00　電話：000-0000-0000<br>
+      （※ 連絡先は実際のものに差し替えてください）
+    </div>`;
+  const cta = document.getElementById('ctaBtn');
+  cta.addEventListener('click', () => document.getElementById('contactBox').classList.toggle('show'));
+}
+
+function route(){
+  const h = location.hash.replace(/^#/, '');
+  const parts = h.split('/');
+  if(parts[0] === 'list' && parts[1]){ renderList(parts[1]); show('list'); }
+  else if(parts[0] === 'detail' && parts[1] && parts[2]){ renderDetail(parts[1], parts[2]); show('detail'); }
+  else { show('select'); }
+}
+
+/* クリック割り当て */
+document.querySelectorAll('[data-cancer]').forEach(el => {
+  const go = () => { location.hash = 'list/' + el.dataset.cancer; };
+  el.addEventListener('click', go);
+  el.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } });
+});
+document.getElementById('list-body').addEventListener('click', e => {
+  const b = e.target.closest('[data-detail]'); if(b){ location.hash = 'detail/' + b.dataset.detail; }
+});
+document.querySelectorAll('[data-back]').forEach(b => b.addEventListener('click', () => history.back()));
+
+window.addEventListener('hashchange', route);
+route();
+</script>
+</body>
+</html>

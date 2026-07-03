@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SEEDS for FUTURE Patients — よりよい未来への種づくり</title>
+<meta name="description" content="臨床 × 研究 × テクノロジーで、よりよい医療の未来を育てていきます。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Yomogi&family=Klee+One:wght@400;600&family=Zen+Kurenaido&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+<meta name="theme-color" content="#6fa6d6" />
+<link rel="manifest" href="manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="SEEDS" />
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+<link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+<!-- ======================= HERO ======================= -->
+<section class="hero sky">
+  <div class="sun-glow"></div>
+
+  <div class="clouds" aria-hidden="true">
+    <div class="cloud c1"></div><div class="cloud c2"></div>
+    <div class="cloud c3"></div><div class="cloud c4"></div>
+  </div>
+
+  <div class="plane-track" aria-hidden="true">
+    <div class="contrail"></div>
+    <svg class="plane" viewBox="0 0 64 64" fill="#f7fbff">
+      <path d="M2 34 L40 30 L54 12 C56 9 60 10 59 14 L50 32 L60 33 C63 33 63 37 60 38 L48 40 L40 54 C39 57 35 57 35 53 L34 40 L14 44 C11 45 9 42 11 40 Z"/>
+    </svg>
+  </div>
+
+  <svg class="wing" viewBox="0 0 560 300" aria-hidden="true">
+    <defs><linearGradient id="wingG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eef4f7"/><stop offset="1" stop-color="#c3d4dd"/>
+    </linearGradient></defs>
+    <path d="M-20 300 L120 60 C140 30 180 20 260 40 L560 120 L560 300 Z" fill="url(#wingG)"/>
+    <path d="M120 60 C140 30 180 20 260 40 L560 120" fill="none" stroke="#9fb3bd" stroke-width="3"/>
+    <ellipse cx="150" cy="215" rx="70" ry="30" fill="#d7e2e8"/>
+    <ellipse cx="150" cy="215" rx="34" ry="16" fill="#9fb3bd"/>
+  </svg>
+
+  <svg class="scenery" viewBox="0 0 1440 460" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <path d="M0 150 C260 90 460 130 720 110 C980 90 1180 140 1440 100 L1440 460 L0 460 Z" fill="var(--field-far)"/>
+    <path d="M0 230 C300 180 540 235 840 210 C1120 188 1300 240 1440 210 L1440 460 L0 460 Z" fill="var(--field-mid)"/>
+    <g stroke="rgba(255,255,255,.25)" stroke-width="2" fill="none">
+      <path d="M120 300 C420 275 700 300 1020 285"/>
+      <path d="M60 340 C420 315 760 342 1120 320"/>
+      <path d="M0 384 C400 360 820 388 1200 362"/>
+    </g>
+    <g transform="translate(1150 150)">
+      <polygon points="0,70 90,20 180,70" fill="#7a5b3a"/>
+      <polygon points="12,72 90,28 168,72" fill="#8a6b46"/>
+      <rect x="24" y="70" width="132" height="70" fill="#c8a878"/>
+      <rect x="70" y="96" width="40" height="44" fill="#6b4f31"/>
+    </g>
+    <path d="M0 300 C320 270 700 320 1080 296 C1260 285 1360 305 1440 296 L1440 460 L0 460 Z" fill="var(--field-near)"/>
+    <path d="M0 360 C360 335 820 362 1200 340 C1320 333 1400 348 1440 342" fill="none" stroke="var(--hedge)" stroke-width="10" stroke-linecap="round"/>
+    <g fill="var(--sprout)">
+      <circle cx="220" cy="405" r="5"/><circle cx="360" cy="418" r="5"/>
+      <circle cx="520" cy="400" r="5"/><circle cx="700" cy="420" r="5"/>
+      <circle cx="880" cy="404" r="5"/><circle cx="1040" cy="418" r="5"/>
+    </g>
+  </svg>
+
+  <div class="falling" id="falling" data-count="14" aria-hidden="true"></div>
+
+  <!-- ヘッダー -->
+  <header>
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M24 44 C24 34 24 26 24 22" stroke="#3f8f42" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M24 24 C14 24 8 18 8 10 C18 10 24 16 24 24 Z" fill="#63bd57"/>
+        <path d="M24 20 C34 20 40 14 40 6 C30 6 24 12 24 20 Z" fill="#7ccf6f"/>
+      </svg>
+      <div class="brand-text">
+        <div class="name">SEEDS for FUTURE Patients</div>
+        <div class="tag">よりよい未来への種づくり</div>
+      </div>
+    </div>
+    <nav>
+      <button class="nav-toggle" id="navToggle" aria-label="メニュー" aria-expanded="false"><span></span></button>
+      <ul id="navList">
+        <li><a href="index.html" aria-current="page">ホーム</a></li>
+        <li><a href="research/">研究</a></li>
+        <li><a href="case-reports/">症例報告</a></li>
+        <li><a href="clinical-trials/">臨床治験</a></li>
+        <li><a href="videos/">動画</a></li>
+        <li><a href="#story">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- 本文 -->
+  <div class="hero-body">
+    <div class="headline">
+      <h1><span class="line">未来は、</span><span class="line">今日まいた種から。</span></h1>
+    </div>
+    <p class="lede">臨床 × 研究 × テクノロジーで、よりよい医療の未来を育てていきます。</p>
+
+    <!-- 4カード -->
+    <div class="cards">
+      <a class="card research" href="research/" tabindex="0">
+        <div class="icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <path d="M24 12 C18 8 12 8 8 10 L8 36 C12 34 18 34 24 38 C30 34 36 34 40 36 L40 10 C36 8 30 8 24 12 Z" fill="#fff" stroke="#3f8f42" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M24 12 L24 38" stroke="#3f8f42" stroke-width="2"/>
+            <path d="M24 10 C26 4 31 3 34 4 C33 8 29 10 24 10 Z" fill="#63bd57"/>
+          </svg>
+        </div>
+        <h2>研究</h2>
+        <div class="en">RESEARCH</div>
+        <p>これまでの研究成果や<br>論文・データ解析をご紹介します。</p>
+        <span class="go" aria-hidden="true">→</span>
+      </a>
+
+      <a class="card case" href="case-reports/" tabindex="0">
+        <div class="icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <rect x="10" y="6" width="28" height="36" rx="3" fill="#fff" stroke="#4a90c2" stroke-width="2"/>
+            <rect x="18" y="4" width="12" height="6" rx="2" fill="#4a90c2"/>
+            <path d="M16 20 H32 M16 27 H32 M16 34 H26" stroke="#4a90c2" stroke-width="2" stroke-linecap="round"/>
+            <path d="M34 14 C38 14 40 11 40 7 C36 7 34 10 34 14 Z" fill="#63bd57"/>
+          </svg>
+        </div>
+        <h2>症例報告</h2>
+        <div class="en">CASE REPORTS</div>
+        <p>日常診療で出会った<br>示唆に富む症例をまとめています。</p>
+        <span class="go" aria-hidden="true">→</span>
+      </a>
+
+      <a class="card trials" href="clinical-trials/" tabindex="0">
+        <div class="icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <path d="M20 6 L28 6 M22 6 L22 20 L13 36 C12 39 14 42 17 42 L31 42 C34 42 36 39 35 36 L26 20 L26 6" stroke="#e0913a" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+            <path d="M17 30 C22 27 26 33 31 30 L35 36 C36 39 34 42 31 42 L17 42 C14 42 12 39 13 36 Z" fill="#f4c98a"/>
+            <circle cx="21" cy="34" r="1.6" fill="#e0913a"/><circle cx="27" cy="37" r="1.4" fill="#e0913a"/>
+            <path d="M34 12 C38 12 40 9 40 5 C36 5 34 8 34 12 Z" fill="#63bd57"/>
+          </svg>
+        </div>
+        <h2>臨床治験</h2>
+        <div class="en">CLINICAL TRIALS</div>
+        <p>実施中・募集中の治験や<br>参加情報をお伝えします。</p>
+        <span class="go" aria-hidden="true">→</span>
+      </a>
+
+      <a class="card video" href="videos/" tabindex="0">
+        <div class="icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <rect x="7" y="12" width="34" height="24" rx="5" fill="#fff" stroke="#9166a6" stroke-width="2"/>
+            <path d="M21 20 L29 24 L21 28 Z" fill="#9166a6"/>
+            <path d="M36 12 C40 12 42 9 42 5 C38 5 36 8 36 12 Z" fill="#63bd57"/>
+          </svg>
+        </div>
+        <h2>動画コンテンツ</h2>
+        <div class="en">VIDEOS</div>
+        <p>講演やわかりやすい解説を<br>動画でご覧いただけます。</p>
+        <span class="go" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+
+  <a class="scroll-hint" href="#ground" aria-label="下へスクロール">
+    <div class="ring">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 9 L12 15 L18 9" stroke="#35463c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <span>スクロール</span>
+  </a>
+</section>
+
+<!-- ======================= 種のことば ======================= -->
+<section class="ground" id="ground">
+  <svg class="seedling" viewBox="0 0 60 80" aria-hidden="true">
+    <path d="M30 78 L30 34" stroke="#3f8f42" stroke-width="3" stroke-linecap="round"/>
+    <path d="M30 46 C16 46 8 38 8 26 C22 26 30 34 30 46 Z" fill="#63bd57"/>
+    <path d="M30 40 C44 40 52 32 52 20 C38 20 30 28 30 40 Z" fill="#7ccf6f"/>
+    <path d="M18 78 C22 72 38 72 42 78" fill="none" stroke="#8a6b46" stroke-width="3" stroke-linecap="round"/>
+  </svg>
+  <p class="motto reveal">一つひとつの種が、未来の医療をつくる。</p>
+  <div class="sig reveal">SEEDS for FUTURE Patients</div>
+</section>
+
+<!-- ======================= ストーリー ======================= -->
+<section class="story" id="story">
+  <div class="story-inner">
+    <h3 class="reveal">都会から、いなかへ。そして、種をうえる。</h3>
+    <p class="reveal">最先端の医学を学び、やがて生まれ育った土地へ。<br>そこにひとつぶの種をまくように、日々の臨床と研究をていねいに積み重ねていきます。</p>
+    <div class="steps">
+      <div class="step reveal"><span class="em">🏙️</span><h4>学ぶ</h4><small>都会で最新の臨床と研究に触れ、知識と技術を身につける。</small></div>
+      <div class="step reveal"><span class="em">🚉</span><h4>帰る</h4><small>育ったふるさとへ戻り、地域の医療とていねいに向き合う。</small></div>
+      <div class="step reveal"><span class="em">🌱</span><h4>まく</h4><small>研究とデータという種をまき、よりよい未来の医療を育てる。</small></div>
+    </div>
+  </div>
+</section>
+
+<footer id="news">
+  <span class="fmark">🌱</span>&nbsp; SEEDS for FUTURE Patients &nbsp;·&nbsp; よりよい未来への種づくり
+</footer>
+
+<script src="assets/js/main.js"></script>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("sw.js").catch(function () {});
+    });
+  }
+</script>
+</body>
+</html>
