@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>News | SEEDS for FUTURE Patients</title>
+<meta name="description" content="アクセプト・掲載・発表・受賞など、育った種の実りをお知らせします。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Yomogi&family=Klee+One:wght@400;600&family=Zen+Kurenaido&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+<meta name="theme-color" content="#6fa6d6" />
+<link rel="manifest" href="../manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="SEEDS" />
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png" />
+<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body class="research">
+
+<section class="subhero sky research">
+  <div class="sun-glow"></div>
+  <div class="clouds" aria-hidden="true"><div class="cloud c1"></div><div class="cloud c3"></div></div>
+  <div class="plane-track" aria-hidden="true"><div class="contrail"></div>
+    <svg class="plane" viewBox="0 0 64 64" fill="#f7fbff"><path d="M2 34 L40 30 L54 12 C56 9 60 10 59 14 L50 32 L60 33 C63 33 63 37 60 38 L48 40 L40 54 C39 57 35 57 35 53 L34 40 L14 44 C11 45 9 42 11 40 Z"/></svg>
+  </div>
+  <div class="falling" data-count="6" aria-hidden="true"></div>
+
+  <header>
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 44 C24 34 24 26 24 22" stroke="#3f8f42" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M24 24 C14 24 8 18 8 10 C18 10 24 16 24 24 Z" fill="#63bd57"/><path d="M24 20 C34 20 40 14 40 6 C30 6 24 12 24 20 Z" fill="#7ccf6f"/></svg>
+      <div class="brand-text"><div class="name">SEEDS for FUTURE Patients</div><div class="tag">よりよい未来への種づくり</div></div>
+    </div>
+    <nav>
+      <button class="nav-toggle" id="navToggle" aria-label="メニュー" aria-expanded="false"><span></span></button>
+      <ul id="navList">
+        <li><a href="../index.html">ホーム</a></li>
+        <li><a href="../research/">研究</a></li>
+        <li><a href="../case-reports/">症例報告</a></li>
+        <li><a href="../clinical-trials/">臨床治験</a></li>
+        <li><a href="../videos/">動画</a></li>
+        <li><a href="../news/" aria-current="page">News</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="subhero-body">
+    <div class="eyebrow">NEWS</div>
+    <h1 class="page-title">みのりの記録</h1>
+    <p class="page-lede">論文の掲載情報をお知らせします。</p>
+    <div class="accent-line"></div>
+  </div>
+</section>
+
+<main class="content">
+  <div class="news-wrap">
+    <div class="vine" aria-hidden="true">
+      <svg viewBox="0 0 30 1000" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="vineGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#7ccf6f"/><stop offset="1" stop-color="#3f8f42"/>
+          </linearGradient>
+        </defs>
+        <path class="stem" pathLength="1" d="M15 4 C26 90 4 175 15 262 C26 349 4 434 15 521 C26 608 4 693 15 780 C24 852 12 930 15 996" />
+        <path class="vleaf v1" d="M15 262 C2 258 -6 244 -4 230 C10 232 18 246 15 262 Z" />
+        <path class="vleaf v2" d="M15 521 C28 517 36 503 34 489 C20 491 12 505 15 521 Z" />
+        <path class="vleaf v3" d="M15 780 C2 776 -6 762 -4 748 C10 750 18 764 15 780 Z" />
+      </svg>
+    </div>
+    <div id="news-list"></div>
+  </div>
+
+  <p class="f-note" style="margin-top:30px; color:#94a08d; text-align:center; font-size:.85rem;">2026/07/04 Updated</p>
+
+  <a class="back-home" href="../index.html">← ホームに戻る</a>
+</main>
+
+<footer><span class="fmark">🌱</span>&nbsp; SEEDS for FUTURE Patients &nbsp;·&nbsp; よりよい未来への種づくり</footer>
+
+<script src="../assets/js/main.js"></script>
+<script>
+/* ===== お知らせデータ（ここに1件ずつ足すだけ） =====
+   type: accepted / published / presented / award
+   link は任意（無い場合は '' か省略） */
+const NEWS = [
+  { date:'', type:'accepted', journal:'', title:'今後、Acceptされた論文情報を更新します。', link:'' }
+];
+
+const LABEL = { accepted:'Accepted', published:'Published', presented:'学会発表', award:'受賞' };
+function esc(s){ return String(s).replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+
+document.getElementById('news-list').innerHTML = NEWS.map(n => {
+  const link = n.link ? `<a class="news-link t-${n.type}" href="${esc(n.link)}" target="_blank" rel="noopener">論文を見る →</a>` : '';
+  const ym = n.date ? esc(n.date).replace('-', '. ') : '';
+  const dateEl = n.date ? `<span class="news-date">${ym}</span>` : '';
+  const badgeEl = n.date ? `<span class="news-badge t-${n.type}">${LABEL[n.type]}</span>` : '';
+  const topEl = (dateEl || badgeEl) ? `<div class="news-top">${dateEl}${badgeEl}</div>` : '';
+  const journalEl = n.journal ? `<div class="news-journal"><b>${esc(n.journal)}</b></div>` : '';
+  return `<article class="news-item t-${n.type}">
+    <div class="news-node">
+      <svg class="news-bloom t-${n.type}" viewBox="0 0 40 40" fill="currentColor" aria-hidden="true">
+        <g>
+          <ellipse cx="20" cy="8"  rx="5.5" ry="9"/>
+          <ellipse cx="32" cy="16" rx="5.5" ry="9" transform="rotate(72 32 16)"/>
+          <ellipse cx="27" cy="31" rx="5.5" ry="9" transform="rotate(144 27 31)"/>
+          <ellipse cx="13" cy="31" rx="5.5" ry="9" transform="rotate(216 13 31)"/>
+          <ellipse cx="8"  cy="16" rx="5.5" ry="9" transform="rotate(288 8 16)"/>
+        </g>
+        <circle cx="20" cy="20" r="5" fill="#fff9e8"/>
+      </svg>
+      <svg class="news-bud" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 22 L12 12" stroke="#2f7d34" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+        <path d="M12 14 C5 14 1 10 1 4 C8 4 12 8 12 14 Z" fill="#63bd57"/>
+        <path d="M12 12 C19 12 23 8 23 2 C16 2 12 6 12 12 Z" fill="#7ccf6f"/>
+      </svg>
+    </div>
+    <div class="news-card">
+      ${topEl}
+      ${journalEl}
+      <div class="news-title">${esc(n.title)}</div>
+      ${link}
+    </div>
+  </article>`;
+}).join('');
+
+/* 出現アニメ */
+const nio = new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');nio.unobserve(e.target);}});},{threshold:.2});
+document.querySelectorAll('.news-item').forEach(el=>nio.observe(el));
+</script>
+</body>
+</html>
