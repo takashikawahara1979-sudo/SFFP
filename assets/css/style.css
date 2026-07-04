@@ -276,6 +276,15 @@ nav a:hover::after, nav a[aria-current="page"]::after { width: 100%; }
 .trials .item { border-left-color: var(--trials); }
 .video .item { border-left-color: var(--video); }
 .item h4 { font-family: var(--font-pen); font-weight: 600; font-size: 1.1rem; margin-bottom: 6px; }
+.item-link { display: block; text-decoration: none; color: inherit; }
+.item-link .more { display: inline-block; margin-top: 10px; font-family: var(--font-pen); color: var(--research); font-size: .9rem; }
+.item-link:hover .more { text-decoration: underline; }
+.study-block { margin-bottom: 40px; }
+.study-block h3 { font-family: var(--font-pen); font-weight: 600; font-size: 1.2rem; color: var(--ink); margin: 0 0 14px; }
+.study-fig { margin: 0 0 16px; }
+.study-fig img { width: 100%; border-radius: 16px; background: #fff; box-shadow: 0 14px 34px -18px rgba(60,80,60,.5); }
+.study-script { background: #fff; border-radius: 16px; padding: 22px 24px; box-shadow: 0 12px 30px -22px rgba(60,80,60,.45); }
+.study-script p { color: #4a564d; line-height: 2; letter-spacing: .02em; }
 .item .meta { font-family: var(--font-latin); font-size: .78rem; letter-spacing: .08em; color: var(--ink-soft); margin-bottom: 8px; }
 .item p { color: var(--ink-soft); line-height: 1.8; font-size: .92rem; }
 .case-list { margin: 12px 0 0; padding-left: 1.2em; color: var(--ink-soft); line-height: 1.95; font-size: .92rem; }
