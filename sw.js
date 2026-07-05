@@ -1,7 +1,7 @@
 /* SEEDS for FUTURE Patients — Service Worker
    ページを一度開くと内容をキャッシュし、次回以降やオフラインでも表示できます。
    ファイルを更新したら、下の CACHE の数字（v1 → v2 …）を上げてください。 */
-const CACHE = 'seeds-v30';
+const CACHE = 'seeds-v33';
 const ASSETS = [
   'index.html',
   'research/index.html',
