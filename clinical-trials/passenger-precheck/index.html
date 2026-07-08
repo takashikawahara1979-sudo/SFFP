@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PASenger試験 プレチェック | SEEDS for FUTURE Patients</title>
+<meta name="description" content="PASenger試験の適格性を、順番に選択して簡易チェックできます。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Yomogi&family=Klee+One:wght@400;600&family=Zen+Kurenaido&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+<meta name="theme-color" content="#6fa6d6" />
+<link rel="manifest" href="../../manifest.json" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="SEEDS" />
+<link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png" />
+<link rel="stylesheet" href="../../assets/css/style.css" />
+<style>
+  .pc-wrap { max-width: 640px; margin: 0 auto; }
+  .pc-intro { color: var(--ink-soft); line-height: 1.9; margin-bottom: 8px; }
+  .pc-progress { display: flex; gap: 6px; margin: 22px 0 20px; }
+  .pc-progress span { flex: 1; height: 6px; border-radius: 999px; background: #e3ddcc; transition: background .3s; }
+  .pc-progress span.done { background: var(--research); }
+  .pc-progress span.cur { background: var(--sprout); }
+
+  .pc-card { background: #fff; border-radius: 22px; padding: 26px 24px; box-shadow: 0 18px 40px -22px rgba(60,80,60,.5); animation: pcIn .4s cubic-bezier(.2,.8,.3,1); }
+  @keyframes pcIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  .pc-step { font-family: var(--font-latin); font-weight: 700; letter-spacing: .1em; font-size: .8rem; color: var(--sprout-deep); }
+  .pc-q { font-family: var(--font-pen); font-weight: 600; font-size: 1.2rem; color: var(--ink); line-height: 1.6; margin: 8px 0 14px; }
+  .pc-detail { background: #f6f2e7; border-radius: 14px; padding: 14px 16px; margin-bottom: 20px; }
+  .pc-detail ul { margin: 0; padding-left: 1.1em; color: #4a564d; line-height: 1.8; font-size: .9rem; }
+  .pc-detail li { margin-bottom: 10px; }
+  .pc-detail li b { color: var(--research); }
+  .pc-detail .annot { margin-top: 8px; font-size: .82rem; color: #6b7768; }
+
+  .pc-opts { display: flex; flex-direction: column; gap: 12px; }
+  .pc-opt { text-align: left; background: #fff; border: 2px solid #e3ddcc; border-radius: 16px; padding: 16px 18px; font-family: var(--font-pen); font-size: 1.02rem; color: var(--ink); cursor: pointer; transition: transform .18s, border-color .18s, background .18s; }
+  .pc-opt:hover { transform: translateY(-2px); border-color: var(--sprout); background: #f6faf3; }
+  .pc-opt .sub { display: block; font-family: var(--font-hand); font-size: .82rem; color: var(--ink-soft); margin-top: 2px; }
+
+  .pc-back { margin-top: 18px; background: none; border: none; color: var(--ink-soft); font-family: var(--font-pen); cursor: pointer; font-size: .95rem; padding: 6px 2px; }
+  .pc-back:hover { color: var(--ink); }
+  .pc-back[disabled] { opacity: .35; cursor: default; }
+
+  /* 結果 */
+  .pc-result { animation: pcIn .45s cubic-bezier(.2,.8,.3,1); }
+  .pc-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-pen); font-weight: 600; padding: 8px 18px; border-radius: 999px; font-size: 1rem; margin-bottom: 16px; }
+  .pc-badge.ok { background: #e7f4e5; color: #2f7d34; }
+  .pc-badge.ng { background: #fbe7e2; color: #b5512f; }
+  .pc-result h2 { font-family: var(--font-brush); font-size: clamp(1.5rem,4.5vw,2rem); color: var(--ink); line-height: 1.5; margin-bottom: 12px; }
+  .pc-result p { color: #4a564d; line-height: 1.95; }
+  .pc-reasons { list-style: none; margin: 18px 0 0; padding: 0; }
+  .pc-reasons li { background: #fff6f3; border-left: 5px solid #d98a6a; border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; color: #7a4a3a; line-height: 1.8; font-size: .92rem; }
+  .pc-reasons li b { color: #b5512f; }
+  .pc-note { margin-top: 20px; font-size: .84rem; color: #94a08d; line-height: 1.8; }
+  .pc-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+  .pc-retry { background: var(--sprout); color: #fff; border: none; border-radius: 14px; padding: 13px 24px; font-family: var(--font-pen); font-weight: 600; font-size: 1rem; cursor: pointer; }
+  .pc-retry:hover { filter: brightness(1.05); }
+  .pc-link { display: inline-flex; align-items: center; padding: 13px 20px; border-radius: 14px; border: 2px solid #e3ddcc; font-family: var(--font-pen); text-decoration: none; color: var(--ink); }
+</style>
+</head>
+<body class="research">
+
+<section class="subhero sky trials">
+  <div class="sun-glow"></div>
+  <div class="clouds" aria-hidden="true"><div class="cloud c1"></div><div class="cloud c3"></div></div>
+  <div class="falling" data-count="6" aria-hidden="true"></div>
+
+  <header>
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 44 C24 34 24 26 24 22" stroke="#3f8f42" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M24 24 C14 24 8 18 8 10 C18 10 24 16 24 24 Z" fill="#63bd57"/><path d="M24 20 C34 20 40 14 40 6 C30 6 24 12 24 20 Z" fill="#7ccf6f"/></svg>
+      <div class="brand-text"><div class="name">SEEDS for FUTURE Patients</div><div class="tag">よりよい未来への種づくり</div></div>
+    </div>
+    <nav>
+      <button class="nav-toggle" id="navToggle" aria-label="メニュー" aria-expanded="false"><span></span></button>
+      <ul id="navList">
+        <li><a href="../../index.html">ホーム</a></li>
+        <li><a href="../../research/">研究</a></li>
+        <li><a href="../../case-reports/">症例報告</a></li>
+        <li><a href="../" aria-current="page">臨床治験</a></li>
+        <li><a href="../../videos/">動画</a></li>
+        <li><a href="../../news/">News</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="subhero-body">
+    <div class="eyebrow">CLINICAL TRIALS</div>
+    <h1 class="page-title">PASenger試験 プレチェック</h1>
+    <p class="page-lede">かんたんな質問に順番に答えると、対象となる可能性を簡易チェックできます。</p>
+    <div class="accent-line"></div>
+  </div>
+</section>
+
+<main class="content">
+  <div class="pc-wrap">
+    <p class="pc-intro">医療者向けの簡易チェックです。最後まで回答すると結果が表示されます。</p>
+    <div class="pc-progress" id="pcProgress" aria-hidden="true"></div>
+    <div id="pcStage"></div>
+    <p class="pc-note">※ このチェックはあくまで目安です。最終的な適格性はスクリーニング検査により決まります。判断に迷う場合や詳細は、メールでお問い合わせください。</p>
+  </div>
+</main>
+
+<footer><span class="fmark">🌱</span>&nbsp; SEEDS for FUTURE Patients &nbsp;·&nbsp; よりよい未来への種づくり</footer>
+
+<script src="../../assets/js/main.js"></script>
+<script>
+/* ===== 質問定義 =====
+   各選択肢 exclude:true = その回答だと治験参加できない（除外/非該当） */
+const QUESTIONS = [
+  {
+    step: 'Q1',
+    q: '前立腺腺癌であると、組織学的に確定診断されていますか？',
+    options: [
+      { label: 'はい' },
+      { label: 'いいえ', exclude: true,
+        reason: '前立腺腺癌の組織学的な確定診断が必要です。確定診断がない場合は対象外となります。' }
+    ]
+  },
+  {
+    step: 'Q2',
+    q: '現在、転移性（リンパ節・骨・内臓）ですか？',
+    options: [
+      { label: 'はい' },
+      { label: 'いいえ', exclude: true,
+        reason: '現在、転移性（リンパ節・骨・内臓）であることが必要です。非転移の場合は対象外となります。' }
+    ]
+  },
+  {
+    step: 'Q3',
+    q: '進行性（下記の定義を1つ以上有する）ですか？',
+    detail: `<ul>
+      <li>A）PSA 値が 2 ng/mL 以上で、1週間以上の間隔をおいて2回以上連続して上昇した。</li>
+      <li>B）リンパ節・骨・内臓における疾患進行、または新たな病変。</li>
+    </ul>`,
+    options: [
+      { label: 'はい（1つ以上有する）' },
+      { label: 'いいえ', exclude: true,
+        reason: '進行性疾患（A または B）を1つ以上有することが必要です。該当しない場合は対象外となります。' }
+    ]
+  },
+  {
+    step: 'Q4',
+    q: 'PSA が 2 ng/mL 以上ですか？',
+    options: [
+      { label: 'はい（2 ng/mL 以上）' },
+      { label: 'いいえ', exclude: true,
+        reason: 'PSA が 2 ng/mL 以上であることが必要です。' }
+    ]
+  },
+  {
+    step: 'Q5',
+    q: 'ARPI 治療の状況について、下記の両方に当てはまりますか？',
+    detail: `<ul>
+      <li>少なくとも1種類の ARPI（アンドロゲン受容体経路阻害薬）治療で進行がみられた。</li>
+      <li>いずれの病期でも、2種類以下の異なる ARPI しか投与されていない。</li>
+    </ul>`,
+    options: [
+      { label: 'はい（両方に当てはまる）' },
+      { label: 'いいえ', exclude: true,
+        reason: '「1種類以上の ARPI で進行」かつ「異なる ARPI は2種類以下」の両方を満たす必要があります。満たさない場合は対象外となります。' }
+    ]
+  },
+  {
+    step: 'Q6',
+    q: 'いずれの状況でも、細胞毒性化学療法（ドセタキセル、カバジタキセル等）を受けていませんか？',
+    options: [
+      { label: 'はい（受けていない）' },
+      { label: 'いいえ（受けたことがある）', exclude: true,
+        reason: '細胞毒性化学療法（ドセタキセル、カバジタキセル等）を受けている場合は対象外となります。' }
+    ]
+  },
+  {
+    step: 'Q7',
+    q: '下記のいずれにも該当しませんか？',
+    detail: `<ul>
+      <li>過去24か月に進行した、または治療の変更を必要とした悪性腫瘍の罹患歴がある。</li>
+      <li>生活保護受給者である。</li>
+      <li>重大な肝障害（正常上限5倍以上）・腎障害（eGFR &lt; 30 mL/min）・心疾患・その他の著明な採血異常などがある。</li>
+    </ul>`,
+    options: [
+      { label: 'すべて該当しない' },
+      { label: '該当するものがある', exclude: true,
+        reason: '「過去24か月に進行/治療変更を要した悪性腫瘍」「生活保護受給」「重大な肝障害（正常上限5倍以上）・腎障害（eGFR<30）・心疾患・著明な採血異常など」のいずれかに該当する場合は、除外基準に該当します。' }
+    ]
+  }
+];
+
+const stage = document.getElementById('pcStage');
+const prog = document.getElementById('pcProgress');
+let idx = 0;
+const answers = [];
+
+// 進捗バー生成
+QUESTIONS.forEach(() => { const s = document.createElement('span'); prog.appendChild(s); });
+function updateProgress(){
+  [...prog.children].forEach((el,i)=>{ el.className = i < idx ? 'done' : (i===idx ? 'cur' : ''); });
+}
+
+function renderQuestion(){
+  updateProgress();
+  const item = QUESTIONS[idx];
+  const detail = item.detail ? `<div class="pc-detail">${item.detail}</div>` : '';
+  const opts = item.options.map((o,i)=>`<button class="pc-opt" data-i="${i}">${o.label}</button>`).join('');
+  stage.innerHTML = `
+    <div class="pc-card">
+      <div class="pc-step">${item.step} ・ ${idx+1} / ${QUESTIONS.length}</div>
+      <div class="pc-q">${item.q}</div>
+      ${detail}
+      <div class="pc-opts">${opts}</div>
+      <button class="pc-back" ${idx===0?'disabled':''}>← 前の質問にもどる</button>
+    </div>`;
+  stage.querySelectorAll('.pc-opt').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      answers[idx] = parseInt(btn.dataset.i,10);
+      if(idx < QUESTIONS.length - 1){ idx++; renderQuestion(); }
+      else { renderResult(); }
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+  const back = stage.querySelector('.pc-back');
+  back.addEventListener('click', ()=>{ if(idx>0){ idx--; renderQuestion(); window.scrollTo({top:0,behavior:'smooth'}); } });
+}
+
+function renderResult(){
+  [...prog.children].forEach(el=>el.className='done');
+  const fails = [];
+  QUESTIONS.forEach((item,i)=>{
+    const opt = item.options[answers[i]];
+    if(opt && opt.exclude){ fails.push({ step:item.step, reason:opt.reason }); }
+  });
+
+  if(fails.length === 0){
+    stage.innerHTML = `
+      <div class="pc-card pc-result">
+        <span class="pc-badge ok">🌱 適格症例の可能性が高いです</span>
+        <h2>適格症例の可能性が高いです。<br>ぜひご紹介ください。</h2>
+        <p>最終的な適格性はスクリーニング検査により決まりますので、対象とならない可能性もあることをご了承ください。</p>
+        <div class="pc-actions">
+          <button class="pc-retry" id="pcRetry">もう一度チェックする</button>
+          <a class="pc-link" href="../">← 臨床治験にもどる</a>
+        </div>
+      </div>`;
+  } else {
+    const items = fails.map(f=>`<li><b>${f.step}</b>：${f.reason}</li>`).join('');
+    stage.innerHTML = `
+      <div class="pc-card pc-result">
+        <span class="pc-badge ng">対象外の可能性があります</span>
+        <h2>今回は対象とならない可能性があります。</h2>
+        <p>下記が、治験に参加できない基準に該当します。</p>
+        <ul class="pc-reasons">${items}</ul>
+        <p class="pc-note">判断に迷う場合や、状況が変わった場合は、メールでお問い合わせください。</p>
+        <div class="pc-actions">
+          <button class="pc-retry" id="pcRetry">もう一度チェックする</button>
+          <a class="pc-link" href="../">← 臨床治験にもどる</a>
+        </div>
+      </div>`;
+  }
+  document.getElementById('pcRetry').addEventListener('click', ()=>{
+    idx = 0; answers.length = 0; renderQuestion(); window.scrollTo({top:0,behavior:'smooth'});
+  });
+}
+
+renderQuestion();
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () { navigator.serviceWorker.register("../../sw.js").catch(function () {}); });
+}
+</script>
+</body>
+</html>

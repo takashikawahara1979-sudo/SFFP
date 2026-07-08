@@ -68,12 +68,18 @@
   .tbtn:hover { transform: translateY(-2px); filter: brightness(1.05); }
   .tbtn-disabled { background: #c3bca8; cursor: default; }
   .tbtn-disabled:hover { transform: none; filter: none; }
+  .tbtn-group { display: flex; flex-wrap: wrap; gap: 10px; }
 
   /* 詳細 */
   .dsec { background: #fff; border-radius: 16px; padding: 20px 22px; margin-bottom: 14px; box-shadow: 0 12px 30px -22px rgba(60,80,60,.5); }
   .dsec h5 { font-family: var(--font-pen); font-weight: 600; font-size: 1rem; color: var(--research); margin-bottom: 10px; }
   .dsec ul { margin: 0; padding-left: 1.1em; color: #4a564d; line-height: 1.85; }
   .dsec p { color: #4a564d; line-height: 1.85; }
+  .dsec ul ul { margin-top: 6px; }
+  .t-list { margin: 0; padding-left: 1.2em; color: #4a564d; line-height: 1.8; }
+  .t-list li { margin-bottom: 12px; }
+  .t-list b { color: var(--research); }
+  .t-annot { margin-top: 12px; font-size: .86rem; color: #6b7768; line-height: 1.85; background: #f3f8ef; border-radius: 10px; padding: 12px 14px; }
   .cta { width: 100%; margin-top: 8px; background: var(--research); color: #fff; font-family: var(--font-pen); font-weight: 600; font-size: 1.05rem; border: none; border-radius: 16px; padding: 16px; cursor: pointer; transition: transform .2s, filter .2s; }
   .cta:hover { transform: translateY(-2px); filter: brightness(1.05); }
   .contact { display: none; margin-top: 14px; background: #f3f8ef; border: 1px dashed var(--research); border-radius: 14px; padding: 16px 18px; color: #3a4a3f; line-height: 1.9; font-size: .92rem; }
@@ -195,14 +201,103 @@ const CANCERS = {
         target: ['mCSPC のファーストラインの方'],
         summary: 'ENZ＋EZH阻害剤 と ENZ を比較する試験です。',
         period: '2026年〜（募集中）', place: '当院 泌尿器科' },
-      { id: 'p3', status: 'open', detail: false, name: 'mCRPC のファーストライン',
+      { id: 'p3', status: 'open', name: 'mCRPC のファーストライン',
         target: ['mCRPC のファーストラインの方'],
         summary: 'CYP19A阻害剤、EZH阻害剤、免疫抗体複合体などの試験を行っております。試験によっては遺伝子のスクリーニングがある試験もあります。いずれも対照群は現在の標準治療になります。',
-        period: '2026年〜（募集中）', place: '当院 泌尿器科' },
-      { id: 'p4', status: 'open', detail: false, name: 'mCRPC の Late Line の臨床試験',
+        period: '2026年〜（募集中）', place: '当院 泌尿器科',
+        buttons: [ { label: 'PASenger試験', sub: 'passenger' }, { label: 'その他の試験（準備中）', disabled: true } ],
+        details: {
+          passenger: { name: 'PASenger試験',
+            html: `
+    <figure class="study-fig" style="margin-bottom:18px;"><img src="../assets/research-img/passenger.jpg" alt="月夜の雲を進む牛車とうさぎ（PASenger試験のイメージ）" loading="lazy" /></figure>
+    <div class="dsec">
+      <h5>適格基準</h5>
+      <ul>
+        <li>前立腺腺癌であると、組織学的に確定診断されている。</li>
+        <li>治験責任（分担）医師により、転移性（リンパ節・骨・内臓）であると判定された。</li>
+        <li>進行性疾患（下記のいずれか）を1つ以上有する。
+          <ul>
+            <li>A）PSA 値が 2 ng/mL 以上で、1週間以上の間隔をおいて2回以上連続して上昇した。</li>
+            <li>B）内科的または外科的去勢の期間における、RECIST v1.1 で定義されたリンパ節・骨・内臓の疾患進行または新たな病変、および/または PCWG3 による骨スキャンでの病変。</li>
+          </ul>
+        </li>
+        <li>少なくとも1種類のアンドロゲン受容体経路阻害薬（ARPI）治療で進行がみられたが、いずれの病期においても2種類以下の異なる ARPI しか投与されていない。</li>
+        <li>前立腺癌の治療の一環として、いずれの状況でも細胞毒性化学療法（ドセタキセル、カバジタキセル等）を受けていない。</li>
+        <li>ECOG performance status が 0〜1 である。</li>
+      </ul>
+      <p class="t-annot">※ B）の場合でも、PSA が 2 ng/mL 以上であることが必要です。</p>
+    </div>
+    <div class="dsec">
+      <h5>被験群・対照群</h5>
+      <p><b>被験群：</b>Pasritamig ＋ ドセタキセル<br>
+        <b>対照群：</b>ドセタキセル ＋ プレドニゾロン</p>
+      <p>割り付けは <b>1（被験群）：1（対照群）</b> です。</p>
+    </div>
+    <div class="dsec">
+      <h5>予定のエントリー期間</h5>
+      <p>2027年7月まで（短くなる可能性があります）。</p>
+    </div>
+    <a class="cta" href="passenger-precheck/" style="display:block;text-align:center;text-decoration:none;">対象になる患者かプレチェックを行ってみる</a>` }
+        } },
+      { id: 'p4', status: 'open', name: 'mCRPC の Late Line の臨床試験',
         target: ['各種治療後の Late Line の mCRPC 患者さん'],
         summary: 'Phase1 および Phase3 の免疫抗体複合体を用いた臨床試験を行っております。',
-        period: '2026年〜（募集中）', place: '当院 泌尿器科' }
+        period: '2026年〜（募集中）', place: '当院 泌尿器科',
+        buttons: [ { label: 'comPAS試験', sub: 'compas' }, { label: 'その他の試験（準備中）', disabled: true } ],
+        details: {
+          compas: { name: 'comPAS試験',
+            html: `
+    <figure class="study-fig" style="margin-bottom:18px;"><img src="../assets/research-img/compas.jpg" alt="月夜の海辺で方位磁針を持つうさぎ（comPAS試験のイメージ）" loading="lazy" /></figure>
+    <div class="dsec">
+      <h5>適格基準</h5>
+      <ul>
+        <li>前立腺腺癌であると、組織学的に確定診断されている。</li>
+        <li><b>mCRPC：</b>従来の画像診断（CT または MRI：胸部・腹部・骨盤）および 99mTc 骨シンチグラフィにより、骨・リンパ節・またはその両方に転移しており、その他の明確な転移部位が確認されない（<b>内臓転移がある場合は不適格</b>）。</li>
+        <li>PSA が 2 ng/mL 以上。</li>
+        <li>治験責任（分担）医師が、次善の治療選択肢は臨床試験であると判断している。</li>
+        <li>利用可能なすべての延命治療を受けており、治験責任（分担）医師が臨床的に適格と判断する。前治療はどのような状態（mCRPC に限定されない）で行われていてもよい。</li>
+      </ul>
+      <p class="t-annot">前治療の詳細（該当するもの）：</p>
+      <ul>
+        <li><b>A）ARPI：</b>1ライン以上の ARPI で進行が認められ、他の ARPI による再治療でベネフィットが得られる可能性が低い。</li>
+        <li><b>B）タキサン系薬剤：</b>タキサン系を含む2レジメン以上の前治療歴を有する。次の場合は1レジメンでも組み入れ可：
+          <ul>
+            <li>a. カバジタキセルが入手不可。</li>
+            <li>b. 毒性リスクや前治療の忍容性の懸念により、担当医が2レジメン目のタキサンは適切でないと判断。</li>
+          </ul>
+          <span class="t-annot" style="display:block;margin-top:6px;">※ タキサンのレジメンは、2か月の間に2サイクル以上の投与とする。グレード3以上のタキサン関連 IRR により継続できない場合は、2サイクル未満でも登録対象。</span>
+        </li>
+        <li><b>C）放射性リガンド療法：</b>PSMA を標的とした lutetium 放射性リガンド療法（例：lutetium Lu-177 vipivotide tetraxetan）を1回以上受けたことがある。ただし次を除く：
+          <ul>
+            <li>a. 当該療法が利用不可・入手不可、または臨床的に適応とならない。</li>
+            <li>b. 担当医が実施は適切でないと判断。</li>
+          </ul>
+        </li>
+        <li><b>D）PARP阻害薬：</b>既知の生殖細胞系列または体細胞 BRCA 遺伝子変異を有し、PARP 阻害薬が利用可能な場合は、PARP 阻害薬による治療歴を有していなければならない。</li>
+      </ul>
+      <p class="t-annot">検査値（すべて満たすこと）：</p>
+      <ul>
+        <li>ECOG performance status が 0〜2。</li>
+        <li>eGFR ≥ 30 mL/min。</li>
+        <li>ALT・AST ≤ 5×基準値上限（ULN）。</li>
+        <li>血清総ビリルビン ≤ 3×ULN。</li>
+        <li>好中球絶対数（ANC）≥ 1.0×10⁹/L。</li>
+        <li>ヘモグロビン ≥ 8.0 g/dL。</li>
+        <li>血小板数 ≥ 75×10⁹/L。</li>
+      </ul>
+    </div>
+    <div class="dsec">
+      <h5>被験群・対照群</h5>
+      <p><b>被験群：</b>Pasritamig ＋ ベストサポーティブケア<br>
+        <b>対照群：</b>プラセボ ＋ ベストサポーティブケア</p>
+      <p>割り付けは <b>2（被験群）：1（対照群）</b> です。</p>
+    </div>
+    <div class="dsec">
+      <h5>予定のエントリー期間</h5>
+      <p>2026年11月〜12月まで。</p>
+    </div>
+    <a class="cta" href="compas-precheck/" style="display:block;text-align:center;text-decoration:none;">対象になる患者かプレチェックを行ってみる</a>` }
+        } }
     ]
   },
   uro: {
@@ -210,10 +305,52 @@ const CANCERS = {
     sub: '現在募集中の試験です。',
     note: '※ 適格基準の詳細や最新の募集状況は、メールでお問い合わせください。',
     trials: [
-      { id: 'u1', status: 'open', detail: false, name: 'MoonRISe-3試験',
+      { id: 'u1', status: 'open', detail: true, name: 'MoonRISe-3試験',
         target: ['BCG抵抗性の High Risk NMIBC（CISは除く）の方', 'BCGに耐えられない（導入4回までで終了）方'],
         summary: '組織でFGFRの変異があった方を対象に、膀胱内FGFR阻害剤の溶出デバイス治療と、膀胱内抗がん剤注入とを比較する試験です。',
-        period: '2026年〜（募集中）', place: '当院 泌尿器科' }
+        period: '2026年〜（募集中）', place: '当院 泌尿器科',
+        detailHtml: `
+    <figure class="study-fig" style="margin-bottom:18px;"><img src="../assets/research-img/moonrise-bunny.jpg" alt="月夜の海辺のうさぎ" loading="lazy" /></figure>
+    <div class="dsec">
+      <h5>対象となる方（いずれか）</h5>
+      <ol class="t-list">
+        <li><b>BCG抵抗性の High-Risk NMIBC（CIS を除く）</b><br>
+          BCG導入療法を5回以上おこない（維持療法の有無は問わない）、最終投与から12か月以内に HG Ta または T1 として再発した方。</li>
+        <li><b>BCG が続けられなかった方（再発あり）</b><br>
+          BCG の副作用のため導入療法が4回以下で中止となり、最終投与から12か月以内に HG Ta または T1 として再発した方。</li>
+        <li><b>BCG が続けられなかった方（再発なし）</b><br>
+          初発または再発の High-Risk NMIBC（CIS を除く）に対する BCG導入療法が、副作用のため4回以下で中止となった、未再発の方。</li>
+      </ol>
+      <p class="t-annot">・FGFR の解析には、保存されている腫瘍検体を用います。<br>
+        ・T1 の場合、筋層浸潤（MIBC）を除外するため、検体内に固有筋層が含まれている必要があります。<br>
+        ・過去の CIS の既往は許容されます（直近の病理診断で CIS が除外されている必要があります）。</p>
+    </div>
+
+    <div class="dsec">
+      <h5>主な除外基準</h5>
+      <ul>
+        <li>筋層浸潤性・局所進行性・切除不能・転移性の尿路上皮癌（T2, T3, T4, N+, および/または M+）を有する、またはその既往がある方。</li>
+        <li>膀胱外に腫瘍のある上部尿路（腎盂・尿管を含む）の尿路上皮癌。ただし、ランダム化の24か月より前に腎尿管全摘除術で治療され、再発の所見がなければ組み入れ可能です。</li>
+        <li>過去24か月に進行した、または治療の変更を要した悪性腫瘍の既往。次の場合は組み入れ可能となることがあります：
+          <ul>
+            <li>過去12か月間に進行せず、治療の変更も要さなかった（かつ全身療法を要する再発リスクが高いとみなされない）悪性腫瘍。</li>
+            <li>過去12か月以内に治療を受け、再発リスクが極めて低いと考えられる悪性腫瘍。</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="dsec">
+      <h5>被験群・対照群</h5>
+      <p><b>被験群：</b>膀胱内 FGFR 阻害剤の溶出デバイス治療<br>
+        <b>対照群：</b>ゲムシタビン または マイトマイシンC の膀胱内注入</p>
+      <p>割り付けは <b>1（被験群）：1（対照群）</b> です。</p>
+    </div>
+
+    <div class="dsec">
+      <h5>予定のエントリー期間</h5>
+      <p>2027年3月まで（短くなる可能性があります）。</p>
+    </div>` }
     ]
   },
   kidney: {
@@ -253,10 +390,17 @@ function renderList(key){
   const body = document.getElementById('list-body');
   body.innerHTML = c.trials.map(t => {
     const s = STATUS[t.status];
-    const btn = t.status === 'closed' ? '' :
-      (t.detail === false
-        ? '<span class="tbtn tbtn-disabled">詳細をみる（準備中）</span>'
-        : `<button class="tbtn" data-detail="${key}/${t.id}">詳細を見る</button>`);
+    let btn;
+    if(t.status === 'closed'){ btn = ''; }
+    else if(t.buttons){
+      btn = '<div class="tbtn-group">' + t.buttons.map(b =>
+        b.disabled
+          ? `<span class="tbtn tbtn-disabled">${esc(b.label)}</span>`
+          : `<button class="tbtn" data-detail="${key}/${t.id}/${b.sub}">${esc(b.label)}</button>`
+      ).join('') + '</div>';
+    }
+    else if(t.detail === false){ btn = '<span class="tbtn tbtn-disabled">詳細をみる（準備中）</span>'; }
+    else { btn = `<button class="tbtn" data-detail="${key}/${t.id}">詳細を見る</button>`; }
     return `<article class="tcard ${t.status==='closed'?'closed':''}">
       <span class="badge ${s.c}">${s.t}</span>
       <h4>${esc(t.name)}</h4>
@@ -266,32 +410,39 @@ function renderList(key){
     </article>`;
   }).join('');
 }
-function renderDetail(key, id){
+function renderDetail(key, id, sub){
   const c = CANCERS[key]; if(!c){ location.hash = ''; return; }
   const t = c.trials.find(x => x.id === id); if(!t){ location.hash = 'list/'+key; return; }
   const s = STATUS[t.status];
+
+  // サブ試験（例：PASenger / comPAS）の詳細
+  if(sub && t.details && t.details[sub]){
+    const d = t.details[sub];
+    document.getElementById('detail-body').innerHTML = `
+      <span class="badge ${s.c}">${s.t}</span>
+      <h2 class="f-title">${esc(d.name)}</h2>
+      <p class="f-sub">${esc(c.label)}</p>
+      ${d.html}`;
+    return;
+  }
+
+  const mid = t.detailHtml ? t.detailHtml : `
+    <div class="dsec"><h5>対象となる方</h5><ul>${t.target.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+    <div class="dsec"><h5>治療の概要</h5><p>${esc(t.summary)}</p></div>
+    <div class="dsec"><h5>実施期間・場所</h5><p>${esc(t.period)}／${esc(t.place)}</p></div>`;
   document.getElementById('detail-body').innerHTML = `
     <span class="badge ${s.c}">${s.t}</span>
     <h2 class="f-title">${esc(t.name)}</h2>
     <p class="f-sub">${esc(c.label)}</p>
-    <div class="dsec"><h5>対象となる方</h5><ul>${t.target.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
-    <div class="dsec"><h5>治療の概要</h5><p>${esc(t.summary)}</p></div>
-    <div class="dsec"><h5>実施期間・場所</h5><p>${esc(t.period)}／${esc(t.place)}</p></div>
-    <button class="cta" id="ctaBtn">この試験について問い合わせる</button>
-    <div class="contact" id="contactBox">
-      担当医・治験コーディネーターにおつなぎします。<br>
-      受付：平日 9:00〜17:00　電話：000-0000-0000<br>
-      （※ 連絡先は実際のものに差し替えてください）
-    </div>`;
-  const cta = document.getElementById('ctaBtn');
-  cta.addEventListener('click', () => document.getElementById('contactBox').classList.toggle('show'));
+    ${mid}
+    <a class="cta" id="ctaBtn" href="moonrise3-precheck/" style="display:block;text-align:center;text-decoration:none;">対象になる患者かプレチェックを行ってみる</a>`;
 }
 
 function route(){
   const h = location.hash.replace(/^#/, '');
   const parts = h.split('/');
   if(parts[0] === 'list' && parts[1]){ renderList(parts[1]); show('list'); }
-  else if(parts[0] === 'detail' && parts[1] && parts[2]){ renderDetail(parts[1], parts[2]); show('detail'); }
+  else if(parts[0] === 'detail' && parts[1] && parts[2]){ renderDetail(parts[1], parts[2], parts[3]); show('detail'); }
   else { show('select'); }
 }
 
