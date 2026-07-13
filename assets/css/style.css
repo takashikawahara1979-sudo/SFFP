@@ -283,6 +283,10 @@ nav a:hover::after, nav a[aria-current="page"]::after { width: 100%; }
 .trials .item { border-left-color: var(--trials); }
 .video .item { border-left-color: var(--video); }
 .item h4 { font-family: var(--font-pen); font-weight: 600; font-size: 1.1rem; margin-bottom: 6px; }
+.item .new-tag { display: inline-block; margin-right: 8px; vertical-align: middle; font-family: var(--font-latin); font-weight: 700; font-size: .66rem; letter-spacing: .08em; color: #fff; background: var(--sprout); padding: 3px 8px; border-radius: 999px; animation: newPop .5s cubic-bezier(.2,.9,.3,1.5) both; }
+@keyframes newPop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.item.is-new { border-left: 5px solid var(--sprout); }
+@media (prefers-reduced-motion: reduce) { .item .new-tag { animation: none; } }
 .item-link { display: block; text-decoration: none; color: inherit; }
 .item-link .more { display: inline-block; margin-top: 10px; font-family: var(--font-pen); color: var(--research); font-size: .9rem; }
 .item-link:hover .more { text-decoration: underline; }
