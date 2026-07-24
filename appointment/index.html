@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>アポイント（デモ） | SEEDS for FUTURE Patients</title>
-<meta name="description" content="予約枠を選んで、お名前・ご連絡先・コメントを入力するデモ画面です。" />
+<title>アポイントのご依頼 | SEEDS for FUTURE Patients</title>
+<meta name="description" content="面談・ご相談のアポイントについてのご案内です。" />
+<meta name="robots" content="noindex, nofollow" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Yomogi&family=Klee+One:wght@400;600&family=Zen+Kurenaido&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -16,17 +17,39 @@
 <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png" />
 <link rel="stylesheet" href="../assets/css/style.css" />
 <style>
-  .ap-wrap { max-width: 620px; margin: 0 auto; }
-  .ap-intro { color: var(--ink-soft); line-height: 1.9; margin-bottom: 22px; text-align: center; }
-  .ap-card { background: #fff; border-radius: 22px; padding: 30px 26px; box-shadow: 0 18px 40px -22px rgba(60,80,60,.5); text-align: center; }
-  .ap-day { font-family: var(--font-pen); font-weight: 600; font-size: 1.25rem; color: var(--ink); margin-bottom: 16px; display: flex; align-items: center; justify-content: center; gap: 10px; }
-  .ap-day::before { content: '📅'; }
-  .ap-times { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 8px; }
-  .ap-times span { font-family: var(--font-latin); font-weight: 700; font-size: 1.35rem; color: var(--research); background: #eef4fa; border-radius: 12px; padding: 10px 18px; }
-  .ap-dur { font-family: var(--font-hand); font-size: .86rem; color: var(--ink-soft); margin-bottom: 24px; }
-  .ap-book { display: inline-block; background: var(--sprout); color: #fff; text-decoration: none; border-radius: 14px; padding: 16px 30px; font-family: var(--font-pen); font-weight: 600; font-size: 1.08rem; box-shadow: 0 12px 26px -14px rgba(63,143,66,.7); transition: transform .2s, filter .2s; }
+  .ap-wrap { max-width: 640px; margin: 0 auto; }
+
+  /* パスワード画面 */
+  .ap-lock { background: #fff; border-radius: 22px; padding: 34px 26px; box-shadow: 0 18px 40px -22px rgba(60,80,60,.5); text-align: center; }
+  .ap-lock .lk-mark { font-size: 2rem; }
+  .ap-lock h3 { font-family: var(--font-pen); font-weight: 600; font-size: 1.15rem; color: var(--ink); margin: 10px 0 8px; }
+  .ap-lock p { color: var(--ink-soft); line-height: 1.9; font-size: .92rem; margin-bottom: 20px; }
+  .ap-lock .lk-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .ap-lock input { border: 2px solid #e3ddcc; border-radius: 12px; padding: 13px 16px; font-family: var(--font-hand); font-size: 1rem; color: var(--ink); background: #fdfcf8; width: 200px; }
+  .ap-lock input:focus { outline: none; border-color: var(--sprout); }
+  .ap-lock button { background: var(--sprout); color: #fff; border: none; border-radius: 12px; padding: 13px 26px; font-family: var(--font-pen); font-weight: 600; font-size: 1rem; cursor: pointer; transition: filter .2s, transform .2s; }
+  .ap-lock button:hover { filter: brightness(1.05); transform: translateY(-2px); }
+  .ap-lock .lk-err { margin-top: 14px; color: #b5512f; font-family: var(--font-hand); font-size: .9rem; display: none; }
+  .ap-lock .lk-err.show { display: block; }
+
+  /* 案内本文 */
+  .ap-body { display: none; }
+  .ap-body.show { display: block; animation: apIn .45s cubic-bezier(.2,.8,.3,1); }
+  @keyframes apIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+  .ap-sec { background: #fff; border-radius: 20px; padding: 24px 24px; margin-bottom: 16px; box-shadow: 0 14px 34px -22px rgba(60,80,60,.5); }
+  .ap-sec h3 { font-family: var(--font-pen); font-weight: 600; font-size: 1.08rem; color: var(--research); margin-bottom: 12px; }
+  .ap-sec p { color: #4a564d; line-height: 1.95; }
+  .ap-sec ul { margin: 0; padding-left: 1.15em; color: #4a564d; line-height: 1.95; }
+  .ap-sec ul li { margin-bottom: 8px; }
+  .ap-steps { list-style: none; margin: 0; padding: 0; counter-reset: st; }
+  .ap-steps li { position: relative; padding-left: 42px; margin-bottom: 14px; color: #4a564d; line-height: 1.9; counter-increment: st; }
+  .ap-steps li::before { content: counter(st); position: absolute; left: 0; top: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--sprout); color: #fff; font-family: var(--font-latin); font-weight: 700; font-size: .85rem; display: grid; place-items: center; }
+
+  .ap-cta-box { text-align: center; padding: 30px 24px; }
+  .ap-book { display: inline-block; background: var(--sprout); color: #fff; text-decoration: none; border-radius: 16px; padding: 18px 34px; font-family: var(--font-pen); font-weight: 600; font-size: 1.1rem; box-shadow: 0 14px 30px -14px rgba(63,143,66,.7); transition: transform .2s, filter .2s; }
   .ap-book:hover { transform: translateY(-3px); filter: brightness(1.05); }
-  .ap-hint { margin-top: 22px; font-size: .82rem; color: #94a08d; line-height: 1.9; text-align: left; }
+  .ap-note { margin-top: 18px; font-size: .84rem; color: #94a08d; line-height: 1.9; text-align: left; }
 </style>
 </head>
 <body class="research">
@@ -56,27 +79,62 @@
 
   <div class="subhero-body">
     <div class="eyebrow">APPOINTMENT</div>
-    <h1 class="page-title">アポイントの予約（デモ）</h1>
-    <p class="page-lede">ご希望の枠を選んで、そのままオンラインでご予約いただけます。</p>
+    <h1 class="page-title">アポイントのご依頼</h1>
+    <p class="page-lede">ご相談・面談のお時間を、オンラインでご予約いただけます。</p>
     <div class="accent-line"></div>
   </div>
 </section>
 
 <main class="content">
   <div class="ap-wrap">
-    <p class="ap-intro">下のボタンから予約ページを開き、ご希望の枠を選んでご予約ください。お名前・ご連絡先・コメントもそちらでご記入いただけます。</p>
 
-    <div class="ap-card">
-      <div class="ap-day">2026年7月24日（金）</div>
-      <div class="ap-times">
-        <span>13:00</span><span>13:30</span><span>14:00</span>
+    <!-- パスワード -->
+    <div class="ap-lock" id="apLock">
+      <div class="lk-mark">🔒</div>
+      <h3>パスワードをご入力ください</h3>
+      <p>このページは、ご案内した方向けのページです。<br>お伝えしているパスワードをご入力ください。</p>
+      <div class="lk-row">
+        <input type="password" id="apPass" placeholder="パスワード" autocomplete="off" />
+        <button id="apOpen">ひらく</button>
       </div>
-      <div class="ap-dur">各 30分の枠です</div>
-      <a class="ap-book" href="https://calendar.app.google/rz6kF2WCHt9KxFPf9" target="_blank" rel="noopener">
-        予約ページを開く（空き状況の確認・予約）→
-      </a>
-      <p class="ap-hint">※ 予約ページは Google カレンダーの予約フォームが開きます。すでに埋まっている枠は自動的に表示されません（＝予約済みの管理は自動です）。ご予約が完了すると、確認メールが届きます。</p>
+      <div class="lk-err" id="apErr">パスワードが違うようです。もう一度お試しください。</div>
     </div>
+
+    <!-- 案内本文 -->
+    <div class="ap-body" id="apBody">
+      <div class="ap-sec">
+        <h3>ご案内</h3>
+        <p>研究のご相談、症例報告のお手伝い、臨床治験についてのご質問など、少しお話ししたいことがありましたら、下記からお時間をご予約ください。オンラインでも対面でも承ります。</p>
+      </div>
+
+      <div class="ap-sec">
+        <h3>ご予約の流れ</h3>
+        <ol class="ap-steps">
+          <li>下のボタンから、予約ページ（Google カレンダー）を開きます。</li>
+          <li>空いている日時の枠を選びます。埋まっている枠は表示されません。</li>
+          <li>お名前・ご連絡先・ご相談内容（コメント）をご記入ください。</li>
+          <li>ご予約が完了すると、確認メールが届きます。カレンダーへの追加もそこから行えます。</li>
+        </ol>
+      </div>
+
+      <div class="ap-sec">
+        <h3>お願いごと</h3>
+        <ul>
+          <li>1枠あたり 30分 を目安にしています。</li>
+          <li>ご相談内容を一言そえていただけると、当日スムーズです。</li>
+          <li>ご都合が変わった場合は、確認メールから変更・キャンセルができます。</li>
+          <li>枠が合わない場合は、メールでご相談ください。</li>
+        </ul>
+      </div>
+
+      <div class="ap-sec ap-cta-box">
+        <a class="ap-book" href="https://calendar.app.google/rz6kF2WCHt9KxFPf9" target="_blank" rel="noopener">
+          予約ページを開く（空き状況を見る）→
+        </a>
+        <p class="ap-note">※ Google カレンダーの予約ページが新しいタブで開きます。空き状況はリアルタイムで、すでに埋まっている枠は表示されません。ご予約はそのままカレンダーに登録され、確認メールが届きます。</p>
+      </div>
+    </div>
+
   </div>
 
   <a class="back-home" href="../index.html">← ホームに戻る</a>
@@ -86,6 +144,43 @@
 
 <script src="../assets/js/main.js"></script>
 <script>
+  var KEY = '1fbab9990313f5a9933d1c3382ae1db13206cc37b05026d4819e2a55b5a150b2';
+  var lock = document.getElementById('apLock');
+  var body = document.getElementById('apBody');
+  var pass = document.getElementById('apPass');
+  var err  = document.getElementById('apErr');
+
+  async function sha256(str) {
+    var buf = new TextEncoder().encode(str);
+    var digest = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(digest)).map(function (b) {
+      return b.toString(16).padStart(2, '0');
+    }).join('');
+  }
+
+  function unlock() {
+    lock.style.display = 'none';
+    body.classList.add('show');
+    try { sessionStorage.setItem('ap_ok', '1'); } catch (e) {}
+  }
+
+  async function tryOpen() {
+    var v = (pass.value || '').trim();
+    if (!v) { return; }
+    try {
+      var h = await sha256(v);
+      if (h === KEY) { err.classList.remove('show'); unlock(); }
+      else { err.classList.add('show'); pass.value = ''; pass.focus(); }
+    } catch (e) {
+      err.classList.add('show');
+    }
+  }
+
+  document.getElementById('apOpen').addEventListener('click', tryOpen);
+  pass.addEventListener('keydown', function (e) { if (e.key === 'Enter') { tryOpen(); } });
+
+  try { if (sessionStorage.getItem('ap_ok') === '1') { unlock(); } } catch (e) {}
+
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", function () { navigator.serviceWorker.register("../sw.js").catch(function () {}); });
   }

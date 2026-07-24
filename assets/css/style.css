@@ -424,3 +424,13 @@ footer .fmark { color: var(--sprout); }
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
   .headline h1 .line, .lede, .card { opacity: 1; transform: none; }
 }
+
+/* ===== アポイント依頼リンク（トップ最下部） ===== */
+.appt-strip-wrap { display: flex; justify-content: center; background: #f3ecda; padding: clamp(24px, 4vh, 44px) 20px clamp(34px, 6vh, 64px); }
+.appt-strip { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; background: #fff; border: 1.5px solid rgba(111,166,214,.45); border-radius: 999px; padding: 13px 26px; box-shadow: 0 10px 24px -16px rgba(60,80,60,.55); transition: transform .25s, box-shadow .25s, border-color .25s; }
+.appt-strip:hover { transform: translateY(-3px); box-shadow: 0 18px 32px -18px rgba(60,80,60,.55); border-color: var(--research); }
+.appt-icon { font-size: 1.1rem; line-height: 1; }
+.appt-text { font-family: var(--font-hand); font-size: .95rem; color: var(--ink); letter-spacing: .04em; }
+.appt-text em { font-style: normal; color: var(--research); margin-left: 10px; transition: margin-left .25s; }
+.appt-strip:hover .appt-text em { margin-left: 14px; }
+@media (max-width: 560px) { .appt-strip { flex-direction: column; gap: 5px; text-align: center; border-radius: 22px; padding: 15px 22px; } .appt-text em { display: block; margin-left: 0; margin-top: 3px; } }
