@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>英単語（日本語→英語：英検2級） | チェックリスト</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Yomogi&family=Klee+One:wght@400;600&family=Zen+Kurenaido&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+<meta name="theme-color" content="#6fa6d6" />
+<link rel="stylesheet" href="../../assets/css/style.css" />
+<style>
+  .ck-wrap { max-width: 640px; margin: 0 auto; }
+  .ck-lock { background:#fff; border-radius:22px; padding:34px 26px; box-shadow:0 18px 40px -22px rgba(60,80,60,.5); text-align:center; }
+  .ck-lock .lk-mark { font-size:2rem; }
+  .ck-lock h3 { font-family:var(--font-pen); font-weight:600; font-size:1.15rem; color:var(--ink); margin:10px 0 8px; }
+  .ck-lock p { color:var(--ink-soft); line-height:1.9; font-size:.92rem; margin-bottom:20px; }
+  .ck-lock .lk-row { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+  .ck-lock input { border:2px solid #e3ddcc; border-radius:12px; padding:13px 16px; font-family:var(--font-hand); font-size:1rem; color:var(--ink); background:#fdfcf8; width:200px; }
+  .ck-lock input:focus { outline:none; border-color:var(--sprout); }
+  .ck-lock button { background:var(--sprout); color:#fff; border:none; border-radius:12px; padding:13px 26px; font-family:var(--font-pen); font-weight:600; font-size:1rem; cursor:pointer; }
+  .ck-lock .lk-err { margin-top:14px; color:#b5512f; font-family:var(--font-hand); font-size:.9rem; display:none; }
+  .ck-lock .lk-err.show { display:block; }
+  .ck-body { display:none; } .ck-body.show { display:block; }
+  .ck-tabs { display:flex; gap:8px; margin-bottom:22px; flex-wrap:wrap; }
+  .ck-tab { flex:1; min-width:84px; background:#fff; border:2px solid #e3ddcc; border-radius:12px; padding:10px 8px; font-family:var(--font-pen); font-size:.92rem; color:var(--ink); cursor:pointer; text-align:center; transition:border-color .2s, background .2s; }
+  .ck-tab.active { border-color:var(--sprout); background:#f4fbf1; color:var(--sprout-deep); }
+  .ck-progress { display:flex; gap:4px; margin:0 0 20px; }
+  .ck-progress span { flex:1; height:6px; border-radius:999px; background:#e3ddcc; transition:background .3s; }
+  .ck-progress span.done { background:var(--research); } .ck-progress span.cur { background:var(--sprout); }
+  .ck-card { background:#fff; border-radius:22px; padding:26px 24px; box-shadow:0 18px 40px -22px rgba(60,80,60,.5); animation:ckIn .35s cubic-bezier(.2,.8,.3,1); }
+  @keyframes ckIn { from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:none;} }
+  .ck-step { font-family:var(--font-latin); font-weight:700; letter-spacing:.1em; font-size:.8rem; color:var(--sprout-deep); }
+  .ck-word { font-family:var(--font-pen); font-weight:600; font-size:1.9rem; color:var(--ink); text-align:center; margin:14px 0 22px; }
+  .ck-opts { display:flex; flex-direction:column; gap:12px; }
+  .ck-opt { text-align:left; background:#fff; border:2px solid #e3ddcc; border-radius:14px; padding:15px 18px; font-family:var(--font-latin); font-weight:600; font-size:1.05rem; color:var(--ink); cursor:pointer; transition:transform .15s, border-color .15s, background .15s; }
+  .ck-opt:hover { transform:translateY(-2px); border-color:var(--sprout); background:#f6faf3; }
+  .ck-back { margin-top:16px; background:none; border:none; color:var(--ink-soft); font-family:var(--font-pen); cursor:pointer; font-size:.95rem; }
+  .ck-back[disabled] { opacity:.35; cursor:default; }
+  .ck-result { animation:ckIn .4s ease; }
+  .ck-badge { display:inline-flex; align-items:center; gap:8px; font-family:var(--font-pen); font-weight:600; padding:8px 18px; border-radius:999px; font-size:1rem; margin-bottom:14px; }
+  .ck-badge.ok { background:#e7f4e5; color:#2f7d34; } .ck-badge.ng { background:#fbe7e2; color:#b5512f; }
+  .ck-score { font-family:var(--font-brush); font-size:clamp(1.6rem,5vw,2.2rem); color:var(--ink); margin-bottom:10px; }
+  .ck-wrong { list-style:none; margin:18px 0 0; padding:0; }
+  .ck-wrong li { background:#fff6f3; border-left:5px solid #d98a6a; border-radius:12px; padding:12px 15px; margin-bottom:10px; line-height:1.8; font-size:.95rem; }
+  .ck-wrong .w { font-family:var(--font-pen); font-weight:700; color:#b5512f; }
+  .ck-wrong .yours { color:#a76b57; font-family:var(--font-latin); } .ck-wrong .ans { color:#2f7d34; font-weight:600; font-family:var(--font-latin); }
+  .ck-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:22px; }
+  .ck-retry { background:var(--sprout); color:#fff; border:none; border-radius:14px; padding:13px 24px; font-family:var(--font-pen); font-weight:600; font-size:1rem; cursor:pointer; }
+</style>
+</head>
+<body class="research">
+
+<section class="subhero sky research">
+  <div class="sun-glow"></div>
+  <div class="clouds" aria-hidden="true"><div class="cloud c1"></div><div class="cloud c3"></div></div>
+  <div class="falling" data-count="6" aria-hidden="true"></div>
+  <header>
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 44 C24 34 24 26 24 22" stroke="#3f8f42" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M24 24 C14 24 8 18 8 10 C18 10 24 16 24 24 Z" fill="#63bd57"/><path d="M24 20 C34 20 40 14 40 6 C30 6 24 12 24 20 Z" fill="#7ccf6f"/></svg>
+      <div class="brand-text"><div class="name">SEEDS for FUTURE Patients</div><div class="tag">よりよい未来への種づくり</div></div>
+    </div>
+  </header>
+  <div class="subhero-body">
+    <div class="eyebrow">CHECK LIST</div>
+    <h1 class="page-title">英単語（日本語→英語：英検2級）</h1>
+    <p class="page-lede">日本語の意味を見て、正しい英単語を選びましょう。難しめの語だけ・毎回ランダム出題です。</p>
+    <div class="accent-line"></div>
+  </div>
+</section>
+
+<main class="content">
+  <div class="ck-wrap">
+    <div class="ck-lock" id="ckLock">
+      <div class="lk-mark">🔒</div>
+      <h3>パスワードをご入力ください</h3>
+      <p>この先は作業用のページです。</p>
+      <div class="lk-row">
+        <input type="password" id="ckPass" placeholder="パスワード" autocomplete="off" />
+        <button id="ckOpen">すすむ</button>
+      </div>
+      <div class="lk-err" id="ckErr">パスワードが違うようです。</div>
+    </div>
+
+    <div class="ck-body" id="ckBody">
+      <div class="ck-tabs" id="ckTabs"></div>
+      <div class="ck-progress" id="ckProgress" aria-hidden="true"></div>
+      <div id="ckStage"></div>
+    </div>
+  </div>
+  <a class="back-home" href="../">← 目次にもどる</a>
+</main>
+
+<footer><span class="fmark">🌱</span>&nbsp; SEEDS for FUTURE Patients</footer>
+
+<script>
+var KEY='8393574eda31273ea9ed0b0a578e98a1a81b6b76382dca5fbb4a501f525ad82f';
+var lock=document.getElementById('ckLock'), body=document.getElementById('ckBody');
+var pass=document.getElementById('ckPass'), err=document.getElementById('ckErr');
+async function sha256(s){var b=new TextEncoder().encode(s);var d=await crypto.subtle.digest('SHA-256',b);return Array.from(new Uint8Array(d)).map(function(x){return x.toString(16).padStart(2,'0');}).join('');}
+function unlock(){lock.style.display='none'; body.classList.add('show'); try{sessionStorage.setItem('ck_ok','1');}catch(e){} boot();}
+async function tryOpen(){var v=(pass.value||'').trim(); if(!v)return; try{var h=await sha256(v); if(h===KEY){err.classList.remove('show'); unlock();} else {err.classList.add('show'); pass.value=''; pass.focus();}}catch(e){err.classList.add('show');}}
+document.getElementById('ckOpen').addEventListener('click', tryOpen);
+pass.addEventListener('keydown', function(e){ if(e.key==='Enter') tryOpen(); });
+try{ if(sessionStorage.getItem('ck_ok')==='1') unlock(); }catch(e){}
+
+var POOL = {"単語1": {"hard": [["clearly", "明らかに"], ["appliance", "電化製品"], ["already", "すでに"], ["eventually", "ついに"], ["easily", "簡単に"], ["accept", "受け入れる"], ["ancient", "古代の"], ["active", "活発な"], ["awake", "目覚めた"], ["age", "年齢"], ["available", "利用できる"], ["away", "離れて"], ["accomplish", "成し遂げる"], ["advise", "助言する"], ["constantly", "絶えず"], ["avoid", "避ける"], ["aim", "目指す"], ["anyway", "とにかく"], ["anxious", "心配な"], ["abandon", "見捨てる"], ["central", "中央の"], ["ability", "能力"], ["allow", "許す"], ["admit", "認める"], ["activity", "活動"], ["adequate", "適切な"], ["attack", "攻撃する"], ["badly", "ひどく"], ["abroad", "海外へ"], ["accompany", "同行する"], ["acknowledge", "認める"], ["extremely", "極端に"], ["entirely", "まったく"], ["appear", "現れる"], ["certainly", "確かに"], ["actual", "実際の"], ["afraid", "恐れて"], ["action", "行動"], ["arrange", "手配する"], ["blind", "目の見えない"], ["bare", "裸の"], ["attitude", "態度"], ["accident", "事故"], ["acquire", "獲得する"], ["apply", "申し込む"], ["argue", "議論する"], ["alter", "変える"], ["abstract", "抽象的な"], ["calm", "穏やかな"], ["alive", "生きている"], ["authority", "権威"], ["barrier", "障壁"], ["frequently", "頻繁に"], ["balance", "均衡"], ["fortunately", "幸運にも"], ["amount", "量"], ["analyze", "分析する"], ["ambition", "野心"], ["administration", "管理"], ["aggressive", "攻撃的な"], ["alone", "ひとりの"], ["barely", "ほとんど〜ない"], ["campaign", "運動"], ["directly", "直接に"], ["actually", "実際に"], ["adapt", "適応する"], ["adopt", "採用する"], ["agriculture", "農業"], ["basic", "基本的な"], ["atmosphere", "大気"], ["architecture", "建築"], ["awful", "ひどい"], ["absorb", "吸収する"], ["accurate", "正確な"], ["approximately", "おおよそ"], ["adjust", "調整する"], ["annual", "毎年の"], ["absolutely", "絶対に"], ["carefully", "注意深く"], ["affect", "影響する"], ["apparently", "どうやら"], ["advantage", "利点"], ["advice", "助言"], ["artificial", "人工の"], ["aware", "気づいて"], ["attend", "出席する"], ["attention", "注意"], ["completely", "完全に"], ["bacteria", "細菌"], ["budget", "予算"], ["appropriate", "適切な"]], "easy": [["drink", "飲む"], ["area", "地域"], ["busy", "忙しい"], ["watch", "見る"], ["water", "水"], ["high", "高い"], ["low", "低い"], ["read", "読む"], ["school", "学校"], ["door", "ドア"], ["always", "いつも"], ["buy", "買う"], ["good", "良い"], ["eat", "食べる"], ["sad", "悲しい"], ["child", "子ども"], ["happy", "幸せな"], ["give", "与える"], ["sleep", "眠る"], ["house", "家"], ["short", "短い"], ["kitchen", "台所"], ["big", "大きい"], ["old", "古い"], ["sell", "売る"], ["run", "走る"], ["family", "家族"], ["art", "芸術"], ["student", "生徒"], ["father", "父"], ["small", "小さい"], ["friend", "友達"], ["bad", "悪い"], ["air", "空気"], ["mother", "母"], ["believe", "信じる"], ["speak", "話す"], ["apple", "りんご"], ["walk", "歩く"], ["teacher", "先生"], ["take", "取る"], ["window", "窓"], ["agree", "同意する"], ["listen", "聞く"], ["angry", "怒った"], ["brother", "兄"], ["long", "長い"], ["tired", "疲れた"], ["swim", "泳ぐ"], ["room", "部屋"], ["young", "若い"], ["make", "作る"], ["army", "軍隊"], ["able", "できる"], ["sister", "姉"], ["write", "書く"], ["jump", "跳ぶ"], ["enough", "十分に"], ["new", "新しい"]]}, "単語2": {"hard": [["approach", "近づく"], ["appeal", "訴える"], ["occasionally", "時々"], ["arise", "生じる"], ["however", "しかし"], ["broad", "広い"], ["candidate", "候補者"], ["career", "職業"], ["curious", "好奇心の強い"], ["circumstance", "状況"], ["borrow", "借りる"], ["audience", "聴衆"], ["bill", "請求書"], ["chemistry", "化学"], ["exactly", "正確に"], ["largely", "主に"], ["conflict", "対立"], ["benefit", "利益"], ["definite", "明確な"], ["assure", "保証する"], ["complex", "複雑な"], ["common", "共通の"], ["generally", "一般に"], ["burn", "燃やす"], ["chemical", "化学の"], ["confident", "自信がある"], ["otherwise", "さもなければ"], ["anticipate", "予期する"], ["branch", "枝"], ["meanwhile", "その間に"], ["difficult", "難しい"], ["assume", "仮定する"], ["client", "顧客"], ["certain", "確かな"], ["casual", "何気ない"], ["hardly", "ほとんど〜ない"], ["particularly", "特に"], ["capacity", "容量"], ["announce", "発表する"], ["lately", "最近"], ["notebook", "ノート"], ["capable", "能力がある"], ["choose", "選ぶ"], ["concept", "概念"], ["finally", "最後に"], ["maybe", "たぶん"], ["assign", "割り当てる"], ["nevertheless", "それでも"], ["conscious", "意識のある"], ["pencil", "鉛筆"], ["crucial", "決定的な"], ["beginning", "始まり"], ["comfortable", "快適な"], ["author", "著者"], ["beautiful", "美しい"], ["apologize", "謝る"], ["cruel", "残酷な"], ["complaint", "不満"], ["convenient", "便利な"], ["naturally", "当然"], ["current", "現在の"], ["commercial", "商業の"], ["constant", "絶え間ない"], ["gradually", "次第に"], ["immediately", "すぐに"], ["crowded", "混雑した"], ["behavior", "行動"], ["collect", "集める"], ["assist", "援助する"], ["average", "平均"], ["bottom", "底"], ["obviously", "明らかに"], ["component", "構成要素"], ["clear", "明らかな"], ["indeed", "実に"], ["instead", "代わりに"], ["mainly", "主に"], ["brief", "短い"], ["appreciate", "感謝する"], ["mostly", "大部分は"], ["correct", "正しい"], ["merely", "単に"], ["cause", "引き起こす"], ["battle", "戦い"], ["border", "国境"], ["committee", "委員会"], ["daily", "毎日の"], ["nearly", "ほとんど"], ["especially", "特に"], ["civil", "市民の"], ["possibly", "もしかすると"], ["approve", "承認する"], ["charity", "慈善"], ["belong", "属する"]], "easy": [["never", "決して"], ["pen", "ペン"], ["letter", "手紙"], ["play", "遊ぶ"], ["dirty", "汚い"], ["easy", "簡単な"], ["start", "始める"], ["bag", "かばん"], ["dark", "暗い"], ["deep", "深い"], ["heavy", "重い"], ["stop", "止める"], ["carry", "運ぶ"], ["strong", "強い"], ["dance", "踊る"], ["light", "軽い"], ["sport", "スポーツ"], ["change", "変える"], ["slow", "遅い"], ["catch", "捕まえる"], ["table", "テーブル"], ["fast", "速い"], ["build", "建てる"], ["study", "勉強する"], ["quiet", "静かな"], ["break", "壊す"], ["open", "開ける"], ["teach", "教える"], ["wash", "洗う"], ["music", "音楽"], ["book", "本"], ["desk", "机"], ["chair", "いす"], ["weak", "弱い"], ["close", "閉める"], ["paper", "紙"], ["picture", "絵"], ["bed", "ベッド"], ["cold", "寒い"], ["movie", "映画"], ["clean", "掃除する"], ["blood", "血"], ["help", "助ける"], ["climb", "登る"], ["different", "異なる"], ["send", "送る"], ["song", "歌"], ["bright", "明るい"], ["cool", "涼しい"], ["warm", "暖かい"], ["learn", "学ぶ"], ["cook", "料理する"], ["bring", "持ってくる"], ["clock", "時計"], ["hot", "暑い"], ["sing", "歌う"]]}, "単語3": {"hard": [["cancel", "取り消す"], ["bear", "耐える"], ["excited", "興奮した"], ["diet", "食事"], ["chance", "機会"], ["cross", "横断する"], ["attract", "引きつける"], ["rather", "むしろ"], ["perhaps", "おそらく"], ["enormous", "巨大な"], ["arrive", "到着する"], ["truly", "本当に"], ["celebrate", "祝う"], ["ceremony", "式典"], ["dangerous", "危険な"], ["famous", "有名な"], ["eager", "熱心な"], ["claim", "主張する"], ["elementary", "初等の"], ["efficient", "効率的な"], ["fat", "太った"], ["domestic", "国内の"], ["quite", "かなり"], ["challenge", "挑戦する"], ["excellent", "優れた"], ["familiar", "よく知っている"], ["slowly", "ゆっくり"], ["leave", "出発する"], ["discipline", "規律"], ["empty", "空の"], ["spring", "春"], ["entire", "全体の"], ["quickly", "速く"], ["consequence", "結果"], ["season", "季節"], ["wait", "待つ"], ["forget", "忘れる"], ["thirsty", "のどが渇いた"], ["compare", "比べる"], ["slightly", "わずかに"], ["crisis", "危機"], ["contain", "含む"], ["decide", "決める"], ["care", "世話"], ["disease", "病気"], ["create", "創造する"], ["useful", "役に立つ"], ["contract", "契約"], ["business", "商売"], ["circle", "円"], ["fair", "公平な"], ["try", "試す"], ["winter", "冬"], ["careful", "注意深い"], ["totally", "完全に"], ["simply", "単に"], ["electric", "電気の"], ["choice", "選択"], ["cover", "覆う"], ["capital", "首都"], ["safe", "安全な"], ["calculate", "計算する"], ["complete", "完成させる"], ["document", "文書"], ["century", "世紀"], ["distant", "遠い"], ["delicate", "繊細な"], ["equal", "等しい"], ["tall", "背の高い"], ["travel", "旅行する"], ["consider", "考慮する"], ["cash", "現金"], ["contact", "連絡"], ["continue", "続ける"], ["disaster", "災害"], ["false", "誤った"], ["chase", "追いかける"], ["control", "管理する"], ["complain", "不満を言う"], ["double", "二倍の"], ["successfully", "首尾よく"], ["exact", "正確な"], ["visit", "訪れる"], ["despite", "にもかかわらず"], ["economic", "経済の"], ["sweet", "甘い"], ["cheat", "だます"], ["device", "装置"], ["citizen", "市民"], ["contrast", "対比"], ["afternoon", "午後"], ["hungry", "空腹な"], ["bury", "埋める"], ["delicious", "おいしい"], ["seriously", "真剣に"], ["autumn", "秋"], ["seldom", "めったに〜ない"], ["dramatic", "劇的な"], ["dependent", "依存した"], ["regularly", "定期的に"], ["summer", "夏"], ["draft", "草案"], ["conservation", "保護"], ["widely", "広く"], ["important", "重要な"], ["healthy", "健康な"], ["weather", "天気"], ["thus", "このように"], ["remember", "覚えている"], ["strongly", "強く"], ["recently", "最近"], ["ban", "禁止する"], ["surely", "確かに"], ["really", "本当に"], ["probably", "おそらく"], ["connect", "つなぐ"], ["brave", "勇敢な"], ["bother", "悩ませる"], ["unfortunately", "残念ながら"], ["sick", "病気の"], ["attempt", "試みる"], ["case", "場合"], ["kind", "親切な"], ["funny", "おかしい"], ["character", "性格"], ["direct", "直接の"]], "easy": [["early", "早い"], ["month", "月"], ["use", "使う"], ["morning", "朝"], ["week", "週"], ["like", "好む"], ["meet", "会う"], ["soft", "柔らかい"], ["class", "授業"], ["want", "欲しい"], ["think", "考える"], ["need", "必要とする"], ["sometimes", "時々"], ["evening", "夕方"], ["work", "働く"], ["know", "知る"], ["rain", "雨"], ["often", "しばしば"], ["team", "チーム"], ["ball", "ボール"], ["cut", "切る"], ["love", "愛する"], ["year", "年"], ["night", "夜"]]}, "単語4": {"hard": [["lonely", "孤独な"], ["fluent", "流暢な"], ["confirm", "確認する"], ["congratulate", "祝う"], ["polite", "礼儀正しい"], ["soon", "すぐに"], ["emergency", "緊急事態"], ["company", "会社"], ["innocent", "無罪の"], ["global", "世界的な"], ["clarify", "明確にする"], ["corner", "角"], ["industrial", "産業の"], ["depend", "頼る"], ["financial", "財政の"], ["destroy", "破壊する"], ["forest", "森"], ["lazy", "怠惰な"], ["excitement", "興奮"], ["conversation", "会話"], ["custom", "習慣"], ["ideal", "理想的な"], ["initial", "最初の"], ["animal", "動物"], ["guilty", "有罪の"], ["together", "一緒に"], ["find", "見つける"], ["drive", "運転する"], ["earn", "稼ぐ"], ["enjoy", "楽しむ"], ["general", "一般的な"], ["harmful", "有害な"], ["lucky", "幸運な"], ["extent", "程度"], ["still", "まだ"], ["bridge", "橋"], ["comfort", "快適さ"], ["road", "道路"], ["concentrate", "集中する"], ["combine", "結合する"], ["great", "偉大な"], ["foreign", "外国の"], ["condition", "状態"], ["design", "設計する"], ["independent", "独立した"], ["former", "前の"], ["crop", "作物"], ["grateful", "感謝している"], ["lake", "湖"], ["consume", "消費する"], ["command", "命令する"], ["conduct", "行う"], ["equipment", "設備"], ["expense", "費用"], ["conclude", "結論を出す"], ["crime", "犯罪"], ["wonderful", "すばらしい"], ["immediate", "即座の"], ["beneath", "下に"], ["element", "要素"], ["compose", "構成する"], ["shy", "内気な"], ["faith", "信仰"], ["enthusiasm", "熱意"], ["individual", "個々の"], ["confuse", "混乱させる"], ["develop", "発達させる"], ["gentle", "優しい"], ["favorite", "お気に入りの"], ["crowd", "群衆"], ["flat", "平らな"], ["commit", "犯す"], ["essay", "小論文"], ["clever", "賢い"], ["era", "時代"], ["culture", "文化"], ["discover", "発見する"], ["show", "見せる"], ["construct", "建設する"], ["country", "国"], ["fine", "立派な"], ["grass", "草"], ["community", "地域社会"], ["friendly", "友好的な"], ["ethnic", "民族の"], ["coast", "海岸"], ["fate", "運命"], ["compete", "競争する"], ["discuss", "話し合う"], ["consult", "相談する"], ["deliver", "配達する"], ["full", "いっぱいの"], ["extreme", "極端な"], ["factor", "要因"], ["divide", "分ける"], ["instant", "即時の"], ["exhibition", "展覧会"], ["die", "死ぬ"], ["economy", "経済"], ["suddenly", "突然"], ["describe", "描写する"], ["therefore", "したがって"], ["leaf", "葉"], ["courage", "勇気"], ["fresh", "新鮮な"], ["essential", "不可欠な"], ["understand", "理解する"], ["facility", "施設"], ["village", "村"], ["consist", "成り立つ"], ["horse", "馬"], ["drop", "落とす"], ["climate", "気候"], ["illegal", "違法の"]], "easy": [["final", "最後の"], ["snow", "雪"], ["firm", "固い"], ["usually", "普通は"], ["inner", "内側の"], ["cat", "猫"], ["sun", "太陽"], ["wind", "風"], ["ask", "尋ねる"], ["expensive", "高価な"], ["call", "呼ぶ"], ["town", "町"], ["moon", "月"], ["win", "勝つ"], ["tell", "伝える"], ["city", "都市"], ["tree", "木"], ["station", "駅"], ["answer", "答える"], ["sky", "空"], ["bird", "鳥"], ["cloud", "雲"], ["street", "通り"], ["mountain", "山"], ["cost", "費用"], ["lose", "失う"], ["dog", "犬"], ["star", "星"], ["say", "言う"], ["cheap", "安い"], ["sea", "海"], ["river", "川"], ["flower", "花"], ["hard", "難しい"], ["draw", "描く"], ["fish", "魚"]]}, "単語5": {"hard": [["defeat", "打ち破る"], ["internal", "内部の"], ["ticket", "切符"], ["flavor", "風味"], ["modern", "現代の"], ["major", "主要な"], ["crash", "衝突する"], ["international", "国際的な"], ["death", "死"], ["necessary", "必要な"], ["breakfast", "朝食"], ["lunch", "昼食"], ["decrease", "減少する"], ["demand", "要求する"], ["sugar", "砂糖"], ["expect", "予期する"], ["explain", "説明する"], ["duty", "義務"], ["customer", "客"], ["gene", "遺伝子"], ["dinner", "夕食"], ["feed", "食べ物を与える"], ["huge", "巨大な"], ["gather", "集まる"], ["cure", "治す"], ["fund", "資金"], ["desert", "砂漠"], ["forecast", "予報"], ["doubt", "疑い"], ["minimum", "最小の"], ["minor", "小さい"], ["fruit", "果物"], ["danger", "危険"], ["egg", "卵"], ["nearby", "近くの"], ["direction", "方向"], ["latest", "最新の"], ["exist", "存在する"], ["demonstrate", "実証する"], ["legal", "合法の"], ["married", "結婚している"], ["fiction", "小説"], ["meat", "肉"], ["escape", "逃げる"], ["price", "値段"], ["degree", "程度"], ["mild", "穏やかな"], ["local", "地元の"], ["normal", "普通の"], ["feature", "特徴"], ["fever", "熱"], ["military", "軍の"], ["delay", "遅らせる"], ["interesting", "興味深い"], ["limited", "限られた"], ["finance", "財政"], ["enter", "入る"], ["ship", "船"], ["finish", "終える"], ["milk", "牛乳"], ["likely", "ありそうな"], ["church", "教会"], ["decorate", "飾る"], ["library", "図書館"], ["flight", "飛行"], ["food", "食べ物"], ["criticize", "批判する"], ["intelligent", "知能の高い"], ["decision", "決定"], ["flood", "洪水"], ["natural", "自然の"], ["favor", "好意"], ["difference", "違い"], ["contribute", "貢献する"], ["cooperate", "協力する"], ["clothes", "服"], ["define", "定義する"], ["national", "国家の"], ["bread", "パン"], ["date", "日付"], ["declare", "宣言する"], ["fortune", "幸運"], ["office", "事務所"], ["factory", "工場"], ["soup", "スープ"], ["main", "主な"], ["fee", "料金"], ["convince", "納得させる"], ["distance", "距離"], ["defend", "防御する"], ["examine", "調べる"], ["nervous", "緊張した"], ["fight", "戦う"], ["damage", "損害"], ["detail", "詳細"], ["loose", "ゆるい"], ["large", "大きい"], ["edge", "端"], ["express", "表現する"], ["shoes", "靴"], ["maximum", "最大の"], ["salt", "塩"], ["frame", "枠"], ["foundation", "基礎"], ["fail", "失敗する"], ["museum", "博物館"], ["vegetable", "野菜"], ["function", "機能"], ["medical", "医学の"], ["earth", "地球"], ["ill", "病気の"], ["formula", "公式"], ["mental", "精神の"], ["honest", "正直な"], ["follow", "ついていく"], ["decline", "減少する"], ["fill", "満たす"], ["deny", "否定する"]], "easy": [["plane", "飛行機"], ["market", "市場"], ["train", "電車"], ["shirt", "シャツ"], ["rice", "米"], ["fix", "修理する"], ["fly", "飛ぶ"], ["face", "顔"], ["eye", "目"], ["bike", "自転車"], ["car", "車"], ["narrow", "狭い"], ["nose", "鼻"], ["park", "公園"], ["hat", "帽子"], ["map", "地図"], ["hotel", "ホテル"], ["bus", "バス"], ["money", "お金"], ["airport", "空港"], ["late", "遅い"], ["feel", "感じる"], ["mouth", "口"], ["ear", "耳"], ["hand", "手"], ["body", "体"], ["head", "頭"], ["color", "色"], ["farm", "農場"], ["store", "店"], ["hospital", "病院"], ["restaurant", "レストラン"]]}};
+var SHEETS = Object.keys(POOL);
+var QN = 20, PASS_SCORE = 19;
+var stage=document.getElementById('ckStage'), prog=document.getElementById('ckProgress'), tabsEl=document.getElementById('ckTabs');
+var cur=0, idx=0, quiz=[], answers=[];
+function esc(s){ return String(s).replace(/[&<>"]/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m];}); }
+function sample(arr,n){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t;} return a.slice(0,n); }
+function shuffle(arr){ return sample(arr, arr.length); }
+function boot(){
+  tabsEl.innerHTML = SHEETS.map(function(s,i){ return '<button class="ck-tab'+(i===0?' active':'')+'" data-i="'+i+'">単語'+(i+1)+'</button>'; }).join('');
+  [].forEach.call(tabsEl.children, function(b){ b.addEventListener('click', function(){ [].forEach.call(tabsEl.children,function(x){x.classList.remove('active');}); b.classList.add('active'); startSheet(parseInt(b.dataset.i,10)); }); });
+  startSheet(0);
+}
+function buildQuiz(sheetKey){
+  var p = POOL[sheetKey];
+  var chosen = sample(p.hard, Math.min(QN, p.hard.length));   // 難しめのみ
+  var allEN = p.hard.map(function(x){return x[0];}).concat(p.easy.map(function(x){return x[0];}));
+  return chosen.map(function(pair){
+    var w=pair[0], jp=pair[1];             // w=英語(正解), jp=日本語(問題)
+    var pool = allEN.filter(function(x){ return x!==w; });
+    var opts = shuffle(sample(pool,4).concat([w]));
+    return {q:jp, a:w, opts:opts};
+  });
+}
+function startSheet(i){
+  cur=i; idx=0; answers=[];
+  quiz = buildQuiz(SHEETS[i]);
+  prog.style.display='flex'; prog.innerHTML='';
+  quiz.forEach(function(){ var s=document.createElement('span'); prog.appendChild(s); });
+  renderQ();
+}
+function updateProgress(){ [].forEach.call(prog.children, function(el,i){ el.className = i<idx?'done':(i===idx?'cur':''); }); }
+function renderQ(){
+  updateProgress();
+  var q=quiz[idx];
+  var opts=q.opts.map(function(o){ return '<button class="ck-opt" data-v="'+esc(o)+'">'+esc(o)+'</button>'; }).join('');
+  stage.innerHTML='<div class="ck-card"><div class="ck-step">単語'+(cur+1)+' ・ '+(idx+1)+' / '+quiz.length+'</div>'+
+    '<div class="ck-word">'+esc(q.q)+'</div><div class="ck-opts">'+opts+'</div>'+
+    '<button class="ck-back" '+(idx===0?'disabled':'')+'>← 前へ</button></div>';
+  [].forEach.call(stage.querySelectorAll('.ck-opt'), function(b){ b.addEventListener('click', function(){ answers[idx]=b.dataset.v; if(idx<quiz.length-1){ idx++; renderQ(); } else { renderResult(); } window.scrollTo({top:0,behavior:'smooth'}); }); });
+  var back=stage.querySelector('.ck-back'); back.addEventListener('click', function(){ if(idx>0){ idx--; renderQ(); window.scrollTo({top:0,behavior:'smooth'}); } });
+}
+function renderResult(){
+  [].forEach.call(prog.children, function(el){ el.className='done'; });
+  var wrong=[], correct=0;
+  quiz.forEach(function(q,i){ if(answers[i]===q.a){ correct++; } else { wrong.push({q:q.q,a:q.a,y:answers[i]||'(未回答)'}); } });
+  var passed = correct>=PASS_SCORE;
+  var wrongHtml = wrong.length ? '<ul class="ck-wrong">'+wrong.map(function(x){ return '<li><span class="w">'+esc(x.q)+'</span><br>あなたの回答：<span class="yours">'+esc(x.y)+'</span><br>正解：<span class="ans">'+esc(x.a)+'</span></li>'; }).join('')+'</ul>' : '';
+  var badge = passed ? '<span class="ck-badge ok">🌱 合格</span>' : '<span class="ck-badge ng">再度トライ</span>';
+  var head = passed ? '<div class="ck-score">合格です！（'+correct+' / '+quiz.length+'）</div><p style="color:#4a564d; line-height:1.9;">よくできました。</p>'
+                    : '<div class="ck-score">'+correct+' / '+quiz.length+'（合格は '+PASS_SCORE+' 以上）</div><p style="color:#4a564d; line-height:1.9;">間違えた問題と正解はこちらです。もう一度チャレンジしてみましょう。</p>';
+  stage.innerHTML='<div class="ck-card ck-result">'+badge+head+wrongHtml+'<div class="ck-actions"><button class="ck-retry" id="ckRetry">もう一度（新しい20問）</button></div></div>';
+  document.getElementById('ckRetry').addEventListener('click', function(){ startSheet(cur); window.scrollTo({top:0,behavior:'smooth'}); });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>チェックリスト（目次）</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Yomogi&family=Klee+One:wght@400;600&family=Zen+Kurenaido&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+<meta name="theme-color" content="#6fa6d6" />
+<link rel="stylesheet" href="../assets/css/style.css" />
+<style>
+  .ck-wrap { max-width: 640px; margin: 0 auto; }
+  .ck-lock { background:#fff; border-radius:22px; padding:34px 26px; box-shadow:0 18px 40px -22px rgba(60,80,60,.5); text-align:center; }
+  .ck-lock .lk-mark { font-size:2rem; }
+  .ck-lock h3 { font-family:var(--font-pen); font-weight:600; font-size:1.15rem; color:var(--ink); margin:10px 0 8px; }
+  .ck-lock p { color:var(--ink-soft); line-height:1.9; font-size:.92rem; margin-bottom:20px; }
+  .ck-lock .lk-row { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+  .ck-lock input { border:2px solid #e3ddcc; border-radius:12px; padding:13px 16px; font-family:var(--font-hand); font-size:1rem; color:var(--ink); background:#fdfcf8; width:200px; }
+  .ck-lock input:focus { outline:none; border-color:var(--sprout); }
+  .ck-lock button { background:var(--sprout); color:#fff; border:none; border-radius:12px; padding:13px 26px; font-family:var(--font-pen); font-weight:600; font-size:1rem; cursor:pointer; }
+  .ck-lock .lk-err { margin-top:14px; color:#b5512f; font-family:var(--font-hand); font-size:.9rem; display:none; }
+  .ck-lock .lk-err.show { display:block; }
+  .ck-body { display:none; } .ck-body.show { display:block; }
+  .menu-list { display:flex; flex-direction:column; gap:14px; }
+  .menu-item { display:flex; align-items:center; justify-content:space-between; gap:14px; background:#fff; border:2px solid #e3ddcc; border-radius:18px; padding:20px 22px; text-decoration:none; color:var(--ink); transition:transform .18s, border-color .18s, box-shadow .18s; }
+  .menu-item.active:hover { transform:translateY(-3px); border-color:var(--sprout); box-shadow:0 16px 32px -20px rgba(60,80,60,.5); }
+  .menu-item .mi-title { font-family:var(--font-pen); font-weight:600; font-size:1.1rem; }
+  .menu-item .mi-sub { font-family:var(--font-hand); font-size:.82rem; color:var(--ink-soft); margin-top:3px; }
+  .menu-item .mi-go { font-family:var(--font-pen); color:var(--sprout-deep); white-space:nowrap; }
+  .menu-item.soon { opacity:.7; cursor:default; }
+  .menu-item.soon .mi-badge { font-family:var(--font-hand); font-size:.78rem; color:#94a08d; background:#f0ece1; border-radius:999px; padding:4px 12px; white-space:nowrap; }
+</style>
+</head>
+<body class="research">
+
+<section class="subhero sky research">
+  <div class="sun-glow"></div>
+  <div class="clouds" aria-hidden="true"><div class="cloud c1"></div><div class="cloud c3"></div></div>
+  <div class="falling" data-count="6" aria-hidden="true"></div>
+  <header>
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 44 C24 34 24 26 24 22" stroke="#3f8f42" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M24 24 C14 24 8 18 8 10 C18 10 24 16 24 24 Z" fill="#63bd57"/><path d="M24 20 C34 20 40 14 40 6 C30 6 24 12 24 20 Z" fill="#7ccf6f"/></svg>
+      <div class="brand-text"><div class="name">SEEDS for FUTURE Patients</div><div class="tag">よりよい未来への種づくり</div></div>
+    </div>
+  </header>
+  <div class="subhero-body">
+    <div class="eyebrow">CHECK LIST</div>
+    <h1 class="page-title">チェックリスト</h1>
+    <p class="page-lede">取り組みたいものを選んでください。</p>
+    <div class="accent-line"></div>
+  </div>
+</section>
+
+<main class="content">
+  <div class="ck-wrap">
+    <div class="ck-lock" id="ckLock">
+      <div class="lk-mark">🔒</div>
+      <h3>パスワードをご入力ください</h3>
+      <p>この先は作業用のページです。</p>
+      <div class="lk-row">
+        <input type="password" id="ckPass" placeholder="パスワード" autocomplete="off" />
+        <button id="ckOpen">すすむ</button>
+      </div>
+      <div class="lk-err" id="ckErr">パスワードが違うようです。</div>
+    </div>
+
+    <div class="ck-body" id="ckBody">
+      <div class="menu-list">
+        <a class="menu-item active" href="eiken2/">
+          <span><span class="mi-title">英単語（英検2級）</span><span class="mi-sub">単語1〜5・各20問（毎回ランダム）</span></span>
+          <span class="mi-go">はじめる →</span>
+        </a>
+        <a class="menu-item active" href="eiken2-jp2en/">
+          <span><span class="mi-title">英単語（日本語→英語：英検2級）</span><span class="mi-sub">難しめの語だけ・単語1〜5・各20問（毎回ランダム）</span></span>
+          <span class="mi-go">はじめる →</span>
+        </a>
+        <div class="menu-item soon">
+          <span><span class="mi-title">英単語（英検3級）</span><span class="mi-sub">準備中</span></span>
+          <span class="mi-badge">準備中</span>
+        </div>
+        <div class="menu-item soon">
+          <span><span class="mi-title">世界遺産検定</span><span class="mi-sub">準備中</span></span>
+          <span class="mi-badge">準備中</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a class="back-home" href="../index.html">← ホームに戻る</a>
+</main>
+
+<footer><span class="fmark">🌱</span>&nbsp; SEEDS for FUTURE Patients</footer>
+
+<script>
+var KEY='8393574eda31273ea9ed0b0a578e98a1a81b6b76382dca5fbb4a501f525ad82f';
+var lock=document.getElementById('ckLock'), body=document.getElementById('ckBody');
+var pass=document.getElementById('ckPass'), err=document.getElementById('ckErr');
+async function sha256(s){var b=new TextEncoder().encode(s);var d=await crypto.subtle.digest('SHA-256',b);return Array.from(new Uint8Array(d)).map(function(x){return x.toString(16).padStart(2,'0');}).join('');}
+function unlock(){lock.style.display='none'; body.classList.add('show'); try{sessionStorage.setItem('ck_ok','1');}catch(e){}}
+async function tryOpen(){var v=(pass.value||'').trim(); if(!v)return; try{var h=await sha256(v); if(h===KEY){err.classList.remove('show'); unlock();} else {err.classList.add('show'); pass.value=''; pass.focus();}}catch(e){err.classList.add('show');}}
+document.getElementById('ckOpen').addEventListener('click', tryOpen);
+pass.addEventListener('keydown', function(e){ if(e.key==='Enter') tryOpen(); });
+try{ if(sessionStorage.getItem('ck_ok')==='1') unlock(); }catch(e){}
+</script>
+</body>
+</html>

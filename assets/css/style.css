@@ -284,6 +284,8 @@ nav a:hover::after, nav a[aria-current="page"]::after { width: 100%; }
 .trials .item { border-left-color: var(--trials); }
 .video .item { border-left-color: var(--video); }
 .item h4 { font-family: var(--font-pen); font-weight: 600; font-size: 1.1rem; margin-bottom: 6px; }
+.item.item-accent { background: linear-gradient(180deg, #eef5fb 0%, #fff 100%); border: 1.5px solid rgba(111,166,214,.55); box-shadow: 0 14px 30px -20px rgba(60,90,120,.5); }
+.item.item-accent .more { color: var(--research); }
 .item .new-tag { display: inline-flex; align-items: center; gap: 4px; margin-right: 9px; vertical-align: 2px; font-family: var(--font-latin); font-weight: 700; font-size: .6rem; letter-spacing: .12em; color: #fff; background: linear-gradient(135deg, var(--sprout) 0%, var(--sprout-deep) 100%); padding: 4px 10px 4px 9px; border-radius: 999px; box-shadow: 0 4px 10px -4px rgba(63,143,66,.6); }
 .item .new-tag::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,.9); animation: newPulse 2s ease-in-out infinite; }
 @keyframes newPulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
