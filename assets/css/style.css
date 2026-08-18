@@ -436,3 +436,13 @@ footer .fmark { color: var(--sprout); }
 .appt-text em { font-style: normal; color: var(--research); margin-left: 10px; transition: margin-left .25s; }
 .appt-strip:hover .appt-text em { margin-left: 14px; }
 @media (max-width: 560px) { .appt-strip { flex-direction: column; gap: 5px; text-align: center; border-radius: 22px; padding: 15px 22px; } .appt-text em { display: block; margin-left: 0; margin-top: 3px; } }
+
+/* ===== 患者説明ノートへの入口（トップ最下部） ===== */
+.explain-strip-wrap { display: flex; justify-content: center; background: #f3ecda; padding: 0 20px clamp(30px, 5vh, 56px); }
+.explain-strip { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; background: #fff; border: 1.5px solid rgba(99,189,87,.5); border-radius: 999px; padding: 13px 26px; box-shadow: 0 10px 24px -16px rgba(60,80,60,.55); transition: transform .25s, box-shadow .25s, border-color .25s; }
+.explain-strip:hover { transform: translateY(-3px); box-shadow: 0 18px 32px -18px rgba(60,80,60,.55); border-color: var(--research); }
+.explain-strip-mark { width: 26px; height: 26px; flex: none; }
+.explain-strip-text { font-family: var(--font-hand); font-size: .95rem; color: var(--ink); letter-spacing: .04em; }
+.explain-strip-text em { font-style: normal; color: var(--research); margin-left: 10px; transition: margin-left .25s; }
+.explain-strip:hover .explain-strip-text em { margin-left: 14px; }
+@media (max-width: 560px) { .explain-strip { flex-direction: column; gap: 5px; text-align: center; border-radius: 22px; padding: 15px 22px; } .explain-strip-text em { display: block; margin-left: 0; margin-top: 3px; } }
