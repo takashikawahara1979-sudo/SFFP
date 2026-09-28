@@ -55,22 +55,20 @@
 <main class="content">
   <div class="news-wrap">
     <div class="vine" aria-hidden="true">
-      <svg viewBox="0 0 30 1000" preserveAspectRatio="none">
+      <svg id="vineSvg" width="30" height="100%">
         <defs>
           <linearGradient id="vineGrad" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stop-color="#7ccf6f"/><stop offset="1" stop-color="#3f8f42"/>
           </linearGradient>
         </defs>
-        <path class="stem" pathLength="1" d="M15 4 C26 90 4 175 15 262 C26 349 4 434 15 521 C26 608 4 693 15 780 C24 852 12 930 15 996" />
-        <path class="vleaf v1" d="M15 262 C2 258 -6 244 -4 230 C10 232 18 246 15 262 Z" />
-        <path class="vleaf v2" d="M15 521 C28 517 36 503 34 489 C20 491 12 505 15 521 Z" />
-        <path class="vleaf v3" d="M15 780 C2 776 -6 762 -4 748 C10 750 18 764 15 780 Z" />
+        <path class="stem" d="" />
+        <g class="vleaves"></g>
       </svg>
     </div>
     <div id="news-list"></div>
   </div>
 
-  <p class="f-note" style="margin-top:30px; color:#94a08d; text-align:center; font-size:.85rem;">2026/08/31 Updated</p>
+  <p class="f-note" style="margin-top:30px; color:#94a08d; text-align:center; font-size:.85rem;">2026/09/25 Updated</p>
 
   <a class="back-home" href="../index.html">← ホームに戻る</a>
 </main>
@@ -83,14 +81,26 @@
    type: accepted / published / presented / award
    link は任意（無い場合は '' か省略） */
 const NEWS = [
+  { date:'2026-09', type:'accepted', journal:'International Journal of Urology',
+    title:'Depressive symptom severity is associated with IPSS and ICIQ-SF scores but not overactive bladder in Japanese male never-smokers',
+    link:'' },
+  { date:'2026-09', type:'published', journal:'UroPrecision',
+    title:'Reducing unnecessary osteoporosis treatment in prostate cancer with FRAX-BMD integration',
+    link:'https://doi.org/10.1002/uro2.70084' },
+  { date:'2026-09', type:'accepted', journal:'Lower Urinary Tract Symptoms (LUTS)',
+    title:'Sex differences in the shift from anticholinergics to β3-agonists for overactive bladder: a nationwide study in Japan, FY2017–FY2024',
+    link:'' },
+  { date:'2026-09', type:'accepted', journal:'Lower Urinary Tract Symptoms (LUTS)',
+    title:'Symptom bother is associated with medical care-seeking for LUTS in Japanese women: a survey of 1,800 women',
+    link:'' },
+  { date:'2026-09', type:'accepted', journal:'Urologia Internationalis',
+    title:'Efficacy of adjuvant nivolumab versus adjuvant gemcitabine plus cisplatin/carboplatin after radical nephroureterectomy for upper tract urothelial carcinoma: a real-world analysis using a Japanese large-scale claims database',
+    link:'' },
+  { date:'2026-09', type:'published', journal:'Aging and Cancer',
+    title:'A Low Psoas Muscle Index Was Associated With a Poorer Overall Survival in Patients Who Underwent Percutaneous Nephrostomy',
+    link:'https://doi.org/10.1002/aac2.70028' },
   { date:'2026-08', type:'accepted', journal:'Cancer Reports',
     title:'Fewer Injections and Lower Drug Costs with Long-Acting GnRH Depot Formulations: A Nationwide Analysis of 2.3 Million Patient-Years in Japan',
-    link:'' },
-  { date:'2026-08', type:'accepted', journal:'Uro Precision',
-    title:'Reducing Unnecessary Osteoporosis Treatment in Prostate Cancer with FRAX-BMD Integration',
-    link:'' },
-  { date:'2026-08', type:'accepted', journal:'Aging and Cancer',
-    title:'A low psoas muscle index was associated with a poorer overall survival in patients who underwent percutaneous nephrostomy',
     link:'' },
   { date:'2026-08', type:'accepted', journal:'BJUI Compass',
     title:'Procedure-specific temperature dependence and lag structure of urinary stone surgery: a nationwide open-data study in Japan, 2019–2024',
@@ -143,6 +153,78 @@ document.getElementById('news-list').innerHTML = NEWS.map(n => {
 /* 出現アニメ */
 const nio = new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');nio.unobserve(e.target);}});},{threshold:.2});
 document.querySelectorAll('.news-item').forEach(el=>nio.observe(el));
+
+/* えだまめの茎：記事の高さに合わせて描く（引き伸ばさないので途切れません） */
+(function(){
+  const vine = document.querySelector('.vine');
+  const svg  = document.getElementById('vineSvg');
+  if (!vine || !svg) return;
+  const stem   = svg.querySelector('.stem');
+  const leaves = svg.querySelector('.vleaves');
+  const NS = 'http://www.w3.org/2000/svg';
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let drawn = false, lastH = 0;
+
+  function build(){
+    const h = Math.round(vine.clientHeight);
+    if (!h || Math.abs(h - lastH) < 2) return;
+    lastH = h;
+    svg.setAttribute('viewBox', `0 0 30 ${h}`);
+    svg.setAttribute('height', h);
+
+    // 波の長さをそろえたまま、上から下まで一本でつなぐ
+    const cx = 15, amp = 11, half = 130;
+    const top = 4, bottom = Math.max(top + 40, h - 6);
+    const n = Math.max(2, Math.round((bottom - top) / half));
+    const seg = (bottom - top) / n;
+    let d = `M ${cx} ${top}`, dir = 1;
+    const anchors = [];
+    for (let i = 0; i < n; i++){
+      const y0 = top + seg * i, y1 = top + seg * (i + 1);
+      d += ` C ${cx + dir * amp} ${y0 + seg * 0.35}, ${cx + dir * amp} ${y1 - seg * 0.35}, ${cx} ${y1}`;
+      anchors.push({ y: (y0 + y1) / 2, dir });
+      dir *= -1;
+    }
+    stem.setAttribute('d', d);
+
+    // 葉を3枚、間隔をあけて配置する
+    leaves.textContent = '';
+    const pick = [];
+    if (anchors.length >= 3){
+      pick.push(anchors[Math.floor(anchors.length * 0.25)]);
+      pick.push(anchors[Math.floor(anchors.length * 0.55)]);
+      pick.push(anchors[Math.floor(anchors.length * 0.82)]);
+    } else {
+      pick.push(...anchors);
+    }
+    pick.forEach((a, i) => {
+      const leaf = document.createElementNS(NS, 'path');
+      leaf.setAttribute('class', 'vleaf');
+      leaf.setAttribute('d', 'M0 0 C-12 -3 -20 -15 -18 -28 C-6 -26 2 -14 0 0 Z');
+      leaf.setAttribute('transform', `translate(${cx + a.dir * amp * 0.55} ${a.y}) scale(${a.dir} 1)`);
+      leaf.style.animationDelay = (0.9 + i * 0.45) + 's';
+      leaves.appendChild(leaf);
+    });
+
+    // 上から下へ伸びる動き（描き直しても途切れません）
+    const len = stem.getTotalLength();
+    stem.style.strokeDasharray = len;
+    if (still || drawn){
+      stem.style.transition = 'none';
+      stem.style.strokeDashoffset = 0;
+    } else {
+      stem.style.strokeDashoffset = len;
+      requestAnimationFrame(() => { stem.style.strokeDashoffset = 0; });
+      drawn = true;
+    }
+  }
+
+  build();
+  window.addEventListener('load', build);
+  window.addEventListener('resize', () => { clearTimeout(window.__vt); window.__vt = setTimeout(build, 150); });
+  if (window.ResizeObserver) new ResizeObserver(build).observe(document.querySelector('.news-wrap'));
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(build);
+})();
 </script>
 </body>
 </html>
