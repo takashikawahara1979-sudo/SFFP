@@ -311,8 +311,8 @@ nav a:hover::after, nav a[aria-current="page"]::after { width: 100%; }
 .news-wrap { max-width: 720px; margin: 0 auto; position: relative; padding-left: 62px; }
 .vine { position: absolute; left: 10px; top: 6px; bottom: 8px; width: 30px; pointer-events: none; }
 .vine svg { width: 30px; height: 100%; display: block; overflow: visible; }
-.vine .stem { fill: none; stroke: url(#vineGrad); stroke-width: 3.2; stroke-linecap: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 1; animation: vineDraw 2.2s cubic-bezier(.4,.1,.3,1) .2s forwards; }
-@keyframes vineDraw { to { stroke-dashoffset: 0; } }
+.vine .vleaf { transform-box: view-box; }
+.vine .stem { fill: none; stroke: url(#vineGrad); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; transition: stroke-dashoffset 2.2s cubic-bezier(.4,.1,.3,1) .2s; }
 .vine .vleaf { fill: var(--sprout); opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(0) rotate(-30deg); animation: vleafPop .6s cubic-bezier(.2,.9,.3,1.4) forwards; }
 .vine .vleaf.v1 { animation-delay: 1.0s; } .vine .vleaf.v2 { animation-delay: 1.5s; } .vine .vleaf.v3 { animation-delay: 2.0s; }
 @keyframes vleafPop { to { opacity: .9; transform: scale(1) rotate(0); } }
@@ -365,7 +365,7 @@ nav a:hover::after, nav a[aria-current="page"]::after { width: 100%; }
 .news-link.t-award     { color: var(--trials); }
 
 @media (prefers-reduced-motion: reduce) {
-  .vine .stem { animation: none; stroke-dashoffset: 0; }
+  .vine .stem { transition: none; stroke-dashoffset: 0 !important; }
   .vine .vleaf { animation: none; opacity: .9; transform: none; }
   .news-item, .news-bloom, .news-bud { opacity: 1; transform: none; }
 }
