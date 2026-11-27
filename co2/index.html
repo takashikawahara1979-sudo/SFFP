@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#6fa6d6">
+<title>手術CO2見える化</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Yomogi&family=Klee+One:wght@400;600&family=Zen+Kurenaido&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE everyday clinical tool in the SEEDS for FUTURE Patients voice: calm, hopeful, hand-lettered
+   IDEA a page of the SFFP site: sky banner over fields, then white cards on paper, like a field notebook
+   PICTURE the live result: a large kg figure with a "これはどれくらい？" card of everyday equivalents, over a shrinking bar
+   COLOUR SFFP palette: sky gradient band, paper #ece2c9 ground, sprout green for kg saved, harvest orange for kg added
+   TYPE Yomogi for titles and the result, Klee One headings, Zen Kurenaido text, Quicksand numbers
+   LAYOUT laptop: inputs left, sticky result right; phone: banner, result, inputs */
+:root{color-scheme:light;--sky-top:#3f7cb8;--sky-mid:#6fa6d6;--sky-low:#a9d3ea;--sky-h:#e7f1e2;--cloud:#fcf9f0;--paper:#ece2c9;--paper2:#f3ecda;--far:#9cc47e;--mid:#7bae5a;--near:#588a3c;--hedge:#6b5a3e;--sprout:#63bd57;--deep:#3f8f42;--case:#4a90c2;--orange:#e0913a;--ink:#33413a;--soft:#5c6b60;--line:#e3dccb;--brush:'Yomogi','Klee One',cursive;--pen:'Klee One','Zen Kurenaido',sans-serif;--hand:'Zen Kurenaido','Klee One',sans-serif;--latin:'Quicksand',sans-serif}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0}
+body{font:16px/1.7 var(--hand);color:var(--ink);background:var(--paper);overflow-x:clip;-webkit-font-smoothing:antialiased}
+.sky{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--sky-top) 0%,var(--sky-mid) 38%,var(--sky-low) 70%,var(--sky-h) 100%)}
+.glow{position:absolute;top:-30%;right:6%;width:520px;height:520px;background:radial-gradient(circle,rgba(255,255,240,.75) 0%,rgba(255,255,240,0) 62%);pointer-events:none}
+.cloud{position:absolute;background:var(--cloud);border-radius:50%;filter:blur(2px);opacity:.92;box-shadow:70px 12px 0 -6px var(--cloud),150px 26px 0 4px var(--cloud),-70px 20px 0 -4px var(--cloud),40px 40px 0 6px var(--cloud);animation:drift 90s linear infinite}
+.c1{top:14%;left:-14%;width:150px;height:60px}.c2{top:34%;left:-30%;width:110px;height:44px;animation-duration:120s;animation-delay:8s}
+@keyframes drift{to{transform:translateX(150vw)}}
+.plane-track{position:absolute;top:18%;left:-12%;display:flex;align-items:center;pointer-events:none;animation:fly 30s linear infinite}
+.contrail{height:3px;width:40vw;border-radius:3px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.85) 92%)}
+.plane{width:36px;height:36px;transform:rotate(-4deg)}
+@keyframes fly{to{transform:translate(132vw,6vh)}}
+.scenery{position:absolute;left:0;right:0;bottom:0;width:100%;height:120px;pointer-events:none}
+header{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:20px clamp(16px,5vw,64px) 0}
+.brand{display:flex;align-items:center;gap:12px}
+.mark{width:34px;height:34px;flex:none;transform-origin:bottom center;animation:sway 4s ease-in-out infinite}
+@keyframes sway{25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
+.name{font-family:var(--latin);font-weight:700;letter-spacing:.14em;color:#fff;font-size:1.15rem;line-height:1;text-shadow:0 2px 10px rgba(30,60,80,.35)}
+.tag{color:#f3faf1;font-size:.78rem;letter-spacing:.1em;margin-top:4px;text-shadow:0 1px 6px rgba(30,60,80,.4)}
+.back{color:#fff;font-size:.95rem;text-shadow:0 1px 8px rgba(30,60,80,.4);text-decoration:none;padding:8px 2px}
+.back:hover{text-decoration:underline}
+.sub{position:relative;z-index:5;padding:clamp(18px,4vh,40px) clamp(16px,6vw,90px) 150px}
+.eyebrow{font-family:var(--latin);font-weight:700;letter-spacing:.16em;font-size:.8rem;color:#fff;text-shadow:0 1px 8px rgba(30,60,80,.4)}
+h1{font-family:var(--brush);font-weight:400;font-size:clamp(2rem,5vw,3.2rem);line-height:1.25;color:#2b3b33;margin:6px 0 0;text-shadow:0 2px 16px rgba(255,255,255,.5)}
+.lede{margin:10px 0 0;max-width:640px;color:#38493f;line-height:1.85;text-shadow:0 1px 10px rgba(255,255,255,.5)}
+.proto{display:inline-block;margin-top:14px;font-size:.85rem;background:rgba(255,255,255,.82);color:#7a5a20;border:1px dashed var(--orange);padding:4px 12px;border-radius:999px}
+nav{position:relative;z-index:6;display:flex;gap:8px;flex-wrap:wrap;max-width:1180px;margin:-62px auto 0;padding:0 clamp(16px,5vw,40px)}
+nav button{font:inherit;font-family:var(--pen);font-weight:600;color:var(--ink);background:rgba(255,255,255,.7);border:1.5px solid rgba(255,255,255,.9);border-radius:999px;padding:10px 20px;min-height:44px;cursor:pointer;box-shadow:0 10px 24px -16px rgba(60,80,60,.55)}
+nav button[aria-selected=true]{background:#fff;border-color:var(--sprout);color:var(--deep)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--case);outline-offset:2px}
+main{max-width:1180px;margin:0 auto;padding:22px clamp(16px,5vw,40px) 60px}
+.view{display:none}.view.on{display:block}
+.grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:22px;align-items:start}
+.card{background:#fff;border-radius:20px;padding:20px 22px;box-shadow:0 14px 32px -20px rgba(60,80,60,.5)}
+.card+.card{margin-top:16px}
+h2{font-family:var(--pen);font-weight:600;font-size:1.2rem;margin:0 0 10px;letter-spacing:.03em}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:9px 0;border-top:1px dashed var(--line)}
+.row:first-of-type{border-top:0}
+.hint{font-size:.85rem;color:var(--soft);line-height:1.5}
+input,select{font:inherit;font-size:16px;color:var(--ink);background:#fbf8f0;border:1.5px solid var(--line);border-radius:12px;padding:8px 10px;min-height:44px}
+input[type=number]{width:7em;text-align:right;font-family:var(--latin);font-weight:600}
+select{min-width:11em}
+.unit{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.seg button{font:inherit;font-family:var(--pen);font-weight:600;min-height:48px;border-radius:14px;border:1.5px solid var(--line);background:#fbf8f0;color:var(--ink);cursor:pointer}
+.seg button[aria-pressed=true]{background:#e7f4e5;border-color:var(--sprout);color:var(--deep)}
+.chips{display:grid;gap:8px}
+.chip{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;text-align:left;font:inherit;color:var(--ink);background:#fbf8f0;border:1.5px solid var(--line);border-radius:14px;padding:10px 14px;min-height:54px;cursor:pointer}
+.chip b{font-family:var(--latin);white-space:nowrap;color:var(--soft)}
+.chip[aria-pressed=true]{border-color:var(--sprout);background:#e7f4e5}
+.chip[aria-pressed=true] b{color:var(--deep)}
+.box{flex:none;width:22px;height:22px;border-radius:7px;border:2px solid #cfc6b0;display:grid;place-items:center;margin-right:10px;background:#fff}
+.chip[aria-pressed=true] .box{background:var(--sprout);border-color:var(--sprout)}
+.chip[aria-pressed=true] .box::after{content:"";width:6px;height:11px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.cnt{display:flex;align-items:center;gap:6px}
+.cnt button{width:44px;height:44px;font:inherit;font-size:20px;border-radius:12px;border:1.5px solid var(--line);background:#fbf8f0;color:var(--ink);cursor:pointer}
+.cnt output{min-width:2em;text-align:center;font-family:var(--latin);font-weight:700}
+.res{position:sticky;top:12px}
+.howbtn{font:inherit;font-family:var(--pen);font-weight:600;font-size:.92rem;color:#2f6a92;background:#eef5fb;border:1.5px solid rgba(111,166,214,.6);border-radius:999px;padding:8px 16px;min-height:44px;cursor:pointer;margin-bottom:6px}
+.howbtn[aria-expanded=true]{background:#fff;border-color:var(--case)}
+.anes{margin-top:12px;padding:10px 14px;border-radius:14px;background:#fbf8f0;border:1px dashed var(--line);font-size:.92rem;line-height:1.7}
+.anes b{font-family:var(--latin)}
+.mini{display:none}
+input:disabled,select:disabled{background:#f1ebdb;color:var(--soft);border-style:dashed;opacity:1}
+.ad h4{font-family:var(--pen);font-weight:600;font-size:.98rem;margin:14px 0 6px}
+.ad .trow{grid-template-columns:9.5em minmax(0,1fr) 5.2em}
+.ad .trow.me .fill{background:var(--deep)}
+.ad .trow.st .fill{background:#b5ab95}
+.ad table{font-size:.88rem}
+.stackbar{display:flex;height:44px;border-radius:12px;overflow:hidden;margin:4px 0 8px}
+.stackbar div{display:grid;place-items:center;color:#fff;font-family:var(--latin);font-weight:700;font-size:.9rem;white-space:nowrap;overflow:hidden}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.9rem}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:6px;vertical-align:-1px}
+.ratio{font-family:var(--pen);font-weight:600;font-size:1.1rem;margin:12px 0 0}
+.ratio b{font-family:var(--latin);font-size:1.4rem;color:var(--deep)}
+.trow{display:grid;grid-template-columns:4.6em minmax(0,1fr) 3.6em;gap:8px;align-items:center;font-size:.85rem;padding:2px 0}
+.trow .track{height:16px}
+.trow .fill{background:#e07a5f}
+.trow.pk .fill{background:#c0392b}
+.hist{display:flex;align-items:flex-end;gap:2px;height:190px;border-bottom:1.5px solid var(--line);position:relative;padding-top:20px}
+.hist div{flex:1;background:#b9c9a6;border-radius:4px 4px 0 0;position:relative}
+.hist div.pk{background:var(--deep)}
+.hist div.pk::after{content:attr(data-l);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:.75rem;font-family:var(--latin);white-space:nowrap;color:var(--deep);padding-bottom:2px}
+.hx{display:flex;justify-content:space-between;font-family:var(--latin);font-size:.8rem;color:var(--soft)}
+.hit{display:flex;flex-wrap:wrap;align-items:flex-end;gap:6px 14px}
+.big{font-family:var(--brush);font-size:clamp(54px,8vw,82px);line-height:1;color:var(--deep);white-space:nowrap}
+.big.up{color:var(--orange)}
+.pct{font-size:1rem;color:var(--soft);padding-bottom:8px}
+.how{margin:14px 0 6px;background:linear-gradient(180deg,#eef5fb,#fff);border:1.5px solid rgba(111,166,214,.55);border-radius:16px;padding:12px 16px}
+.how h3{font-family:var(--pen);font-weight:600;font-size:1rem;margin:0 0 6px;color:#2f6a92}
+.eq{display:grid;grid-template-columns:34px minmax(0,1fr);gap:8px;align-items:center;padding:5px 0}
+.eq svg{width:30px;height:30px}
+.eq b{font-family:var(--latin);font-weight:700;font-size:1.1rem;color:var(--ink)}
+.bars{display:grid;gap:10px;margin:14px 0}
+.bar{display:grid;grid-template-columns:5.2em minmax(0,1fr) 5em;gap:10px;align-items:center;font-size:.92rem}
+.track{height:24px;background:#f1ebdb;border-radius:999px;overflow:hidden}
+.fill{height:100%;background:#b9c9a6;border-radius:999px;transition:width .4s}
+.fill.today{background:linear-gradient(90deg,var(--sprout),var(--deep))}
+.v{text-align:right;font-family:var(--latin);font-weight:600;white-space:nowrap}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th,td{padding:7px 6px;border-top:1px dashed var(--line);text-align:left;vertical-align:top}
+th{font-weight:400;color:var(--soft);font-size:.85rem}
+td.n{text-align:right;font-family:var(--latin);font-weight:600;white-space:nowrap}
+.neg{color:var(--deep)}.pos{color:var(--orange)}
+.btn{font:inherit;font-family:var(--pen);font-weight:600;border:0;border-radius:999px;padding:11px 22px;min-height:46px;cursor:pointer;background:linear-gradient(135deg,var(--sprout),var(--deep));color:#fff;box-shadow:0 10px 20px -12px rgba(63,143,66,.8)}
+.btn.ghost{background:#fff;color:var(--deep);border:1.5px solid rgba(99,189,87,.6);box-shadow:none}
+.btn.sm{min-height:36px;padding:4px 12px;font-size:.85rem}
+.acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(11em,1fr));gap:14px;margin-bottom:16px}
+.kpi{background:#fff;border-radius:18px;padding:14px 18px;box-shadow:0 12px 30px -20px rgba(60,80,60,.45)}
+.kpi .num{font-family:var(--latin);font-weight:700;font-size:clamp(26px,3.6vw,36px);line-height:1.15;white-space:nowrap}
+.kpi .num.c{color:var(--deep)}
+.months{display:flex;align-items:flex-end;gap:10px;height:190px;padding-top:26px;border-bottom:1.5px solid var(--line)}
+.mcol{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px;font-family:var(--latin);font-size:.8rem}
+.mbar{width:100%;max-width:46px;background:linear-gradient(180deg,var(--sprout),var(--deep));border-radius:10px 10px 0 0;min-height:2px}
+.mlab{color:var(--soft);white-space:nowrap}
+.note{font-size:.86rem;color:var(--soft);margin-top:10px;line-height:1.7}
+.memo{margin-top:14px;padding:12px 16px;border-radius:14px;background:#fff7e6;border:1px dashed var(--orange);color:#7a5a20;font-size:.88rem;line-height:1.8}
+details summary{cursor:pointer;font-family:var(--pen);font-weight:600;min-height:44px;display:flex;align-items:center}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#33413a;color:#fff;padding:10px 20px;border-radius:999px;font-family:var(--pen);opacity:0;pointer-events:none;transition:opacity .25s}
+.toast.on{opacity:1}
+.scroll{overflow-x:auto}
+.hide{display:none!important}
+footer{background:#33413a;color:#dfe8dd;text-align:center;padding:28px 20px;letter-spacing:.08em;font-size:.85rem}
+@media(max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}.res{position:static}
+.mini{display:flex;position:fixed;left:12px;right:12px;bottom:12px;z-index:20;align-items:center;gap:10px;flex-wrap:wrap;background:#fff;border:1.5px solid var(--sprout);border-radius:999px;padding:8px 18px;box-shadow:0 14px 30px -14px rgba(60,80,60,.6);color:var(--ink);text-decoration:none;font-family:var(--pen)}
+.mini b{font-family:var(--brush);font-size:1.6rem;color:var(--deep);line-height:1}
+.mini.up b{color:var(--orange)}
+main{padding-bottom:110px}}
+@media(max-width:600px){table{font-size:13px}th,td{padding:6px 4px}.row{grid-template-columns:minmax(0,1fr)}.bar{grid-template-columns:4.4em minmax(0,1fr) 4.4em}.sub{padding-bottom:130px}}
+@media(prefers-reduced-motion:reduce){.cloud,.plane-track,.mark{animation:none}.fill,.toast{transition:none}}
+</style>
+</head>
+<body>
+<section class="sky">
+  <div class="glow"></div>
+  <div class="cloud c1" aria-hidden="true"></div><div class="cloud c2" aria-hidden="true"></div>
+  <div class="plane-track" aria-hidden="true"><div class="contrail"></div>
+    <svg class="plane" viewBox="0 0 64 64" fill="#f7fbff"><path d="M2 34 L40 30 L54 12 C56 9 60 10 59 14 L50 32 L60 33 C63 33 63 37 60 38 L48 40 L40 54 C39 57 35 57 35 53 L34 40 L14 44 C11 45 9 42 11 40 Z"/></svg></div>
+  <svg class="scenery" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 40 C300 10 560 50 840 30 C1120 12 1300 46 1440 30 L1440 120 L0 120Z" fill="var(--far)"/>
+    <path d="M0 70 C320 48 700 86 1080 64 C1260 56 1360 72 1440 66 L1440 120 L0 120Z" fill="var(--mid)"/>
+    <path d="M0 96 C400 80 820 104 1200 88 C1320 84 1400 92 1440 90 L1440 120 L0 120Z" fill="var(--paper)"/>
+  </svg>
+  <header>
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 44 C24 34 24 26 24 22" stroke="#3f8f42" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M24 24 C14 24 8 18 8 10 C18 10 24 16 24 24 Z" fill="#63bd57"/><path d="M24 20 C34 20 40 14 40 6 C30 6 24 12 24 20 Z" fill="#7ccf6f"/></svg>
+      <div><div class="name">SEEDS for FUTURE Patients</div><div class="tag">よりよい未来への種づくり</div></div>
+    </div>
+    <a class="back" href="../">← トップページへもどる</a>
+  </header>
+  <div class="sub">
+    <div class="eyebrow">GREEN SURGERY</div>
+    <h1>手術のCO2を、見える化する。</h1>
+    <p class="lede">今日の手術で減らせた工夫をタップすると、削減できたCO2がその場でわかります。</p>
+    <span class="proto">試作版・数値はすべて推計値・患者情報は入力しません</span>
+  </div>
+</section>
+<nav role="tablist">
+  <button role="tab" id="t-case" aria-selected="true" data-v="case">今日の症例</button>
+  <button role="tab" id="t-sum" aria-selected="false" data-v="sum">累積・年間</button>
+  <button role="tab" id="t-jp" aria-selected="false" data-v="jp">日本の集計</button>
+  <button role="tab" id="t-set" aria-selected="false" data-v="set">設定</button>
+  <button role="tab" id="t-src" aria-selected="false" data-v="src">係数と根拠</button>
+</nav>
+<main>
+<section class="view on" id="v-case">
+  <div class="grid">
+    <div>
+      <div class="card">
+        <h2>術式とアプローチ</h2>
+        <div class="row"><label for="c-proc">術式</label><select id="c-proc"></select></div>
+        <div class="seg" id="appr" role="group" aria-label="アプローチ"></div>
+        <div class="row" id="robot-row"><div><label for="c-robot">機種</label><div class="hint">記録用。現時点では計算に差はありません</div></div><select id="c-robot"></select></div>
+      </div>
+      <div class="card">
+        <h2>減らしたものをタップ</h2>
+        <div class="chips" id="chips"></div>
+        <div class="row" style="margin-top:6px"><div><label>その他の鉗子・器具を減らした本数</label><div class="hint">再使用型1本あたりの推計値</div></div>
+          <div class="cnt"><button type="button" id="ins-m" aria-label="減らす">−</button><output id="ins-n">0</output><button type="button" id="ins-p" aria-label="増やす">＋</button></div></div>
+        <div class="row"><div><label>開封せずに返却したディスポ物品</label><div class="hint">1点あたりの推計値</div></div>
+          <div class="cnt"><button type="button" id="dis-m" aria-label="減らす">−</button><output id="dis-n">0</output><button type="button" id="dis-p" aria-label="増やす">＋</button></div></div>
+      </div>
+      <div class="card">
+        <h2>時間・麻酔・気腹</h2>
+        <div class="row"><div><label for="c-op">手術時間</label><div class="hint" id="h-op"></div></div><span class="unit"><input type="number" id="c-op" min="0" step="5" inputmode="numeric">分</span></div>
+        <div class="row"><div><label for="c-an">麻酔時間</label><div class="hint" id="h-an"></div></div><span class="unit"><input type="number" id="c-an" min="0" step="5" inputmode="numeric">分</span></div>
+        <div class="row"><label for="c-agent">麻酔方法</label><select id="c-agent"></select></div>
+        <details id="fgf-det"><summary>麻酔の詳細を入力する</summary>
+          <div class="row"><div><label for="c-fgf">新鮮ガス流量</label><div class="hint">吸入麻酔のときのみ。空欄なら標準（セボ2・デス1 L/min）</div></div><span class="unit"><input type="number" id="c-fgf" min="0.3" max="6" step="0.1">L/min</span></div>
+        </details>
+        <div id="gas-box">
+        <div class="row" id="gas-row"><div><span>気腹CO2使用量</span><div class="hint" id="h-gas"></div></div><span class="unit"><b class="v" id="gas-est"></b></span></div>
+        <details id="gas-det"><summary>気腹の詳細を入力する</summary>
+          <div class="row"><div><label for="c-gas">気腹CO2の積算量</label><div class="hint">気腹装置の表示値。入力するとこれを優先</div></div><span class="unit"><input type="number" id="c-gas" min="0" step="10" inputmode="numeric">L</span></div>
+          <div class="row"><div><label for="c-gast">気腹時間</label><div class="hint">積算量がわからないとき。気腹時間×平均使用量で計算</div></div><span class="unit"><input type="number" id="c-gast" min="0" step="5" inputmode="numeric">分</span></div>
+          <div class="row"><div><label for="c-gasr">平均使用量</label><div class="hint">空欄なら標準設定の値</div></div><span class="unit"><input type="number" id="c-gasr" min="0" step="0.1">L/分</span></div>
+          <div class="row"><div><label for="c-gasp">気腹圧</label><div class="hint">記録用（低圧気腹の取り組みの記録）</div></div><span class="unit"><input type="number" id="c-gasp" min="0" step="1" inputmode="numeric">mmHg</span></div>
+          <div class="acts" style="margin-top:4px"><button type="button" class="btn ghost sm" id="gas-clear">気腹の詳細をクリア（概算に戻す）</button></div>
+        </details>
+        </div>
+      </div>
+    </div>
+    <aside class="res">
+      <div class="card" id="res-card">
+        <h2>術者の工夫による削減量</h2>
+        <div class="hit"><div class="big" id="r-big">−0.0 kg</div><div class="pct" id="r-pct"></div>
+          <button type="button" class="howbtn" id="how-btn" aria-expanded="false" aria-controls="how-box">これはどれくらい？</button></div>
+        <div class="how hide" id="how-box"><div id="r-how"></div></div>
+        <div class="anes"><div id="r-anes"></div>
+          <button type="button" class="howbtn" id="an-btn" aria-expanded="false" aria-controls="an-detail" style="margin:8px 0 0">麻酔方法の違いを詳しく見る</button>
+          <div class="hide" id="an-detail"></div></div>
+        <div class="bars" id="bars">
+          <div class="bar"><span>標準</span><div class="track"><div class="fill" id="b-std"></div></div><span class="v" id="v-std"></span></div>
+          <div class="bar"><span>この症例</span><div class="track"><div class="fill today" id="b-today"></div></div><span class="v" id="v-today"></span></div>
+        </div>
+        <p class="note hide" id="no-base">このアプローチの標準値は未設定です（前立腺全摘の既報がないため）。削減量だけを表示しています。</p>
+        <table><thead><tr><th>内訳</th><th style="text-align:right">kg CO2e</th></tr></thead><tbody id="r-tbl"></tbody></table>
+        <div class="acts"><button class="btn" id="save">この症例を記録</button><button class="btn ghost" id="reset">入力をリセット</button></div>
+        <p class="note">マイナスは削減、プラスは標準より多い分です。麻酔時間が短くなった分は術者の工夫に入れています。麻酔方法の選択による差は、上の欄で別に示しています。</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="view" id="v-sum">
+  <p class="note" style="margin:0 0 10px">累積と年間見込みは「術者の工夫」による分です。麻酔方法の違いは別枠で集計します。</p>
+  <div class="kpis" id="kpis"></div>
+  <div class="card"><div class="how" style="margin-top:0"><h3>年間見込みは、これくらい</h3><div id="y-how"></div></div></div>
+  <div class="card"><h2>月別の削減量（kg CO2e）</h2><div class="months" id="months"></div></div>
+  <div class="card"><h2>記録した症例</h2><div class="scroll"><table><thead><tr><th>日付</th><th>術式</th><th>アプローチ</th><th>主な工夫</th><th style="text-align:right">削減</th><th></th></tr></thead><tbody id="log"></tbody></table></div>
+    <p class="note" id="sample-note"></p>
+    <div class="acts"><button class="btn ghost" id="clear">記録をすべて消去</button><button class="btn ghost" id="copy">CSVをコピー</button></div></div>
+</section>
+
+<section class="view" id="v-jp">
+  <div class="card">
+    <h2>日本のRARP 2025年度：デスフルランは今も約4割</h2>
+    <p class="hint" style="margin:0 0 12px">MDV（DPC病院中心の診療データ）2025年度 RARP 11,042例。手術当日の薬剤で分類。</p>
+    <div class="kpis" id="jp-kpi" style="margin-bottom:6px"></div>
+  </div>
+  <div class="grid" style="margin-top:16px">
+    <div class="card">
+      <h2>麻酔方法の構成比（2025年度）</h2>
+      <div class="stackbar" id="jp-mix"></div>
+      <div id="jp-mixleg" class="legend"></div>
+      <p class="ratio" id="jp-ratio"></p>
+      <h2 style="margin-top:18px">デスフルラン使用割合の推移</h2>
+      <div id="jp-trend"></div>
+      <p class="note">ピークは2022年度の52.7%。その後は減少しています。</p>
+    </div>
+    <div class="card">
+      <h2>総麻酔時間の分布</h2>
+      <div class="hist" id="jp-hist"></div>
+      <div class="hx"><span>60分</span><span>300分</span><span>600分</span></div>
+      <p class="note" id="jp-histnote"></p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <h2>麻酔ガスによる排出の推計（1件あたり、総麻酔時間287分）</h2>
+    <div id="jp-gas"></div>
+    <p class="note">新鮮ガス流量をセボ2 L/min・デス1 L/minと仮定した推計。MDVでは使用量は取れません。</p>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <h2>他の術式（全期間）：今後の展開用</h2>
+    <div class="scroll"><table><thead><tr><th>術式</th><th style="text-align:right">症例数</th><th style="text-align:right">総麻酔時間 中央値</th><th style="text-align:right">腹腔鏡の時間帯 中央値</th><th style="text-align:right">デスフルラン</th><th style="text-align:right">術後在院 中央値</th></tr></thead><tbody id="jp-other"></tbody></table></div>
+    <p class="note">RARP 2016–25年度、RAPN 2016–24年度、RARC 2018–22年度（9か月分を含む）。データ期間が術式で異なります。</p>
+  </div>
+  <p class="note">出典：MDV（PCa_20261030ほか）。L008（閉鎖循環式全身麻酔）の算定時間から集計。執刀〜閉創の手術時間はレセプトにないため、腹腔鏡の時間帯（L008区分4）で代用しています。</p>
+</section>
+
+<section class="view" id="v-set">
+  <div class="card" style="margin-bottom:16px">
+    <h2>標準術式の基準</h2>
+    <div class="seg" id="mode" role="group" aria-label="標準の基準" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+      <button type="button" id="m-mdv" aria-pressed="true">日本の集計（MDV）を使用する</button>
+      <button type="button" id="m-fac" aria-pressed="false">施設の基準を入力する</button>
+    </div>
+    <p class="note" id="mode-note"></p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h2 id="std-h">標準術式（RARP）</h2>
+      <div class="row"><div><label for="s-op">標準手術時間</label><div class="hint">MDV中央値205分（L008区分4＝腹腔鏡の時間帯で代用、2016–25年度 n=53,153）</div></div><span class="unit"><input type="number" id="s-op" step="5">分</span></div>
+      <div class="row"><div><label for="s-an">標準麻酔時間</label><div class="hint">MDV 2025年度の中央値287分（総麻酔時間、n=11,037）</div></div><span class="unit"><input type="number" id="s-an" step="5">分</span></div>
+      <div class="row"><div><label for="s-agent">標準の麻酔方法</label><div class="hint">初期値はセボフルラン（MDV 2025年度のRARPで最多43%）。全国構成比も選べます</div></div><select id="s-agent"></select></div>
+      <div class="row"><div><label for="s-gasr">気腹CO2の平均使用量</label><div class="hint">概算。手術時間×この値で気腹量を推計</div></div><span class="unit"><input type="number" id="s-gasr" step="0.1">L/分</span></div>
+      <div class="row"><div><label for="s-b-robot">標準排出量：ロボット</label><div class="hint">Fuschiら 2024：RALP 47.3 kg（麻酔ガス除く）</div></div><span class="unit"><input type="number" id="s-b-robot" step="0.1">kg</span></div>
+      <div class="row"><div><label for="s-b-lap">標準排出量：腹腔鏡</label><div class="hint">同：LRP 59.7 kg</div></div><span class="unit"><input type="number" id="s-b-lap" step="0.1">kg</span></div>
+      <div class="row"><div><label for="s-b-open">標準排出量：開腹</label><div class="hint">前立腺全摘の既報なし。空欄可</div></div><span class="unit"><input type="number" id="s-b-open" step="0.1">kg</span></div>
+    </div>
+    <div class="card">
+      <h2>年間・その他の設定</h2>
+      <div class="row"><div><label for="s-year">自施設の年間手術件数</label><div class="hint">年間見込みの計算に使います</div></div><span class="unit"><input type="number" id="s-year" step="1">件</span></div>
+      <div class="row"><div><label for="s-nat">全国の年間手術件数（任意）</label><div class="hint">NDB等の値を入れると全国推計を表示</div></div><span class="unit"><input type="number" id="s-nat" step="100">件</span></div>
+      <div class="row"><div><label for="s-grid">電力の排出係数</label><div class="hint">電力会社の公表値に合わせて変更</div></div><span class="unit"><input type="number" id="s-grid" step="0.01">kg/kWh</span></div>
+      <div class="acts"><button class="btn ghost" id="s-reset">初期値に戻す</button></div>
+      <p class="note">設定はこの端末にだけ保存されます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="view" id="v-src">
+  <div class="card"><h2>計算に使う係数（暫定）</h2><div class="scroll"><table><thead><tr><th>項目</th><th style="text-align:right">値</th><th>根拠</th></tr></thead><tbody id="src"></tbody></table></div>
+  <div class="memo">鉗子・ディスポ・手術室電力の係数は推計です。研究期間中に自施設の重量・電力の実測で補正します。麻酔ガスのGWPはIPCCの100年値。「これはどれくらい？」の換算値はすべて概算です。</div></div>
+</section>
+</main>
+<footer><span style="color:var(--sprout)">●</span> SEEDS for FUTURE Patients ・ Green Surgery（試作版）</footer>
+<a class="mini" id="mini" href="#res-card"><span>術者の工夫</span><b id="mini-kg">−0.0 kg</b><span class="hint" id="mini-an"></span></a>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+{
+const ROBOTS=[{id:"xi",n:"da Vinci Xi"},{id:"dv5",n:"da Vinci 5"},{id:"sp",n:"da Vinci SP"},{id:"hino",n:"hinotori"}];
+const APPR=[{id:"robot",n:"ロボット支援",kw:3.5,gas:true},{id:"lap",n:"腹腔鏡",kw:0.6,gas:true},{id:"open",n:"開腹",kw:0,gas:false}];
+const PROCS=[{id:"rarp",n:"前立腺全摘（RARP）",on:true},{id:"rapn",n:"腎部分切除（準備中）",on:false},{id:"rarc",n:"膀胱全摘（準備中）",on:false}];
+const AGENTS=[{id:"sevo",n:"セボフルラン",gph:20,gwp:144,fgf:2},{id:"des",n:"デスフルラン",gph:25.2,gwp:2540,fgf:1},{id:"tiva",n:"TIVA（プロポフォール）",gph:0,gwp:0,fgf:0}];
+const CHIPS=[
+ {g:"鉗子・デバイス",id:"vs",n:"プログラスプ＋リガシュアー → ベッセルシーラーに集約",kg:1.0,tag:"ベッセルシーラー集約",robot:1},
+ {g:"鉗子・デバイス",id:"lnd",n:"ラージニードルドライバーを使わない",kg:1.0,tag:"LND不使用",robot:1},
+ {g:"鉗子・デバイス",id:"edev",n:"単回使用のエネルギーデバイス（超音波凝固切開など）を使わない",kg:1.5,tag:"単回使用デバイス不使用"},
+ {g:"ポート・気腹",id:"trocar",n:"ディスポのトロッカーをリユースに替える",kg:0.3,tag:"リユーストロッカー"},
+ {g:"ポート・気腹",id:"airseal",n:"AirSealを使わない（通常の気腹）",kg:0.5,tag:"AirSeal不使用"}];
+const K={ins:1.0,dis:0.3,orkw:5,gas:0.00198};
+/* everyday equivalents (approximate): kg CO2 per unit */
+const EQ=[
+ {u:"回",kg:0.006,t:n=>`スマホの充電 約${n}回分`,ic:"phone"},
+ {u:"km",kg:0.13,t:n=>`ガソリン車で 約${n} km 走る分`,ic:"car"},
+ {u:"日",kg:5.0,t:n=>`家庭1軒の電気 約${n}日分`,ic:"house"},
+ {u:"本",kg:14,t:n=>`杉の木 約${n}本が1年で吸収する量`,ic:"tree"},
+ {u:"回",kg:230,t:n=>`飛行機で東京→グアム 1人片道 約${n}回分`,ic:"plane"},
+ {u:"回",kg:1400,t:n=>`飛行機で東京→ニューヨーク 1人片道 約${n}回分`,ic:"plane"}];
+const ICON={
+ phone:'<svg viewBox="0 0 32 32"><rect x="9" y="3" width="14" height="26" rx="3" fill="#fff" stroke="#4a90c2" stroke-width="2"/><path d="M17 10 L13 17 H17 L15 23 L20 15 H16 Z" fill="#e0913a"/></svg>',
+ car:'<svg viewBox="0 0 32 32"><path d="M4 20 L7 12 C8 10 9 9 11 9 H21 C23 9 24 10 25 12 L28 20 V25 H4 Z" fill="#a9d3ea" stroke="#4a90c2" stroke-width="2" stroke-linejoin="round"/><circle cx="10" cy="25" r="3" fill="#33413a"/><circle cx="22" cy="25" r="3" fill="#33413a"/></svg>',
+ house:'<svg viewBox="0 0 32 32"><path d="M4 15 L16 5 L28 15" fill="none" stroke="#6b5a3e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="8" y="14" width="16" height="13" fill="#c8a878"/><rect x="14" y="19" width="5" height="8" fill="#6b4f31"/></svg>',
+ tree:'<svg viewBox="0 0 32 32"><rect x="14.5" y="21" width="3" height="8" fill="#6b5a3e"/><path d="M16 3 L25 20 H7 Z" fill="#3f8f42"/><path d="M16 3 L20 11 H12 Z" fill="#63bd57"/></svg>',
+ plane:'<svg viewBox="0 0 64 64"><path fill="#4a90c2" d="M2 34 L40 30 L54 12 C56 9 60 10 59 14 L50 32 L60 33 C63 33 63 37 60 38 L48 40 L40 54 C39 57 35 57 35 53 L34 40 L14 44 C11 45 9 42 11 40 Z"/></svg>'};
+const MDVSTD={op:205,an:287,agent:"sevo",gasr:1.7,b_robot:47.3,b_lap:59.7,b_open:""};
+const DEF=Object.assign({mode:"mdv",fac:Object.assign({},MDVSTD),year:100,nat:"",grid:0.45},MDVSTD);
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const load=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v??d}catch(e){return d}};
+const store=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+let S=Object.assign(JSON.parse(JSON.stringify(DEF)),load("co2set6",{}));if(!S.fac)S.fac=Object.assign({},MDVSTD);Object.assign(S,S.mode==="fac"?S.fac:MDVSTD);
+const today=()=>new Date().toISOString().slice(0,10);
+const SAMPLE=[
+ {d:"2026-09-08",proc:"RARP",appr:"ロボット支援",tags:"ベッセルシーラー集約",kg:-4.1,sample:1},
+ {d:"2026-09-22",proc:"RARP",appr:"ロボット支援",tags:"LND不使用・30分短縮",kg:-4.4,sample:1},
+ {d:"2026-10-06",proc:"RARP",appr:"ロボット支援",tags:"TIVA・鉗子2本減",kg:-2.0,an:-11.6,sample:1},
+ {d:"2026-10-20",proc:"RARP",appr:"ロボット支援",tags:"時間延長",kg:2.2,sample:1},
+ {d:"2026-11-10",proc:"RARP",appr:"ロボット支援",tags:"鉗子2本減・60分短縮",kg:-9.2,sample:1}];
+let LOG=load("co2log2",null);if(!Array.isArray(LOG))LOG=SAMPLE.slice();
+let C={};
+const opts=(el,arr,val)=>{el.innerHTML=arr.map(a=>`<option value="${a.id}"${a.on===false?" disabled":""}${a.id===val?" selected":""}>${esc(a.n)}</option>`).join("")};
+const MIX={id:"mix",n:"全国の構成比（MDV）",w:{sevo:43.3,des:39.6,tiva:12.5}};
+const STD_AGENTS=[MIX].concat(AGENTS);
+const agent=id=>STD_AGENTS.find(a=>a.id===id)||AGENTS[0];
+const appr=id=>APPR.find(a=>a.id===id)||APPR[0];
+const anKgH=(id,fgf)=>{if(id==="mix"){const w=MIX.w,t=w.sevo+w.des+w.tiva;return(w.sevo*anKgH("sevo")+w.des*anKgH("des"))/t}const a=agent(id);if(!a.gph)return 0;const f=fgf>0?fgf:a.fgf;return a.gph*(f/a.fgf)*a.gwp/1000};
+const fmt=(x,d=1)=>(x<0?"−":x>0?"+":"±")+Math.abs(x).toFixed(d);
+const nice=x=>x>=100?Math.round(x).toLocaleString():x>=10?Math.round(x):x>=1?x.toFixed(1):x.toFixed(2);
+function equiv(kg,max,plain){
+ const a=Math.abs(kg);if(a<0.05)return plain?"":'<p class="hint">工夫をタップすると、身近なものに置き換えて表示します。</p>';
+ const fit=EQ.map(e=>({e,n:a/e.kg})).filter(x=>x.n>=0.5&&x.n<=2000);
+ const pick=fit.sort((p,q)=>Math.abs(Math.log10(p.n)-0.6)-Math.abs(Math.log10(q.n)-0.6)).slice(0,max).sort((p,q)=>p.e.kg-q.e.kg);
+ if(plain)return pick.map(x=>x.e.t(nice(x.n))).join("、");
+ return pick.map(x=>`<div class="eq">${ICON[x.e.ic]}<span>${x.e.t(`<b>${esc(nice(x.n))}</b>`)}</span></div>`).join("")+`<p class="hint" style="margin:4px 0 0">${kg<0?"減らした量":"増えた量"}を、身近なものに置き換えた概算です。</p>`;
+}
+function resetCase(){C={proc:"rarp",appr:"robot",robot:"xi",chips:{},ins:0,dis:0,op:S.op,an:S.an,agent:S.agent==="mix"?"sevo":S.agent,gas:"",gast:"",gasr:"",gasp:"",fgf:""};}
+const baseOf=id=>{const v=S["b_"+id];return v===""||v==null?null:+v};
+const gasRate=()=>+C.gasr>0?+C.gasr:S.gasr;
+const gasMode=()=>+C.gas>0?"sum":+C.gast>0?"time":"est";
+const gasUsed=()=>{const m=gasMode();return m==="sum"?+C.gas:m==="time"?+C.gast*gasRate():C.op*S.gasr};
+function calc(){
+ const A=appr(C.appr);const kwh=(A.kw+K.orkw)*S.grid;
+ const items=[];
+ const act=CHIPS.filter(c=>chipOn(c)&&C.chips[c.id]);
+ const sumG=gs=>act.filter(c=>gs.includes(c.g)).reduce((a,c)=>a+c.kg,0);
+ items.push(["鉗子・デバイス",-(sumG(["鉗子・デバイス"])+C.ins*K.ins)]);
+ items.push(["ポート・気腹関連",-sumG(["ポート・気腹"])]);
+ items.push(["ディスポ物品",-C.dis*K.dis]);
+ items.push(["手術時間（電力）",(C.op-S.op)/60*kwh]);
+ items.push(["麻酔時間の短縮（実際の麻酔方法で）",anKgH(C.agent,+C.fgf)*(C.an-S.an)/60]);
+ if(A.gas)items.push(["気腹CO2",(gasUsed()-S.op*S.gasr)*K.gas]);
+ const delta=items.reduce((a,i)=>a+i[1],0);
+ const anes=(anKgH(C.agent,+C.fgf)-anKgH(S.agent))*S.an/60;
+ const b=baseOf(C.appr);const st=b===null?null:b+anKgH(S.agent)*S.an/60;
+ return{items,delta,anes,st,today:st===null?null:Math.max(st+delta+anes,0)};
+}
+function anesDetail(R){
+ const h=S.an/60,fgf=+C.fgf>0?+C.fgf:agent(C.agent).fgf;
+ const me=anKgH(C.agent,+C.fgf)*h,st=anKgH(S.agent)*h;
+ const opts=[["セボフルラン 2 L/min",anKgH("sevo",2)],["セボフルラン 1 L/min（低流量）",anKgH("sevo",1)],["デスフルラン 1 L/min",anKgH("des",1)],["デスフルラン 0.5 L/min",anKgH("des",0.5)],["TIVA",0]];
+ const L=[...opts.map(o=>[o[0],o[1]*h,""]),[`この症例（${agent(C.agent).n.replace(/（.*/,"")}${C.agent==="tiva"?"":" "+fgf+" L/min"}）`,me,"me"],[`標準（${agent(S.agent).n}）`,st,"st"]];
+ const mx=Math.max(...L.map(x=>x[1]),1);
+ const bars=L.map(x=>`<div class="trow ${x[2]}"><span>${esc(x[0])}</span><div class="track"><div class="fill" style="width:${Math.max(x[1]/mx*100,0.5)}%"></div></div><span class="v">${x[1].toFixed(1)} kg</span></div>`).join("");
+ let mix="";
+ if(S.agent==="mix"){const w=MIX.w,t=w.sevo+w.des+w.tiva;const cs=w.sevo/t*anKgH("sevo")*h,cd=w.des/t*anKgH("des")*h;
+  mix=`<h4>標準（全国の構成比）の内訳</h4><table><tbody><tr><td>セボフルラン ${(w.sevo/t*100).toFixed(0)}% の寄与</td><td class="n">${cs.toFixed(1)} kg</td></tr><tr><td>デスフルラン ${(w.des/t*100).toFixed(0)}% の寄与</td><td class="n">${cd.toFixed(1)} kg</td></tr><tr><td>TIVA ${(w.tiva/t*100).toFixed(0)}% の寄与</td><td class="n">0.0 kg</td></tr></tbody></table><p class="hint">標準の麻酔分 ${st.toFixed(1)} kg のうち ${(cd/st*100).toFixed(0)}% はデスフルランによるものです。</p>`;}
+ const sw=(anKgH("des",1)-anKgH("sevo",2))*h,lf=(anKgH("sevo",2)-anKgH("sevo",1))*h,dl=(anKgH("des",1)-anKgH("des",0.5))*h;
+ return `<div class="ad"><h4>麻酔時間${S.an}分（標準）で比べると</h4>${bars}
+ <h4>この症例の計算</h4><table><tbody>
+ <tr><td>麻酔方法</td><td class="n">${esc(agent(C.agent).n)}</td></tr>
+ ${C.agent==="tiva"?"":`<tr><td>新鮮ガス流量</td><td class="n">${fgf} L/min</td></tr><tr><td>1時間あたり</td><td class="n">${anKgH(C.agent,+C.fgf).toFixed(1)} kg</td></tr>`}
+ <tr><td>標準時間（${S.an}分）での排出</td><td class="n">${me.toFixed(1)} kg</td></tr>
+ <tr><td>標準（${esc(agent(S.agent).n)}）</td><td class="n">${st.toFixed(1)} kg</td></tr>
+ <tr><td><b>麻酔方法の違い（別枠）</b></td><td class="n ${R.anes<0?"neg":"pos"}">${fmt(R.anes)} kg</td></tr>
+ <tr><td>実際の麻酔時間${C.an}分との差の分（術者の工夫に計上）</td><td class="n">${fmt(anKgH(C.agent,+C.fgf)*(C.an-S.an)/60)} kg</td></tr></tbody></table>
+ ${mix}
+ <h4>選択で変わる量（${S.an}分あたり）</h4><table><tbody>
+ <tr><td>デスフルラン → セボフルラン</td><td class="n neg">−${sw.toFixed(0)} kg</td></tr>
+ <tr><td>デスフルランの流量 1 → 0.5 L/min</td><td class="n neg">−${dl.toFixed(0)} kg</td></tr>
+ <tr><td>セボフルランの流量 2 → 1 L/min</td><td class="n neg">−${lf.toFixed(1)} kg</td></tr>
+ <tr><td>セボフルラン → TIVA</td><td class="n neg">−${(anKgH("sevo",2)*h).toFixed(1)} kg</td></tr></tbody></table>
+ <h4>なぜこんなに違うのか</h4>
+ <p class="hint" style="font-size:.88rem">温暖化の強さ（GWP100：CO2の何倍か）がセボフルラン144に対してデスフルラン2,540と約18倍あり、維持に必要な量もデスフルラン（6%）がセボフルラン（2%）より多いためです。1時間あたりではセボフルラン2 L/minで約2.9 kg、デスフルラン1 L/minで約64 kgになります。流量を下げると量はほぼ比例して減ります。TIVAのプロポフォールは大気に出ないため、ここでは0としています。</p>
+ <p class="hint" style="font-size:.85rem">濃度（セボ2%・デス6%）と流量はMACと一般的な設定を仮定した推計です。実際の消費量は麻酔器のログで補正できます。</p></div>`;
+}
+function render(){
+ const R=calc();const big=$("r-big");
+ big.textContent=fmt(R.delta)+" kg";big.classList.toggle("up",R.delta>0);
+ $("r-pct").textContent=R.st?`標準より${Math.abs(R.delta/R.st*100).toFixed(0)}%${R.delta<=0?"少ない":"多い"}`:"";
+ $("r-how").innerHTML=equiv(R.delta,3);
+ const hh=C.an/60,cur=anKgH(C.agent,+C.fgf)*hh,nm=id=>agent(id).n.replace(/（.*/,"");
+ const alt=AGENTS.filter(a=>a.id!==C.agent).map(a=>{const d=anKgH(a.id)*hh-cur;return `${esc(nm(a.id))}にすると<b class="${d<0?"neg":"pos"}">${d<0?"さらに":""} ${Math.abs(d).toFixed(1)} kg ${d<0?"減ります":"増えます"}</b>`});
+ if(C.agent!=="tiva"){const f=+C.fgf>0?+C.fgf:agent(C.agent).fgf;if(f>0.5){const nf=Math.max(0.5,f/2),d=(anKgH(C.agent,nf)-anKgH(C.agent,f))*hh;alt.push(`${esc(nm(C.agent))}のまま流量を${nf} L/minにすると<b class="neg">さらに ${Math.abs(d).toFixed(1)} kg 減ります</b>`)}}
+ const an=`この症例の麻酔：<b>${esc(agent(C.agent).n)}</b>（${C.an}分で約${cur.toFixed(1)} kg）<br>`+alt.join("<br>");
+ $("r-anes").innerHTML=an;
+ $("an-detail").innerHTML=anesDetail(R);
+ $("mini-kg").textContent=fmt(R.delta)+" kg";$("mini").classList.toggle("up",R.delta>0);
+ $("mini-an").textContent=`麻酔：${agent(C.agent).n.replace(/（.*/,"")}`;
+ const has=R.st!==null;$("bars").classList.toggle("hide",!has);$("no-base").classList.toggle("hide",has);
+ if(has){const mx=Math.max(R.st,R.today);$("b-std").style.width=(R.st/mx*100)+"%";$("b-today").style.width=(R.today/mx*100)+"%";$("v-std").textContent=R.st.toFixed(1)+" kg";$("v-today").textContent=R.today.toFixed(1)+" kg"}
+ $("r-tbl").innerHTML=R.items.map(i=>`<tr><td>${esc(i[0])}</td><td class="n ${i[1]<-0.005?"neg":i[1]>0.005?"pos":""}">${fmt(i[1])}</td></tr>`).join("")+`<tr><td><b>術者の工夫 計</b></td><td class="n ${R.delta<0?"neg":"pos"}">${fmt(R.delta)}</td></tr>`;
+ const gs=Math.round(S.op*S.gasr);const gm=gasMode();$("h-gas").textContent=(gm==="sum"?"積算量を入力":gm==="time"?`気腹時間${C.gast}分×${gasRate()} L/分`:"手術時間から概算")+`・標準 ${gs} L`;
+ const kOp=((appr(C.appr).kw+K.orkw)*S.grid+(appr(C.appr).gas&&gm==="est"?S.gasr*K.gas*60:0))/60;
+ $("h-op").textContent=`標準 ${S.op}分 ・ 約${Math.round(1/kOp)}分の短縮で −1 kg`;
+ const kAn=anKgH(C.agent,+C.fgf)/60;
+ $("h-an").textContent=`標準 ${S.an}分 ・ `+(kAn>0?(1/kAn>=2?`約${Math.round(1/kAn)}分`:`約${(1/kAn).toFixed(1)}分`)+`の短縮で −1 kg（${agent(C.agent).n.replace(/（.*/,"")}${+C.fgf>0?" "+C.fgf+" L/min":""}）`:"TIVAのため時間による差はほぼなし");$("gas-est").textContent=Math.round(gasUsed())+" L";
+}
+function drawAppr(){
+ $("appr").innerHTML=APPR.map(a=>`<button type="button" id="ap-${a.id}" aria-pressed="${C.appr===a.id}">${esc(a.n)}</button>`).join("");
+ APPR.forEach(a=>$("ap-"+a.id).onclick=()=>{C.appr=a.id;drawAppr();drawChips();render()});
+ $("robot-row").classList.toggle("hide",C.appr!=="robot");$("gas-box").classList.toggle("hide",!appr(C.appr).gas);
+}
+const chipOn=c=>(!c.robot||C.appr==="robot")&&!(c.g==="ポート・気腹"&&C.appr==="open");
+function drawChips(){
+ let html="",g="";
+ CHIPS.filter(chipOn).forEach(c=>{if(c.g!==g){g=c.g;html+=`<div class="hint" style="margin:8px 0 0;font-family:var(--pen);font-weight:600;color:var(--ink)">${esc(g)}</div>`}
+  html+=`<button type="button" class="chip" id="chip-${c.id}" aria-pressed="${!!C.chips[c.id]}"><span style="display:flex;align-items:center"><span class="box"></span>${esc(c.n)}</span><b>−${c.kg.toFixed(1)} kg</b></button>`});
+ $("chips").innerHTML=html;
+ CHIPS.filter(chipOn).forEach(c=>$("chip-"+c.id).onclick=()=>{C.chips[c.id]=!C.chips[c.id];drawChips();render()});
+}
+function fillCase(){
+ opts($("c-proc"),PROCS,C.proc);opts($("c-robot"),ROBOTS,C.robot);opts($("c-agent"),AGENTS,C.agent);
+ $("c-op").value=C.op;$("c-an").value=C.an;$("c-gas").value=C.gas;$("c-gast").value=C.gast;$("c-gasr").value=C.gasr;$("c-gasp").value=C.gasp;$("c-fgf").value=C.fgf;
+ $("ins-n").value=C.ins;$("dis-n").value=C.dis;drawAppr();drawChips();render();
+}
+[["c-proc","proc",0],["c-robot","robot",0],["c-agent","agent",0],["c-op","op",1],["c-an","an",1],["c-gas","gas",0],["c-gast","gast",0],["c-gasr","gasr",0],["c-gasp","gasp",0],["c-fgf","fgf",0]].forEach(([id,k,t])=>{
+ $(id).addEventListener("input",e=>{C[k]=t?(+e.target.value||0):e.target.value;render()})});
+const step=(k,d)=>{C[k]=Math.max(0,C[k]+d);$(k+"-n").value=C[k];render()};
+$("ins-m").onclick=()=>step("ins",-1);$("ins-p").onclick=()=>step("ins",1);$("dis-m").onclick=()=>step("dis",-1);$("dis-p").onclick=()=>step("dis",1);
+const toast=m=>{const t=$("toast");t.textContent=m;t.classList.add("on");setTimeout(()=>t.classList.remove("on"),1800)};
+$("save").onclick=()=>{
+ const R=calc();const tags=[];CHIPS.forEach(c=>{if(chipOn(c)&&C.chips[c.id])tags.push(c.tag)});
+ if(C.ins)tags.push(`鉗子${C.ins}本減`);if(+C.gasp>0)tags.push(`気腹圧${C.gasp}mmHg`);if(C.dis)tags.push(`未開封返却${C.dis}点`);
+ if(C.op<S.op)tags.push(`${S.op-C.op}分短縮`);if(C.agent!==S.agent)tags.push(agent(C.agent).n.replace(/（.*/,""));
+ LOG=LOG.filter(x=>!x.sample);
+ LOG.push({d:today(),proc:"RARP",appr:appr(C.appr).n+(C.appr==="robot"?`（${(ROBOTS.find(x=>x.id===C.robot)||ROBOTS[0]).n}）`:""),tags:tags.join("・")||"工夫なし",kg:+R.delta.toFixed(2),an:+R.anes.toFixed(2)});
+ store("co2log2",LOG);resetCase();fillCase();renderSum();toast("記録しました");
+};
+$("reset").onclick=()=>{resetCase();fillCase()};
+$("gas-clear").onclick=()=>{C.gas=C.gast=C.gasr=C.gasp="";["c-gas","c-gast","c-gasr","c-gasp"].forEach(i=>$(i).value="");render()};
+$("an-btn").onclick=()=>{const b=$("an-btn"),o=b.getAttribute("aria-expanded")!=="true";b.setAttribute("aria-expanded",o);b.textContent=o?"閉じる":"麻酔方法の違いを詳しく見る";$("an-detail").classList.toggle("hide",!o)};
+$("how-btn").onclick=()=>{const b=$("how-btn"),o=b.getAttribute("aria-expanded")!=="true";b.setAttribute("aria-expanded",o);$("how-box").classList.toggle("hide",!o)};
+function renderSum(){
+ const n=LOG.length,tot=LOG.reduce((a,x)=>a+x.kg,0),avg=n?tot/n:0,atot=LOG.reduce((a,x)=>a+(x.an||0),0);
+ const yr=avg*S.year,nat=S.nat?avg*S.nat/1000:null;
+ const k=[["記録した症例",`${n}件`,""],["累積の削減量",`${fmt(tot)} kg`,"c"],["1件あたり平均",`${fmt(avg)} kg`,""],[`年間見込み（${S.year}件）`,`${fmt(yr,0)} kg`,"c"]];
+ if(nat!==null)k.push(["全国推計（年間）",`${fmt(nat,1)} t`,"c"]);
+ k.push(["麻酔方法の違い（別枠・累積）",`${fmt(atot)} kg`,""]);
+ $("kpis").innerHTML=k.map(x=>`<div class="kpi"><div class="hint">${esc(x[0])}</div><div class="num ${x[2]}">${esc(x[1])}</div></div>`).join("");
+ $("y-how").innerHTML=equiv(yr,3)+(nat!==null?`<p class="hint" style="margin:6px 0 0">全国では ${esc(fmt(nat,1))} t。${esc(equiv(nat*1000,1,true))}</p>`:"");
+ const m={};LOG.forEach(x=>{const key=x.d.slice(0,7);m[key]=(m[key]||0)+x.kg});
+ const keys=Object.keys(m).sort().slice(-12);const mx=Math.max(1,...keys.map(q=>Math.max(0,-m[q])));
+ $("months").innerHTML=keys.length?keys.map(q=>{const v=Math.max(0,-m[q]);return`<div class="mcol"><span>${v.toFixed(1)}</span><div class="mbar" style="height:${v/mx*100}%"></div><span class="mlab">${+q.slice(5)}月</span></div>`}).join(""):`<p class="hint">まだ記録がありません</p>`;
+ $("log").innerHTML=LOG.slice().reverse().map((x,i)=>`<tr><td>${esc(x.d)}</td><td>${esc(x.proc)}</td><td>${esc(x.appr||"ロボット支援")}</td><td>${esc(x.tags)}</td><td class="n ${x.kg<0?"neg":"pos"}">${fmt(x.kg)}</td><td><button class="btn ghost sm" data-i="${LOG.length-1-i}" aria-label="この記録を削除">削除</button></td></tr>`).join("");
+ document.querySelectorAll("#log button").forEach(b=>b.onclick=()=>{LOG.splice(+b.dataset.i,1);store("co2log2",LOG);renderSum()});
+ $("sample-note").textContent=LOG.some(x=>x.sample)?"表示中の記録は動作確認用のサンプルです。最初の症例を記録すると消えます。":"";
+}
+$("clear").onclick=()=>{LOG=[];store("co2log2",LOG);renderSum();toast("消去しました")};
+$("copy").onclick=()=>{const csv="date,procedure,approach,actions,kgCO2e\n"+LOG.map(x=>[x.d,x.proc,`"${x.appr||""}"`,`"${x.tags}"`,x.kg].join(",")).join("\n");
+ navigator.clipboard.writeText(csv).then(()=>toast("CSVをコピーしました"),()=>toast("コピーできませんでした"))};
+const SK=[["op","s-op"],["an","s-an"],["gasr","s-gasr"],["b_robot","s-b-robot"],["b_lap","s-b-lap"],["b_open","s-b-open"],["year","s-year"],["nat","s-nat"],["grid","s-grid"]];
+const refresh=()=>{store("co2set6",S);resetCase();fillCase();renderSum();renderSrc()};
+const STDK=Object.keys(MDVSTD);
+function applyMode(){Object.assign(S,S.mode==="fac"?S.fac:MDVSTD)}
+function fillSet(){
+ const fac=S.mode==="fac";
+ $("m-mdv").setAttribute("aria-pressed",!fac);$("m-fac").setAttribute("aria-pressed",fac);
+ $("std-h").textContent=fac?"標準術式（RARP）：施設の基準":"標準術式（RARP）：日本の集計（MDV）";
+ $("mode-note").textContent=fac?"自施設の値を入力してください。初期値はMDVの値です。入力した値はこの端末に保存されます。":"MDV 2025年度のRARPの値（手術時間は全期間の腹腔鏡の時間帯）と既報値を使います。変更するには「施設の基準を入力する」を選んでください。";
+ opts($("s-agent"),STD_AGENTS,S.agent);SK.forEach(([k,id])=>$(id).value=S[k]);
+ STDK.forEach(k=>{const el=k==="agent"?$("s-agent"):$("s-"+k.replace("_","-"));if(el)el.disabled=!fac});
+}
+SK.forEach(([k,id])=>$(id).addEventListener("input",e=>{const v=e.target.value===""?"":+e.target.value;S[k]=v;if(STDK.includes(k))S.fac[k]=v;refresh()}));
+$("s-agent").addEventListener("input",e=>{S.agent=e.target.value;S.fac.agent=e.target.value;refresh()});
+$("m-mdv").onclick=()=>{S.mode="mdv";applyMode();fillSet();refresh()};
+$("m-fac").onclick=()=>{S.mode="fac";applyMode();fillSet();refresh()};
+$("s-reset").onclick=()=>{S=JSON.parse(JSON.stringify(DEF));fillSet();refresh()};
+function renderSrc(){
+ const rows=[
+  ["標準：ロボット支援（麻酔ガス除く）",`${S.b_robot} kg`,"Fuschi A, et al. Prostate Cancer Prostatic Dis 2024（RALP 47.3 kg）。麻酔ガスの扱いは原著で要確認"],
+  ["標準：腹腔鏡",`${S.b_lap} kg`,"同（LRP 59.7 kg）"],
+  ["標準：開腹",S.b_open===""?"未設定":`${S.b_open} kg`,"前立腺全摘の既報なし"],
+  ["ロボット本体の電力","3.5 kW","J Robot Surg 2026 のレビューに引用されたLCA"],
+  ["腹腔鏡機器の電力","0.6 kW","同上"],
+  ["手術室の空調・照明など","5 kW","仮定値（実測で補正予定）"],
+  ["電力の排出係数",`${S.grid} kg/kWh`,"日本の電力会社の概算値（設定で変更可）"],
+  ["標準手術時間",`${S.op}分`,"MDV（2016–25年度 RARP n=53,432）のL008区分4（腹腔鏡の時間帯）中央値205分（IQR 160–260）で代用。執刀〜閉創の時間はレセプトにない"],
+  ["標準麻酔時間",`${S.an}分`,"MDV 2025年度 総麻酔時間の中央値287分（IQR 238–344、平均297分）"],
+  ["全国の構成比（MDV 2025年度）",`${anKgH("mix").toFixed(1)} kg/時`,"RARP n=11,042：セボ43.3%・デス39.6%・TIVA12.5%（その他4.6%は除いて按分）"],
+  ["セボフルラン 2%・2 L/min",`${anKgH("sevo",2).toFixed(1)} kg/時`,"20 g/時 × GWP100 144"],
+  ["デスフルラン 6%・1 L/min",`${anKgH("des",1).toFixed(1)} kg/時`,"25.2 g/時 × GWP100 2,540"],
+  ["TIVA","0 kg/時","プロポフォールの寄与はごく小さいため0とする"],
+  ["気腹CO2","1.98 g/L","CO2の密度。そのまま大気に出る分として計上"],
+  ["気腹CO2の平均使用量",`${S.gasr} L/分`,"仮定値。手術時間×この値で推計（気腹装置の積算値で補正予定）"],
+  ["再使用型鉗子 1本1回",`${K.ins} kg`,"推計：製造時の排出を使用回数（多くは18回）で割り、洗浄・滅菌分を加算"],
+  ["ディスポ物品 1点",`${K.dis} kg`,"推計：重量×材質の係数（実測で補正予定）"],
+  ...CHIPS.filter(c=>!["vs","lnd"].includes(c.id)).map(c=>[c.n,`${c.kg} kg`,"仮置きの推計値（重量・電力の実測で補正予定）"]),
+  ["スマホ充電 1回","0.006 kg","約0.013 kWh × 0.45（概算）"],
+  ["ガソリン車 1 km","0.13 kg","乗用車の概算"],
+  ["家庭1軒の電気 1日","5 kg","約11 kWh/日 × 0.45（概算）"],
+  ["杉の木1本の年間吸収量","14 kg","よく使われる概算値（出典要確認）"],
+  ["東京→グアム 1人片道","230 kg","約2,500 km × 約0.09 kg/人km（概算）"],
+  ["東京→ニューヨーク 1人片道","1,400 kg","約10,800 km × 約0.13 kg/人km（概算）"]];
+ $("src").innerHTML=rows.map(r=>`<tr><td>${esc(r[0])}</td><td class="n">${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll("nav button").forEach(x=>x.setAttribute("aria-selected",x===b));
+ document.querySelectorAll(".view").forEach(v=>v.classList.toggle("on",v.id==="v-"+b.dataset.v));
+ if(b.dataset.v==="sum")renderSum();
+});
+{
+ const COL={sevo:"#4a90c2",des:"#e07a5f",tiva:"#3f8f42",oth:"#b5ab95"};
+ const MIX25=[["セボフルラン","sevo",43.3,4785],["デスフルラン","des",39.6,4372],["TIVA","tiva",12.5,1376],["その他","oth",4.6,509]];
+ $("jp-kpi").innerHTML=[["症例数","11,042例"],["総麻酔時間","中央値287分"],["","平均297分（IQR 238–344）"],["腹腔鏡の時間帯","中央値205分*"],["術後在院日数","中央値8日（平均8.6）"]].filter(x=>x[0]).map(x=>`<div class="kpi"><div class="hint">${esc(x[0])}</div><div class="num" style="font-size:clamp(20px,2.6vw,28px)">${esc(x[1])}</div></div>`).join("")+`<p class="hint" style="grid-column:1/-1;margin:0">総麻酔時間は平均297分（IQR 238–344分）。*腹腔鏡の時間帯は2025年度単独の値がないため全期間（n=53,153、IQR 160–260）。</p>`;
+ $("jp-mix").innerHTML=MIX25.map(m=>`<div style="width:${m[2]}%;background:${COL[m[1]]}">${m[2]>=10?m[2]+"%":""}</div>`).join("");
+ $("jp-mixleg").innerHTML=MIX25.map(m=>`<span><i style="background:${COL[m[1]]}"></i>${esc(m[0])} ${m[2]}%（${m[3].toLocaleString()}例）</span>`).join("");
+ $("jp-ratio").innerHTML=`セボ ： デス ： TIVA ≒ <b>3.5</b> ： <b>3.2</b> ： <b>1</b>`;
+ const TR=[["2016",26.8],["2017",41.5],["2018",45.9],["2019",49.8],["2020",50.3],["2021",49.6],["2022",52.7],["2023",49.4],["2024",42.5],["2025",39.6]];
+ $("jp-trend").innerHTML=TR.map(t=>`<div class="trow${t[1]===52.7?" pk":""}"><span>${t[0]}年度</span><div class="track"><div class="fill" style="width:${t[1]/60*100}%"></div></div><span class="v">${t[1]}%</span></div>`).join("");
+ const H=[["60–119",0.1],["120–149",0.8],["150–179",2.9],["180–209",7.9],["210–239",12.5],["240–269",14.8],["270–299",14.7],["300–329",13.2],["330–359",10.7],["360–389",8.0],["390–419",5.4],["420–449",3.6],["450–479",2.2],["480–509",1.3],["510–539",0.8],["540–569",0.4],["570–599",0.3],["600–629",0.2],["630–659",0.1],["660–689",0.1],["690–719",0.0]];
+ $("jp-hist").innerHTML=H.map(h=>`<div class="${h[0]==="240–269"?"pk":""}" data-l="ピーク 240–269分" style="height:${h[1]/15*100}%" title="${h[0]}分 ${h[1]}%"></div>`).join("");
+ $("jp-histnote").textContent="ピークは240–269分（14.8%）と270–299分（14.7%）。全期間 n=53,414 の30分刻み（2025年度単独の分布はなし）。2025年度は中央値287分、平均297分で、右に裾が長い分布です。";
+ const h=287/60,rows=[["セボフルラン（2 L/min）",anKgH("sevo")*h],["デスフルラン（1 L/min）",anKgH("des")*h],["TIVA",0],["全国の構成比で平均",anKgH("mix")*h]];
+ $("jp-gas").innerHTML=`<table><tbody>${rows.map(r=>`<tr><td>${esc(r[0])}</td><td class="n">${r[1].toFixed(1)} kg</td></tr>`).join("")}</tbody></table><p class="ratio" style="font-size:1rem">デスフルランをセボフルランに替えると1件あたり <b>${(rows[1][1]-rows[0][1]).toFixed(0)} kg</b> 減。2025年度のデスフルラン4,372例すべてで約 <b>${Math.round(4372*(rows[1][1]-rows[0][1])/1000).toLocaleString()} t</b>。</p>`;
+ const OT=[["RARP","53,432","292分","205分","45.4%","8日"],["RAPN","10,677","282分","223分","46.9%","7日"],["RARC","1,534","549分","345分","57.2%","23日"]];
+ $("jp-other").innerHTML=OT.map(r=>`<tr>${r.map((c,i)=>`<td class="${i?"n":""}">${esc(c)}</td>`).join("")}</tr>`).join("");
+}
+resetCase();C.chips={vs:true};C.op=S.op-30;
+fillSet();fillCase();renderSum();renderSrc();
+}
+</script>
+</body>
+</html>
